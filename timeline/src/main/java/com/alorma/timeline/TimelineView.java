@@ -34,15 +34,15 @@ import android.view.View;
 
 public class TimelineView extends View {
     private int mLineColor = Color.GRAY;
-    private float mLineWidth = 3;
+    private float mLineWidth = 3f;
 
-    private int mCircleColor = Color.BLUE;
+    private int mCircleColor = -1;
     private float mCircleRadius = 2f;
 
-    private int mCircleFirstColor = Color.GREEN;
+    private int mCircleFirstColor = -1;
     private float mCircleFirstRadius = 2f;
 
-    private int mCircleLastColor = Color.RED;
+    private int mCircleLastColor = -1;
     private float mCircleLastRadius = 2f;
 
     private TimelineType type = TimelineType.NORMAL;
@@ -95,6 +95,18 @@ public class TimelineView extends View {
                 this.type = TimelineType.fromId(type);
 
                 a.recycle();
+            }
+
+            if (mCircleColor == -1){
+                mCircleColor = mLineColor;
+            }
+
+            if (mCircleFirstColor == -1){
+                mCircleFirstColor = mLineColor;
+            }
+
+            if (mCircleLastColor == -1){
+                mCircleLastColor = mLineColor;
             }
 
             linePaint = new Paint();
