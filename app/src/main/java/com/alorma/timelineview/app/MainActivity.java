@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
         Evento eventoFirst = new Evento("Primer evento", TimelineType.FIRST);
         eventos.add(eventoFirst);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 20; i++) {
             eventos.add(new Evento("Evento " + (i + 1), TimelineType.NORMAL));
         }
 
