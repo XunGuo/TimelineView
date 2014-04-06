@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <com.alorma.timeline.TimelineView
+        android:layout_width="?android:listPreferredItemHeight"
+        android:layout_height="?android:listPreferredItemHeight"
+        app:lineColor="#33b5e5"
+        app:lineWidth="6dp"
+        app:circleColor="#ff406fe5"
+        app:circleRadius="10"
+        app:circleFirstColor="#ff946885"
+        app:circleFirstRadius="20"
+        app:circleLastColor="#ffe5b253"
+        app:circleLastRadius="18"
+        app:timeline_type="normal"
+        android:id="@+id/timeline" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="?android:listPreferredItemHeight"
+        android:id="@+id/textView"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical"
+        android:textSize="24sp" />
+
+</LinearLayout>

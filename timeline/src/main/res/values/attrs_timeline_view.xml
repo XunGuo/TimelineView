@@ -1,0 +1,21 @@
+<resources>
+    <declare-styleable name="TimelineView">
+        <attr name="lineWidth" format="dimension" />
+        <attr name="lineColor" format="color" />
+
+        <attr name="circleRadius" format="float" />
+        <attr name="circleColor" format="color" />
+
+        <attr name="circleFirstRadius" format="float" />
+        <attr name="circleFirstColor" format="color" />
+
+        <attr name="circleLastRadius" format="float" />
+        <attr name="circleLastColor" format="color" />
+
+        <attr name="timeline_type" format="enum">
+            <enum name="first" value="-1" />
+            <enum name="normal" value="0" />
+            <enum name="last" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
