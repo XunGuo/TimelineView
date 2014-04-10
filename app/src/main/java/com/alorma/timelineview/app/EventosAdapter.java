@@ -32,7 +32,7 @@ public class EventosAdapter extends ArrayAdapter<Evento> {
         Evento evento = getItem(position);
 
         text.setText(evento.getName());
-        timeline.setType(evento.getTipo());
+        timeline.setTimelineType(evento.getTipo());
 
         return v;
     }

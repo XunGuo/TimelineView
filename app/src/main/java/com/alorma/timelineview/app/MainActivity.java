@@ -22,14 +22,18 @@ public class MainActivity extends Activity {
 
         eventos = new ArrayList<Evento>();
 
-        Evento eventoFirst = new Evento("Primer evento", TimelineType.FIRST);
+        Evento eventoFirst = new Evento("Primer evento", TimelineType.START);
         eventos.add(eventoFirst);
 
         for (int i = 0; i < 20; i++) {
-            eventos.add(new Evento("Evento " + (i + 1), TimelineType.NORMAL));
+            if (i % 2 == 0) {
+                eventos.add(new Evento("Evento " + (i + 1), TimelineType.MIDDLE));
+            } else {
+                eventos.add(new Evento("Evento " + (i + 1)));
+            }
         }
 
-        Evento eventoLast = new Evento("Último evento", TimelineType.LAST);
+        Evento eventoLast = new Evento("Último evento", TimelineType.END);
         eventos.add(eventoLast);
 
         listView.setAdapter(new EventosAdapter(this, eventos));

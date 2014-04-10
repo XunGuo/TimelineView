@@ -4,18 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <com.alorma.timeline.TimelineView
+    <com.alorma.timeline.RoundTimelineView
         android:layout_width="?android:listPreferredItemHeight"
         android:layout_height="?android:listPreferredItemHeight"
         app:lineColor="#33b5e5"
         app:lineWidth="6dp"
-        app:circleColor="#ff406fe5"
-        app:circleRadius="10"
-        app:circleFirstColor="#ff946885"
-        app:circleFirstRadius="20"
-        app:circleLastColor="#ffe5b253"
-        app:circleLastRadius="18"
-        app:timeline_type="normal"
+        app:middleColor="#ff406fe5"
+        app:middleSize="10"
+        app:firstColor="#ff946885"
+        app:firstSize="20"
+        app:lastColor="#ffe5b253"
+        app:lastSize="18"
+        app:timeline_type="line"
         android:id="@+id/timeline" />
 
     <TextView

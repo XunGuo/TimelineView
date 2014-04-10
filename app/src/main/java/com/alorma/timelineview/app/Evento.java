@@ -10,6 +10,11 @@ public class Evento {
     private String name;
     private TimelineType tipo;
 
+    public Evento(String name) {
+        this.name = name;
+        this.tipo = TimelineType.LINE;
+    }
+
     public Evento(String name, TimelineType tipo) {
         this.name = name;
         this.tipo = tipo;
