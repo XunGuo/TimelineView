@@ -32,22 +32,23 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class TimelineView extends View {
+public abstract class TimelineView extends View {
+
     private int mLineColor = Color.GRAY;
     private float mLineWidth = 3f;
 
-    private int mCircleColor = -1;
-    private float mCircleRadius = 2f;
+    private int mColorMiddle = -1;
+    private float mMiddleSize = 2f;
 
-    private int mCircleFirstColor = -1;
-    private float mCircleFirstRadius = 2f;
+    private int mFirstColor = -1;
+    private float mStartSize = 2f;
 
-    private int mCircleLastColor = -1;
-    private float mCircleLastRadius = 2f;
+    private int mLastColor = -1;
+    private float mEndSize = 2f;
 
-    private TimelineType type = TimelineType.NORMAL;
+    private TimelineType timelineType = TimelineType.LINE;
 
-    private Paint linePaint, circlePaint, circleFirstPaint, circleLastPaint;
+    private Paint linePaint, middlePaint, firstPaint, lastPaint;
     private float startX, startY;
     private float endX, endY;
     private float centerX, centerY;
@@ -78,59 +79,58 @@ public class TimelineView extends View {
 
                 mLineWidth = a.getDimension(R.styleable.TimelineView_lineWidth, mLineWidth);
 
-                mCircleColor = a.getColor(R.styleable.TimelineView_circleColor, mCircleColor);
+                mColorMiddle = a.getColor(R.styleable.TimelineView_middleColor, mColorMiddle);
 
-                mCircleRadius = a.getFloat(R.styleable.TimelineView_circleRadius, mCircleRadius);
+                mMiddleSize = a.getFloat(R.styleable.TimelineView_middleSize, mMiddleSize);
 
-                mCircleFirstColor = a.getColor(R.styleable.TimelineView_circleFirstColor, mCircleFirstColor);
+                mFirstColor = a.getColor(R.styleable.TimelineView_firstColor, mFirstColor);
 
-                mCircleFirstRadius = a.getFloat(R.styleable.TimelineView_circleFirstRadius, mCircleFirstRadius);
+                mStartSize = a.getFloat(R.styleable.TimelineView_firstSize, mStartSize);
 
-                mCircleLastColor = a.getColor(R.styleable.TimelineView_circleLastColor, mCircleLastColor);
+                mLastColor = a.getColor(R.styleable.TimelineView_lastColor, mLastColor);
 
-                mCircleLastRadius = a.getFloat(R.styleable.TimelineView_circleLastRadius, mCircleLastRadius);
+                mEndSize = a.getFloat(R.styleable.TimelineView_lastSize, mEndSize);
 
                 int type = a.getInt(R.styleable.TimelineView_timeline_type, 0);
 
-                this.type = TimelineType.fromId(type);
+                this.timelineType = TimelineType.fromId(type);
 
                 a.recycle();
             }
-
-            if (mCircleColor == -1){
-                mCircleColor = mLineColor;
-            }
-
-            if (mCircleFirstColor == -1){
-                mCircleFirstColor = mLineColor;
-            }
-
-            if (mCircleLastColor == -1){
-                mCircleLastColor = mLineColor;
-            }
-
-            linePaint = new Paint();
-            linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            linePaint.setColor(mLineColor);
-
-            circlePaint = new Paint();
-            circlePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            circlePaint.setColor(mCircleColor);
-            circlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            circlePaint.setStrokeWidth(mCircleRadius);
-
-            circleFirstPaint = new Paint();
-            circleFirstPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            circleFirstPaint.setColor(mCircleFirstColor);
-            circleFirstPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            circleFirstPaint.setStrokeWidth(mCircleFirstRadius);
-
-            circleLastPaint = new Paint();
-            circleLastPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            circleLastPaint.setColor(mCircleLastColor);
-            circleLastPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            circleLastPaint.setStrokeWidth(mCircleLastRadius);
         }
+        if (mColorMiddle == -1) {
+            mColorMiddle = mLineColor;
+        }
+
+        if (mFirstColor == -1) {
+            mFirstColor = mLineColor;
+        }
+
+        if (mLastColor == -1) {
+            mLastColor = mLineColor;
+        }
+
+        linePaint = new Paint();
+        linePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        linePaint.setColor(mLineColor);
+
+        middlePaint = new Paint();
+        middlePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        middlePaint.setColor(mColorMiddle);
+        middlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        middlePaint.setStrokeWidth(mMiddleSize);
+
+        firstPaint = new Paint();
+        firstPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        firstPaint.setColor(mFirstColor);
+        firstPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        firstPaint.setStrokeWidth(mStartSize);
+
+        lastPaint = new Paint();
+        lastPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        lastPaint.setColor(mLastColor);
+        lastPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        lastPaint.setStrokeWidth(mEndSize);
     }
 
 
@@ -154,35 +154,31 @@ public class TimelineView extends View {
         centerX = contentWidth / 2;
         centerY = contentHeight / 2;
 
-        if (type == TimelineType.FIRST) {
-            drawFirst(canvas);
-        } else if (type == TimelineType.LAST) {
-            drawLast(canvas);
+        if (timelineType == TimelineType.START) {
+            canvas.drawRect(startX, centerY, endX, endY, linePaint);
+            drawStart(canvas, firstPaint, centerX, centerY, mStartSize);
+        } else if (timelineType == TimelineType.MIDDLE) {
+            canvas.drawRect(startX, startY, endX, endY, linePaint);
+            drawMiddle(canvas, middlePaint, centerX, centerY, mMiddleSize);
+        } else if (timelineType == TimelineType.END) {
+            canvas.drawRect(startX, startY, endX, centerY, linePaint);
+            drawEnd(canvas, lastPaint, centerX, centerY, mEndSize);
         } else {
-            drawNormal(canvas);
+            canvas.drawRect(startX, startY, endX, endY, linePaint);
         }
     }
 
-    private void drawFirst(Canvas canvas) {
-        canvas.drawRect(startX, centerY, endX, endY, linePaint);
-        canvas.drawCircle(centerX, centerY, mCircleFirstRadius, circleFirstPaint);
+    public TimelineType getTimelineType() {
+        return timelineType;
     }
 
-    private void drawNormal(Canvas canvas) {
-        canvas.drawRect(startX, startY, endX, endY, linePaint);
-        canvas.drawCircle(centerX, centerY, mCircleRadius, circlePaint);
+    public void setTimelineType(TimelineType timelineType) {
+        this.timelineType = timelineType;
     }
 
-    private void drawLast(Canvas canvas) {
-        canvas.drawRect(startX, startY, endX, centerY, linePaint);
-        canvas.drawCircle(centerX, centerY, mCircleLastRadius, circleLastPaint);
-    }
+    protected abstract void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY, float mStartSize);
 
-    public TimelineType getType() {
-        return type;
-    }
+    protected abstract void drawMiddle(Canvas canvas, Paint middlePaint, float centerX, float centerY, float mMiddleSize);
 
-    public void setType(TimelineType type) {
-        this.type = type;
-    }
+    protected abstract void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY, float mEndSize);
 }

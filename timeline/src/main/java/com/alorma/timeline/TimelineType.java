@@ -25,20 +25,23 @@
 package com.alorma.timeline;
 
 public enum TimelineType {
-    FIRST,
-    NORMAL,
-    LAST;
+    LINE,
+    START,
+    MIDDLE,
+    END;
 
     static TimelineType fromId(int type) {
         switch (type) {
             case -1:
-                return TimelineType.FIRST;
+                return TimelineType.START;
             case 0:
-                return TimelineType.NORMAL;
+                return TimelineType.MIDDLE;
             case 1:
-                return TimelineType.LAST;
+                return TimelineType.END;
+            case 2:
+                return TimelineType.LINE;
             default:
-                throw new IllegalArgumentException();
+                return TimelineType.LINE;
         }
     }
 }
