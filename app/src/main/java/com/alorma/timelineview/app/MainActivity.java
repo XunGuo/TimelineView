@@ -1,14 +1,14 @@
 package com.alorma.timelineview.app;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.alorma.timeline.TimelineType;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private ArrayList<Evento> eventos;
