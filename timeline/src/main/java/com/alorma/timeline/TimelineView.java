@@ -226,10 +226,12 @@ public abstract class TimelineView extends View {
 
     public void setItemColor(int color) {
         mColorMiddle = mFirstColor = mLastColor = color;
+        invalidate();
     }
 
     public void setItemSize(int size) {
         mMiddleSize = mStartSize = mEndSize = size;
+        invalidate();
     }
 
     public void setTimelineType(TimelineType timelineType) {
