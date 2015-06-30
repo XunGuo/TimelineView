@@ -224,6 +224,10 @@ public abstract class TimelineView extends View {
         invalidate();
     }
 
+    public void setItemColor(int color) {
+        mColorMiddle = mFirstColor = mLastColor = color;
+    }
+
     public void setTimelineType(TimelineType timelineType) {
         this.timelineType = timelineType;
         invalidate();
