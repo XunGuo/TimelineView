@@ -47,12 +47,10 @@ public abstract class TimelineView extends View {
     private int mLastColor = -1;
     private float mEndSize = 2f;
 
-    private TimelineType timelineType = TimelineType.LINE;
+    private TimelineType timelineType = TimelineType.MIDDLE;
+    private TimelineAlignment timelineAlignment = TimelineAlignment.MIDDLE;
 
     private Paint linePaint, middlePaint, firstPaint, lastPaint;
-    private float startX, startY;
-    private float endX, endY;
-    private float centerX, centerY;
 
     public TimelineView(Context context) {
         super(context);
@@ -76,7 +74,6 @@ public abstract class TimelineView extends View {
         mColorMiddle = mFirstColor = mLastColor = fetchAccentColor();
         mLineWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_lineWidth);
         mMiddleSize = mStartSize = mEndSize = getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_itemSize);
-        timelineType = TimelineType.MIDDLE;
 
         if (attrs != null) {
             final TypedArray a = context.obtainStyledAttributes(
@@ -102,6 +99,10 @@ public abstract class TimelineView extends View {
                 int type = a.getInt(R.styleable.TimelineView_timeline_type, 0);
 
                 this.timelineType = TimelineType.fromId(type);
+
+                int alignment = a.getInt(R.styleable.TimelineView_timeline_alignment, 0);
+
+                this.timelineAlignment = TimelineAlignment.fromId(alignment);
 
                 a.recycle();
             }
@@ -146,42 +147,91 @@ public abstract class TimelineView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int paddingLeft = getPaddingLeft();
-        int paddingTop = getPaddingTop();
-        int paddingRight = getPaddingRight();
-        int paddingBottom = getPaddingBottom();
+        int contentWidth = getWidth() - getPaddingLeft() - getPaddingRight();
+        int contentHeight = getHeight() - getPaddingTop() - getPaddingBottom();
 
-        int contentWidth = getWidth() - paddingLeft - paddingRight;
-        int contentHeight = getHeight() - paddingTop - paddingBottom;
+        float startX = contentWidth / 2 - mLineWidth / 2;
+        float endX = contentWidth / 2 + mLineWidth / 2;
+        int startY = getPaddingTop();
 
-        startX = contentWidth / 2 - mLineWidth / 2;
-        endX = contentWidth / 2 + mLineWidth / 2;
-        startY = paddingTop;
-        endY = contentHeight;
-
-        centerX = contentWidth / 2;
-        centerY = contentHeight / 2;
+        int centerX = contentWidth / 2;
+        int centerY = contentHeight / 2;
 
         if (timelineType == TimelineType.START) {
-            canvas.drawRect(startX, centerY, endX, endY, linePaint);
+            canvas.drawRect(startX, centerY, endX, contentHeight, linePaint);
             drawStart(canvas, firstPaint, centerX, centerY, mStartSize);
         } else if (timelineType == TimelineType.MIDDLE) {
-            canvas.drawRect(startX, startY, endX, endY, linePaint);
-            drawMiddle(canvas, middlePaint, centerX, centerY, mMiddleSize);
+            canvas.drawRect(startX, startY, endX, contentHeight, linePaint);
+            switch (timelineAlignment) {
+                case START:
+                    startY += (mMiddleSize * 2);
+                    drawMiddle(canvas, middlePaint, centerX, startY, mMiddleSize);
+                    break;
+                case MIDDLE:
+                default:
+                    drawMiddle(canvas, middlePaint, centerX, centerY, mMiddleSize);
+                    break;
+                case END:
+                    contentHeight -= (mMiddleSize * 2);
+                    drawMiddle(canvas, middlePaint, centerX, contentHeight, mMiddleSize);
+                    break;
+            }
         } else if (timelineType == TimelineType.END) {
             canvas.drawRect(startX, startY, endX, centerY, linePaint);
             drawEnd(canvas, lastPaint, centerX, centerY, mEndSize);
         } else {
-            canvas.drawRect(startX, startY, endX, endY, linePaint);
+            canvas.drawRect(startX, startY, endX, contentHeight, linePaint);
         }
     }
 
-    public TimelineType getTimelineType() {
-        return timelineType;
+    public void setmLineColor(int mLineColor) {
+        this.mLineColor = mLineColor;
+        invalidate();
+    }
+
+    public void setmLineWidth(float mLineWidth) {
+        this.mLineWidth = mLineWidth;
+        invalidate();
+    }
+
+    public void setmColorMiddle(int mColorMiddle) {
+        this.mColorMiddle = mColorMiddle;
+        invalidate();
+    }
+
+    public void setmMiddleSize(float mMiddleSize) {
+        this.mMiddleSize = mMiddleSize;
+        invalidate();
+    }
+
+    public void setmFirstColor(int mFirstColor) {
+        this.mFirstColor = mFirstColor;
+        invalidate();
+    }
+
+    public void setmStartSize(float mStartSize) {
+        this.mStartSize = mStartSize;
+        invalidate();
+    }
+
+    public void setmLastColor(int mLastColor) {
+        this.mLastColor = mLastColor;
+        invalidate();
+    }
+
+    public void setmEndSize(float mEndSize) {
+        this.mEndSize = mEndSize;
+        invalidate();
     }
 
     public void setTimelineType(TimelineType timelineType) {
         this.timelineType = timelineType;
+        invalidate();
+    }
+
+    public void setTimelineAlignment(TimelineAlignment timelineAlignment) {
+        this.timelineAlignment = timelineAlignment;
+        invalidate();
     }
 
     protected abstract void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY, float mStartSize);
@@ -200,6 +250,7 @@ public abstract class TimelineView extends View {
 
         return color;
     }
+
     private int fetchAccentColor() {
         TypedValue typedValue = new TypedValue();
 

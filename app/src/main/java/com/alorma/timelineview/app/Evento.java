@@ -1,5 +1,6 @@
 package com.alorma.timelineview.app;
 
+import com.alorma.timeline.TimelineAlignment;
 import com.alorma.timeline.TimelineType;
 
 /**
@@ -9,6 +10,7 @@ public class Evento {
 
     private String name;
     private TimelineType tipo;
+    private TimelineAlignment alignment;
 
     public Evento(String name) {
         this.name = name;
@@ -34,5 +36,13 @@ public class Evento {
 
     public void setTipo(TimelineType tipo) {
         this.tipo = tipo;
+    }
+
+    public void setAlignment(TimelineAlignment alignment) {
+        this.alignment = alignment;
+    }
+
+    public TimelineAlignment getAlignment() {
+        return alignment;
     }
 }

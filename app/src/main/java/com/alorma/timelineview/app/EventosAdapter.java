@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.alorma.timeline.TimelineAlignment;
 import com.alorma.timeline.TimelineView;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class EventosAdapter extends ArrayAdapter<Evento> {
 
         text.setText(evento.getName());
         timeline.setTimelineType(evento.getTipo());
+        timeline.setTimelineAlignment(evento.getAlignment());
 
         return v;
     }

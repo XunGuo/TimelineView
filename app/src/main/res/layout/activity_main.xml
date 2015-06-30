@@ -34,6 +34,20 @@
         <com.alorma.timeline.RoundTimelineView
             android:layout_width="?android:listPreferredItemHeight"
             android:layout_height="?android:listPreferredItemHeight"
+            app:timeline_type="middle"
+            app:timeline_alignment="start"
+            android:id="@+id/timeline3_align_top" />
+
+        <com.alorma.timeline.RoundTimelineView
+            android:layout_width="?android:listPreferredItemHeight"
+            android:layout_height="?android:listPreferredItemHeight"
+            app:timeline_type="middle"
+            app:timeline_alignment="end"
+            android:id="@+id/timeline3_align_bottom" />
+
+        <com.alorma.timeline.RoundTimelineView
+            android:layout_width="?android:listPreferredItemHeight"
+            android:layout_height="?android:listPreferredItemHeight"
             app:timeline_type="end"
             android:id="@+id/timeline4" />
 

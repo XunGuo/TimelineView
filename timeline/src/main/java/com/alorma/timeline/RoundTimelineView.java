@@ -23,16 +23,16 @@ public class RoundTimelineView extends TimelineView {
 
     @Override
     public void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY, float mStartSize) {
-        canvas.drawCircle(centerX, centerY, mStartSize + 5, firstPaint);
+        canvas.drawCircle(centerX, centerY, mStartSize, firstPaint);
     }
 
     @Override
     public void drawMiddle(Canvas canvas, Paint middlePaint, float centerX, float centerY, float mMiddleSize) {
-        canvas.drawCircle(centerX, centerY, mMiddleSize + 5, middlePaint);
+        canvas.drawCircle(centerX, centerY, mMiddleSize, middlePaint);
     }
 
     @Override
     public void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY, float mLastSize) {
-        canvas.drawCircle(centerX, centerY, mLastSize+ 5, lastPaint);
+        canvas.drawCircle(centerX, centerY, mLastSize, lastPaint);
     }
 }

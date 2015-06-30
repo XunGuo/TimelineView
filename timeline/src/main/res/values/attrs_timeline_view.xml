@@ -18,5 +18,11 @@
             <enum name="line" value="1" />
             <enum name="end" value="2" />
         </attr>
+
+        <attr name="timeline_alignment" format="enum">
+            <enum name="start" value="-1" />
+            <enum name="middle" value="0" />
+            <enum name="end" value="1" />
+        </attr>
     </declare-styleable>
 </resources>
