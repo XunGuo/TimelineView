@@ -22,17 +22,38 @@ public class RoundTimelineView extends TimelineView {
     }
 
     @Override
-    public void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY, float mStartSize) {
-        canvas.drawCircle(centerX, centerY, mStartSize, firstPaint);
+    public void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY, float radius) {
+        drawCircle(canvas, centerX, centerY, radius, firstPaint);
     }
 
     @Override
     public void drawMiddle(Canvas canvas, Paint middlePaint, float centerX, float centerY, float radius) {
-        canvas.drawCircle(centerX, centerY, radius, middlePaint);
+        drawCircle(canvas, centerX, centerY, radius, middlePaint);
     }
 
     @Override
-    public void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY, float mLastSize) {
-        canvas.drawCircle(centerX, centerY, mLastSize, lastPaint);
+    public void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY, float radius) {
+        drawCircle(canvas, centerX, centerY, radius, lastPaint);
+    }
+
+    @Override
+    protected void drawInternalStart(Canvas canvas, Paint internalPaint, float centerX, float centerY, float radius) {
+        drawCircle(canvas, centerX, centerY, radius, internalPaint);
+    }
+
+    @Override
+    protected void drawInternalMiddle(Canvas canvas, Paint internalPaint, float centerX, float centerY, float radius) {
+        drawCircle(canvas, centerX, centerY, radius, internalPaint);
+    }
+
+    @Override
+    protected void drawInternalEnd(Canvas canvas, Paint internalPaint, float centerX, float centerY, float radius) {
+        drawCircle(canvas, centerX, centerY, radius, internalPaint);
+    }
+
+    private void drawCircle(Canvas canvas, float centerX, float centerY, float radius, Paint paint) {
+        if (canvas != null) {
+            canvas.drawCircle(centerX, centerY, radius, paint);
+        }
     }
 }

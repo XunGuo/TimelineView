@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
+import com.alorma.timeline.LineStyle;
 import com.alorma.timeline.RoundTimelineView;
 import com.alorma.timeline.TimelineAlignment;
 import com.alorma.timeline.TimelineType;
@@ -30,11 +31,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 20; i++) {
             Evento evento = new Evento("Evento " + (i + 1));
             evento.setTipo(TimelineType.MIDDLE);
-            if (i % 2 == 0) {
-                evento.setAlignment(TimelineAlignment.START);
-            } else {
-                evento.setAlignment(TimelineAlignment.END);
-            }
             eventos.add(evento);
         }
 
@@ -46,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         RoundTimelineView timeline3_align_top = (RoundTimelineView) findViewById(R.id.timeline3_align_top);
         timeline3_align_top.setMiddleSize(getResources().getDimensionPixelOffset(R.dimen.large_timeline_1));
+        timeline3_align_top.setLineStyle(LineStyle.LINEAR);
 
         RoundTimelineView timeline3_align_bottom = (RoundTimelineView) findViewById(R.id.timeline3_align_bottom);
         timeline3_align_bottom.setMiddleSize(getResources().getDimensionPixelOffset(R.dimen.large_timeline_2));
+        timeline3_align_bottom.setLineStyle(LineStyle.LINEAR);
     }
 }
