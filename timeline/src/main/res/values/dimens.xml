@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="timeline_lineWidth">4dp</dimen>
+    <dimen name="timeline_itemSize">6dp</dimen>
+
+</resources>

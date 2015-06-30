@@ -5,23 +5,14 @@
     android:orientation="horizontal">
 
     <com.alorma.timeline.RoundTimelineView
+        android:id="@+id/timeline"
         android:layout_width="?android:listPreferredItemHeight"
-        android:layout_height="?android:listPreferredItemHeight"
-        app:lineColor="#33b5e5"
-        app:lineWidth="6dp"
-        app:middleColor="#ff406fe5"
-        app:middleSize="10"
-        app:firstColor="#ff946885"
-        app:firstSize="20"
-        app:lastColor="#ffe5b253"
-        app:lastSize="18"
-        app:timeline_type="line"
-        android:id="@+id/timeline" />
+        android:layout_height="?android:listPreferredItemHeight" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="?android:listPreferredItemHeight"
-        android:id="@+id/textView"
         android:layout_marginLeft="16dp"
         android:gravity="center_vertical"
         android:textSize="24sp" />
