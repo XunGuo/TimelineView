@@ -189,37 +189,22 @@ public abstract class TimelineView extends View {
         invalidate();
     }
 
-    public void setmLineWidth(float mLineWidth) {
+    public void setLineWidth(float mLineWidth) {
         this.mLineWidth = mLineWidth;
         invalidate();
     }
 
-    public void setmColorMiddle(int mColorMiddle) {
-        this.mColorMiddle = mColorMiddle;
-        invalidate();
-    }
-
-    public void setmMiddleSize(float mMiddleSize) {
+    public void setMiddleSize(float mMiddleSize) {
         this.mMiddleSize = mMiddleSize;
         invalidate();
     }
 
-    public void setmFirstColor(int mFirstColor) {
-        this.mFirstColor = mFirstColor;
-        invalidate();
-    }
-
-    public void setmStartSize(float mStartSize) {
+    public void setStartSize(float mStartSize) {
         this.mStartSize = mStartSize;
         invalidate();
     }
 
-    public void setmLastColor(int mLastColor) {
-        this.mLastColor = mLastColor;
-        invalidate();
-    }
-
-    public void setmEndSize(float mEndSize) {
+    public void setEndSize(float mEndSize) {
         this.mEndSize = mEndSize;
         invalidate();
     }
@@ -252,66 +237,4 @@ public abstract class TimelineView extends View {
     protected abstract void drawMiddle(Canvas canvas, Paint middlePaint, float centerX, float centerY, float mMiddleSize);
 
     protected abstract void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY, float mEndSize);
-
-/*    private int fetchPrimaryColor() {
-        boolean useAppCompat = true;
-
-        int colorPrimary = Color.parseColor("#FF0000");
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.colorPrimary});
-            try {
-                colorPrimary = a.getColor(0, colorPrimary);
-                useAppCompat = false;
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                a.recycle();
-            }
-        }
-
-        if (useAppCompat) {
-            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimary});
-            try {
-                colorPrimary = a.getColor(0, colorPrimary);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                a.recycle();
-            }
-        }
-
-        return colorPrimary;
-    }
-
-    private int fetchAccentColor() {
-        boolean useAppCompat = true;
-
-        int colorAccent = Color.parseColor("#00FF00");
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.colorAccent});
-            try {
-                colorAccent = a.getColor(0, colorAccent);
-                useAppCompat = false;
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                a.recycle();
-            }
-        }
-
-        if (useAppCompat) {
-            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.colorAccent});
-            try {
-                colorAccent = a.getColor(0, colorAccent);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                a.recycle();
-            }
-        }
-
-        return colorAccent;
-    }*/
 }
