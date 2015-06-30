@@ -30,7 +30,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 
 public abstract class TimelineView extends View {
@@ -70,13 +69,13 @@ public abstract class TimelineView extends View {
     private void init(Context context, AttributeSet attrs, int defStyle) {
         isInEditMode();
 
-        mLineColor = fetchPrimaryColor();
-        mColorMiddle = mFirstColor = mLastColor = fetchAccentColor();
+        mLineColor = AttributesUtils.colorPrimary(context, Color.parseColor("#ff0000"));
+        mColorMiddle = mFirstColor = mLastColor = AttributesUtils.colorAccent(context, Color.parseColor("#00ff00"));
         mLineWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_lineWidth);
         mMiddleSize = mStartSize = mEndSize = getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_itemSize);
 
         if (attrs != null) {
-            final TypedArray a = context.obtainStyledAttributes(
+            final TypedArray a = context.getTheme().obtainStyledAttributes(
                     attrs, R.styleable.TimelineView, defStyle, 0);
 
             if (a != null) {
@@ -186,6 +185,7 @@ public abstract class TimelineView extends View {
 
     public void setmLineColor(int mLineColor) {
         this.mLineColor = mLineColor;
+        linePaint.setColor(mLineColor);
         invalidate();
     }
 
@@ -226,6 +226,9 @@ public abstract class TimelineView extends View {
 
     public void setItemColor(int color) {
         mColorMiddle = mFirstColor = mLastColor = color;
+        firstPaint.setColor(mFirstColor);
+        middlePaint.setColor(mColorMiddle);
+        lastPaint.setColor(mLastColor);
         invalidate();
     }
 
@@ -250,25 +253,65 @@ public abstract class TimelineView extends View {
 
     protected abstract void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY, float mEndSize);
 
-    private int fetchPrimaryColor() {
-        TypedValue typedValue = new TypedValue();
+/*    private int fetchPrimaryColor() {
+        boolean useAppCompat = true;
 
-        TypedArray a = getContext().obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorPrimary});
-        int color = a.getColor(0, 0);
+        int colorPrimary = Color.parseColor("#FF0000");
 
-        a.recycle();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.colorPrimary});
+            try {
+                colorPrimary = a.getColor(0, colorPrimary);
+                useAppCompat = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                a.recycle();
+            }
+        }
 
-        return color;
+        if (useAppCompat) {
+            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.colorPrimary});
+            try {
+                colorPrimary = a.getColor(0, colorPrimary);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                a.recycle();
+            }
+        }
+
+        return colorPrimary;
     }
 
     private int fetchAccentColor() {
-        TypedValue typedValue = new TypedValue();
+        boolean useAppCompat = true;
 
-        TypedArray a = getContext().obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
-        int color = a.getColor(0, 0);
+        int colorAccent = Color.parseColor("#00FF00");
 
-        a.recycle();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{android.R.attr.colorAccent});
+            try {
+                colorAccent = a.getColor(0, colorAccent);
+                useAppCompat = false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                a.recycle();
+            }
+        }
 
-        return color;
-    }
+        if (useAppCompat) {
+            TypedArray a = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.colorAccent});
+            try {
+                colorAccent = a.getColor(0, colorAccent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                a.recycle();
+            }
+        }
+
+        return colorAccent;
+    }*/
 }
