@@ -28,7 +28,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -50,6 +53,8 @@ public abstract class TimelineView extends ImageView {
     private TimelineAlignment timelineAlignment = TimelineAlignment.MIDDLE;
 
     private Paint linePaint, middlePaint, firstPaint, lastPaint;
+    private RectF itemRect;
+    private Rect viewRect;
 
     public TimelineView(Context context) {
         super(context);
@@ -125,65 +130,69 @@ public abstract class TimelineView extends ImageView {
         middlePaint = new Paint();
         middlePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         middlePaint.setColor(mColorMiddle);
-        middlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        middlePaint.setStrokeWidth(mMiddleSize);
+        middlePaint.setStyle(Paint.Style.FILL);
 
         firstPaint = new Paint();
         firstPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         firstPaint.setColor(mFirstColor);
-        firstPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        firstPaint.setStrokeWidth(mStartSize);
+        firstPaint.setStyle(Paint.Style.FILL);
 
         lastPaint = new Paint();
         lastPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         lastPaint.setColor(mLastColor);
-        lastPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        lastPaint.setStrokeWidth(mEndSize);
+        lastPaint.setStyle(Paint.Style.FILL);
+
+        itemRect = new RectF();
+
+        viewRect = new Rect();
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
 
-        int contentWidth = getWidth() - getPaddingLeft() - getPaddingRight();
-        int contentHeight = getHeight() - getPaddingTop() - getPaddingBottom();
+        canvas.getClipBounds(viewRect);
 
-        float startX = contentWidth / 2 - mLineWidth / 2;
-        float endX = contentWidth / 2 + mLineWidth / 2;
-        int startY = getPaddingTop();
+        float startX = viewRect.width() / 2 - mLineWidth / 2;
+        float endX = viewRect.height() / 2 + mLineWidth / 2;
 
-        int centerX = contentWidth / 2;
-        int centerY = contentHeight / 2;
+        int centerX = viewRect.width() / 2;
+        int centerY = viewRect.height() / 2;
 
         if (timelineType == TimelineType.START) {
-            canvas.drawRect(startX, centerY, endX, contentHeight, linePaint);
+            canvas.drawRect(startX, centerY, endX, viewRect.bottom, linePaint);
             drawStart(canvas, firstPaint, centerX, centerY, mStartSize);
+//            itemRect.set(centerX - mMiddleSize, centerY - mMiddleSize, centerX + mMiddleSize, centerY + mMiddleSize);
         } else if (timelineType == TimelineType.MIDDLE) {
-            canvas.drawRect(startX, startY, endX, contentHeight, linePaint);
+            canvas.drawRect(startX, viewRect.top, endX, viewRect.bottom, linePaint);
             switch (timelineAlignment) {
                 case START:
-                    startY += (mMiddleSize * 2);
-                    drawMiddle(canvas, middlePaint, centerX, startY, mMiddleSize);
+                    drawMiddle(canvas, middlePaint, centerX, viewRect.top + mMiddleSize, mMiddleSize);
                     break;
                 case MIDDLE:
                 default:
                     drawMiddle(canvas, middlePaint, centerX, centerY, mMiddleSize);
                     break;
                 case END:
-                    contentHeight -= (mMiddleSize * 2);
-                    drawMiddle(canvas, middlePaint, centerX, contentHeight, mMiddleSize);
+                    centerY = viewRect.bottom;
+                    drawMiddle(canvas, middlePaint, centerX, viewRect.bottom - mMiddleSize, mMiddleSize);
                     break;
             }
+//            itemRect.set(centerX - mMiddleSize, centerY - mMiddleSize, centerX + mMiddleSize, centerY + mMiddleSize);
         } else if (timelineType == TimelineType.END) {
-            canvas.drawRect(startX, startY, endX, centerY, linePaint);
+            canvas.drawRect(startX, viewRect.top, endX, centerY, linePaint);
             drawEnd(canvas, lastPaint, centerX, centerY, mEndSize);
+//            itemRect.set(centerX - mMiddleSize, centerY - mMiddleSize, centerX + mMiddleSize, centerY + mMiddleSize);
         } else {
-            canvas.drawRect(startX, startY, endX, contentHeight, linePaint);
+            canvas.drawRect(startX, viewRect.top, endX, viewRect.bottom, linePaint);
         }
+/*
+        canvas.clipRect(itemRect);*/
+
+        super.onDraw(canvas);
     }
 
-    public void setmLineColor(int mLineColor) {
+    public void setLineColor(int mLineColor) {
         this.mLineColor = mLineColor;
         linePaint.setColor(mLineColor);
         invalidate();

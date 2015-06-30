@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
+import com.alorma.timeline.RoundTimelineView;
 import com.alorma.timeline.TimelineAlignment;
 import com.alorma.timeline.TimelineType;
 
@@ -41,5 +42,12 @@ public class MainActivity extends AppCompatActivity {
         eventos.add(eventoLast);
 
         listView.setAdapter(new EventosAdapter(this, eventos));
+
+
+        RoundTimelineView timeline3_align_top = (RoundTimelineView) findViewById(R.id.timeline3_align_top);
+        timeline3_align_top.setMiddleSize(getResources().getDimensionPixelOffset(R.dimen.large_timeline_1));
+
+        RoundTimelineView timeline3_align_bottom = (RoundTimelineView) findViewById(R.id.timeline3_align_bottom);
+        timeline3_align_bottom.setMiddleSize(getResources().getDimensionPixelOffset(R.dimen.large_timeline_2));
     }
 }
