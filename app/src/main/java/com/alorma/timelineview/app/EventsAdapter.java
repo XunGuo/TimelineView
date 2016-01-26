@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.alorma.timeline.TimelineView;
 import java.util.List;
 
-public class EventsAdapter extends ArrayAdapter<Events> {
+class EventsAdapter extends ArrayAdapter<Events> {
     private final LayoutInflater layoutInflater;
 
     public EventsAdapter(Context context, List<Events> objects) {

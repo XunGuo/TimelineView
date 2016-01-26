@@ -3,7 +3,7 @@ package com.alorma.timelineview.app;
 import android.support.annotation.NonNull;
 import com.alorma.timeline.TimelineView;
 
-public class Events {
+class Events {
     private String name;
     private int type;
     private int alignment;
