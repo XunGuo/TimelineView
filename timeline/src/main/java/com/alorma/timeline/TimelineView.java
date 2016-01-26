@@ -49,19 +49,11 @@ public abstract class TimelineView extends ImageView {
     }
 
     private int lineStyle;
-    private int lineColor;
-    private float lineWidth;
 
-    private int lineStartColor;
     private float lineStartSize;
-
-    private int lineMiddleColor;
     private float lineMiddleSize;
-
-    private int lineEndColor;
     private float lineEndSize;
 
-    private int internalColor;
     private float internalPadding;
     private boolean drawInternal;
 
@@ -104,29 +96,29 @@ public abstract class TimelineView extends ImageView {
         final TypedArray typedArray =
             context.getTheme().obtainStyledAttributes(attrs, R.styleable.TimelineView, defStyle, 0);
 
-        lineColor = typedArray.getColor(R.styleable.TimelineView_timeline_lineColor,
+        int lineColor = typedArray.getColor(R.styleable.TimelineView_timeline_lineColor,
             AttributesUtils.colorPrimary(context, res.getColor(R.color.colorPrimary)));
-        lineWidth = typedArray.getDimension(R.styleable.TimelineView_timeline_lineWidth,
+        float lineWidth = typedArray.getDimension(R.styleable.TimelineView_timeline_lineWidth,
             res.getDimensionPixelOffset(R.dimen.default_lineWidth));
         lineStyle = getTimelineStyle(
             typedArray.getInt(R.styleable.TimelineView_timeline_lineStyle, STYLE_DEFAULT));
 
-        lineStartColor = typedArray.getColor(R.styleable.TimelineView_timeline_startColor,
+        int lineStartColor = typedArray.getColor(R.styleable.TimelineView_timeline_startColor,
             AttributesUtils.colorAccent(context, res.getColor(R.color.colorAccent)));
         lineStartSize = typedArray.getFloat(R.styleable.TimelineView_timeline_startSize,
             res.getDimensionPixelOffset(R.dimen.default_itemSize));
 
-        lineMiddleColor =
+        int lineMiddleColor =
             typedArray.getColor(R.styleable.TimelineView_timeline_middleColor, lineStartColor);
         lineMiddleSize = typedArray.getFloat(R.styleable.TimelineView_timeline_middleSize,
             res.getDimensionPixelOffset(R.dimen.default_itemSize));
 
-        lineEndColor =
+        int lineEndColor =
             typedArray.getColor(R.styleable.TimelineView_timeline_endColor, lineStartColor);
         lineEndSize = typedArray.getFloat(R.styleable.TimelineView_timeline_endSize,
             res.getDimensionPixelOffset(R.dimen.default_itemSize));
 
-        internalColor = typedArray.getColor(R.styleable.TimelineView_timeline_internalColor,
+        int internalColor = typedArray.getColor(R.styleable.TimelineView_timeline_internalColor,
             AttributesUtils.windowBackground(context, Color.WHITE));
         internalPadding = typedArray.getFloat(R.styleable.TimelineView_timeline_internalPadding,
             res.getDimensionPixelOffset(R.dimen.default_internalPadding));
@@ -147,7 +139,10 @@ public abstract class TimelineView extends ImageView {
         paintLine.setColor(lineColor);
         paintLine.setStrokeWidth(lineWidth);
         paintLine.setStyle(Paint.Style.STROKE);
-        setDashEffect(new float[] { 25, 20 });
+        dashEffect = new float[] { 25, 20 };
+        if (lineStyle == STYLE_DASHED) {
+            paintLine.setPathEffect(createDashEffect());
+        }
 
         paintStart = new Paint();
         paintStart.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -224,66 +219,102 @@ public abstract class TimelineView extends ImageView {
         return value;
     }
 
-    public void setLineColor(@ColorInt int mLineColor) {
-        this.lineColor = mLineColor;
-        paintLine.setColor(mLineColor);
+    public int getLineColor() {
+        return paintLine.getColor();
+    }
+
+    public void setLineColor(@ColorInt int lineColor) {
+        paintLine.setColor(lineColor);
         invalidate();
     }
 
-    public void setLineWidth(float mLineWidth) {
-        this.lineWidth = mLineWidth;
+    public float getLineWidth() {
+        return paintLine.getStrokeWidth();
+    }
+
+    public void setLineWidth(float lineWidth) {
+        paintLine.setStrokeWidth(lineWidth);
         invalidate();
     }
 
-    public void setMiddleSize(float mMiddleSize) {
-        this.lineMiddleSize = mMiddleSize;
-        invalidate();
+    public int getLineStartColor() {
+        return paintStart.getColor();
     }
 
-    public void setStartSize(float mStartSize) {
-        this.lineStartSize = mStartSize;
-        invalidate();
-    }
-
-    public void setEndSize(float mEndSize) {
-        this.lineEndSize = mEndSize;
-        invalidate();
-    }
-
-    public void setItemColor(@ColorInt int color) {
-        lineMiddleColor = lineStartColor = lineEndColor = color;
+    public void setLineStartColor(@ColorInt int lineStartColor) {
         paintStart.setColor(lineStartColor);
+        invalidate();
+    }
+
+    public float getLineStartSize() {
+        return lineStartSize;
+    }
+
+    public void setLineStartSize(float lineStartSize) {
+        this.lineStartSize = lineStartSize;
+        invalidate();
+    }
+
+    public int getLineMiddleColor() {
+        return paintMiddle.getColor();
+    }
+
+    public void setLineMiddleColor(@ColorInt int lineMiddleColor) {
         paintMiddle.setColor(lineMiddleColor);
+        invalidate();
+    }
+
+    public float getLineMiddleSize() {
+        return lineMiddleSize;
+    }
+
+    public void setLineMiddleSize(float lineMiddleSize) {
+        this.lineMiddleSize = lineMiddleSize;
+        invalidate();
+    }
+
+    public int getLineEndColor() {
+        return paintEnd.getColor();
+    }
+
+    public void setLineEndColor(@ColorInt int lineEndColor) {
         paintEnd.setColor(lineEndColor);
         invalidate();
     }
 
-    public void setInternalColor(@ColorInt int color) {
-        internalColor = color;
+    public float getLineEndSize() {
+        return lineEndSize;
+    }
+
+    public void setLineEndSize(float lineEndSize) {
+        this.lineEndSize = lineEndSize;
+        invalidate();
+    }
+
+    public int getInternalColor() {
+        return paintInternal.getColor();
+    }
+
+    public void setInternalColor(@ColorInt int internalColor) {
         paintInternal.setColor(internalColor);
         invalidate();
     }
 
-    public void setItemSize(int size) {
-        lineMiddleSize = lineStartSize = lineEndSize = size;
+    public float getInternalPadding() {
+        return internalPadding;
+    }
+
+    public void setInternalPadding(float internalPadding) {
+        this.internalPadding = internalPadding;
         invalidate();
     }
 
-    public void setTimelineStyle(@TimelineStyle int timelineStyle) {
-        if (timelineStyle == STYLE_DASHED) {
-            paintLine.setPathEffect(createDashEffect());
-        } else {
-            paintLine.setPathEffect(null);
-        }
+    public boolean isDrawInternal() {
+        return drawInternal;
     }
 
-    public void setTimelineType(@TimelineType int timelineType) {
-        this.timelineType = timelineType;
-        invalidate();
-    }
-
-    public void setTimelineAlignment(@TimelineAlignment int timelineAlignment) {
-        this.timelineAlignment = timelineAlignment;
+    public void setDrawInternal(boolean drawInternal) {
+        this.drawInternal = drawInternal;
         invalidate();
     }
 
@@ -296,29 +327,93 @@ public abstract class TimelineView extends ImageView {
         if (lineStyle == STYLE_DASHED) {
             paintLine.setPathEffect(createDashEffect());
         }
+        invalidate();
     }
 
     private PathEffect createDashEffect() {
         return new DashPathEffect(dashEffect, 1);
     }
 
-    // TODO: GETTERS
+    public void setTimelineColor(@ColorInt int color) {
+        paintStart.setColor(color);
+        paintMiddle.setColor(color);
+        paintEnd.setColor(color);
+        invalidate();
+    }
 
-    protected abstract void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY,
-        float mStartSize);
+    public void setTimelineSize(int size) {
+        lineMiddleSize = size;
+        lineStartSize = size;
+        lineEndSize = size;
+        invalidate();
+    }
 
-    protected abstract void drawMiddle(Canvas canvas, Paint middlePaint, float centerX,
-        float centerY, float mMiddleSize);
+    public Paint getPaintLine() {
+        return paintLine;
+    }
 
-    protected abstract void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY,
-        float mEndSize);
+    public Paint getPaintMiddle() {
+        return paintMiddle;
+    }
 
-    protected abstract void drawInternalStart(Canvas canvas, Paint internalPaint, float centerX,
+    public Paint getPaintStart() {
+        return paintStart;
+    }
+
+    public Paint getPaintEnd() {
+        return paintEnd;
+    }
+
+    public Paint getPaintInternal() {
+        return paintInternal;
+    }
+
+    public void setTimelineStyle(@TimelineStyle int timelineStyle) {
+        if (timelineStyle == STYLE_DASHED) {
+            paintLine.setPathEffect(createDashEffect());
+        } else {
+            paintLine.setPathEffect(null);
+        }
+        invalidate();
+    }
+
+    public void setTimelineType(@TimelineType int timelineType) {
+        this.timelineType = timelineType;
+        invalidate();
+    }
+
+    public void setTimelineAlignment(@TimelineAlignment int timelineAlignment) {
+        this.timelineAlignment = timelineAlignment;
+        invalidate();
+    }
+
+    public @TimelineStyle int getLineStyle() {
+        return lineStyle;
+    }
+
+    public @TimelineType int getTimelineType() {
+        return timelineType;
+    }
+
+    public @TimelineAlignment int getTimelineAlignment() {
+        return timelineAlignment;
+    }
+
+    protected abstract void drawStart(Canvas canvas, Paint paintStart, float centerX, float centerY,
+        float startSize);
+
+    protected abstract void drawMiddle(Canvas canvas, Paint paintMiddle, float centerX,
+        float centerY, float middleSize);
+
+    protected abstract void drawEnd(Canvas canvas, Paint paintEnd, float centerX, float centerY,
+        float endSize);
+
+    protected abstract void drawInternalStart(Canvas canvas, Paint paintInternal, float centerX,
         float centerY, float radius);
 
-    protected abstract void drawInternalMiddle(Canvas canvas, Paint internalPaint, float centerX,
+    protected abstract void drawInternalMiddle(Canvas canvas, Paint paintInternal, float centerX,
         float centerY, float radius);
 
-    protected abstract void drawInternalEnd(Canvas canvas, Paint internalPaint, float centerX,
+    protected abstract void drawInternalEnd(Canvas canvas, Paint paintInternal, float centerX,
         float centerY, float radius);
 }

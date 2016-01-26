@@ -26,35 +26,35 @@ public class RoundTimelineView extends TimelineView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @Override public void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY,
-        float radius) {
-        drawCircle(canvas, centerX, centerY, radius, firstPaint);
+    @Override public void drawStart(Canvas canvas, Paint paintStart, float centerX, float centerY,
+        float startSize) {
+        drawCircle(canvas, centerX, centerY, startSize, paintStart);
     }
 
-    @Override public void drawMiddle(Canvas canvas, Paint middlePaint, float centerX, float centerY,
-        float radius) {
-        drawCircle(canvas, centerX, centerY, radius, middlePaint);
+    @Override public void drawMiddle(Canvas canvas, Paint paintMiddle, float centerX, float centerY,
+        float middleSize) {
+        drawCircle(canvas, centerX, centerY, middleSize, paintMiddle);
     }
 
-    @Override public void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY,
-        float radius) {
-        drawCircle(canvas, centerX, centerY, radius, lastPaint);
+    @Override public void drawEnd(Canvas canvas, Paint paintEnd, float centerX, float centerY,
+        float endSize) {
+        drawCircle(canvas, centerX, centerY, endSize, paintEnd);
     }
 
-    @Override protected void drawInternalStart(Canvas canvas, Paint internalPaint, float centerX,
+    @Override protected void drawInternalStart(Canvas canvas, Paint paintInternal, float centerX,
         float centerY, float radius) {
-        drawCircle(canvas, centerX, centerY, radius, internalPaint);
+        drawCircle(canvas, centerX, centerY, radius, paintInternal);
     }
 
-    @Override protected void drawInternalMiddle(Canvas canvas, Paint internalPaint, float centerX,
+    @Override protected void drawInternalMiddle(Canvas canvas, Paint paintInternal, float centerX,
         float centerY, float radius) {
-        drawCircle(canvas, centerX, centerY, radius, internalPaint);
+        drawCircle(canvas, centerX, centerY, radius, paintInternal);
     }
 
     @Override
-    protected void drawInternalEnd(Canvas canvas, Paint internalPaint, float centerX, float centerY,
+    protected void drawInternalEnd(Canvas canvas, Paint paintInternal, float centerX, float centerY,
         float radius) {
-        drawCircle(canvas, centerX, centerY, radius, internalPaint);
+        drawCircle(canvas, centerX, centerY, radius, paintInternal);
     }
 
     private void drawCircle(Canvas canvas, float centerX, float centerY, float radius,
