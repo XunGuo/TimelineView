@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
+import android.support.annotation.Size;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,6 +48,7 @@ public abstract class TimelineView extends ImageView {
     public @interface TimelineStyle {
     }
 
+    private int lineStyle;
     private int lineColor;
     private float lineWidth;
 
@@ -73,6 +75,8 @@ public abstract class TimelineView extends ImageView {
     private Paint paintInternal;
 
     private Rect rect;
+
+    private float[] dashEffect;
 
     public TimelineView(Context context) {
         this(context, null);
@@ -104,7 +108,7 @@ public abstract class TimelineView extends ImageView {
             AttributesUtils.colorPrimary(context, res.getColor(R.color.colorPrimary)));
         lineWidth = typedArray.getDimension(R.styleable.TimelineView_timeline_lineWidth,
             res.getDimensionPixelOffset(R.dimen.default_lineWidth));
-        int lineStyle = getTimelineStyle(
+        lineStyle = getTimelineStyle(
             typedArray.getInt(R.styleable.TimelineView_timeline_lineStyle, STYLE_DEFAULT));
 
         lineStartColor = typedArray.getColor(R.styleable.TimelineView_timeline_startColor,
@@ -143,10 +147,7 @@ public abstract class TimelineView extends ImageView {
         paintLine.setColor(lineColor);
         paintLine.setStrokeWidth(lineWidth);
         paintLine.setStyle(Paint.Style.STROKE);
-
-        if (lineStyle == STYLE_DASHED) {
-            paintLine.setPathEffect(createDashEffect());
-        }
+        setDashEffect(new float[] { 25, 20 });
 
         paintStart = new Paint();
         paintStart.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -169,11 +170,6 @@ public abstract class TimelineView extends ImageView {
         paintInternal.setStyle(Paint.Style.FILL);
 
         rect = new Rect();
-    }
-
-    private PathEffect createDashEffect() {
-        // TODO: custom pattern
-        return new DashPathEffect(new float[] { 25, 20 }, 1);
     }
 
     @Override protected void onDraw(Canvas canvas) {
@@ -289,6 +285,21 @@ public abstract class TimelineView extends ImageView {
     public void setTimelineAlignment(@TimelineAlignment int timelineAlignment) {
         this.timelineAlignment = timelineAlignment;
         invalidate();
+    }
+
+    public float[] getDashEffect() {
+        return dashEffect;
+    }
+
+    public void setDashEffect(@Size(2) float[] dashEffect) {
+        this.dashEffect = dashEffect;
+        if (lineStyle == STYLE_DASHED) {
+            paintLine.setPathEffect(createDashEffect());
+        }
+    }
+
+    private PathEffect createDashEffect() {
+        return new DashPathEffect(dashEffect, 1);
     }
 
     // TODO: GETTERS
