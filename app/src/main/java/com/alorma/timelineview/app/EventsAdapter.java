@@ -18,18 +18,28 @@ public class EventsAdapter extends ArrayAdapter<Events> {
     }
 
     @Override public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO: viewHolder
-        View view = layoutInflater.inflate(R.layout.item_main, null);
-
-        TextView text = (TextView) view.findViewById(R.id.textView);
-        TimelineView timeline = (TimelineView) view.findViewById(R.id.timeline);
+        ViewHolderItem viewHolder;
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.item_main, parent, false);
+            viewHolder = new ViewHolderItem();
+            viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
+            viewHolder.timeline = (TimelineView) convertView.findViewById(R.id.timeline);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolderItem) convertView.getTag();
+        }
 
         Events events = getItem(position);
 
-        text.setText(events.getName());
-        timeline.setTimelineType(events.getType());
-        timeline.setTimelineAlignment(events.getAlignment());
+        viewHolder.text.setText(events.getName());
+        viewHolder.timeline.setTimelineType(events.getType());
+        viewHolder.timeline.setTimelineAlignment(events.getAlignment());
 
-        return view;
+        return convertView;
+    }
+
+    static class ViewHolderItem {
+        TextView text;
+        TimelineView timeline;
     }
 }
