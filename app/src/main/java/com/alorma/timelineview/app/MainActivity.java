@@ -12,32 +12,20 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listView;
-    private ArrayList<Evento> eventos;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(R.id.list);
+        ListView list = (ListView) findViewById(R.id.list);
 
-        eventos = new ArrayList<>();
-
-        Evento eventoFirst = new Evento("Primer evento", TimelineType.START);
-        eventos.add(eventoFirst);
-
+        ArrayList<Events> items = new ArrayList<>();
+        items.add(new Events(getString(R.string.item_first), TimelineType.START));
         for (int i = 0; i < 20; i++) {
-            Evento evento = new Evento("Evento " + (i + 1));
-            evento.setTipo(TimelineType.MIDDLE);
-            eventos.add(evento);
+            items.add(new Events(String.format(getString(R.string.item_default), i + 1), TimelineType.MIDDLE));
         }
-
-        Evento eventoLast = new Evento("Último evento", TimelineType.END);
-        eventos.add(eventoLast);
-
-        listView.setAdapter(new EventosAdapter(this, eventos));
-
+        items.add(new Events(getString(R.string.item_last), TimelineType.END));
+        list.setAdapter(new EventsAdapter(this, items));
 
         RoundTimelineView timeline3_align_top = (RoundTimelineView) findViewById(R.id.timeline3_align_top);
         timeline3_align_top.setMiddleSize(getResources().getDimensionPixelOffset(R.dimen.large_timeline_1));
