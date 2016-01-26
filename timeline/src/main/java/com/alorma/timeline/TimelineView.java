@@ -409,11 +409,11 @@ public abstract class TimelineView extends ImageView {
         float endSize);
 
     protected abstract void drawInternalStart(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float radius);
+        float centerY, float size);
 
     protected abstract void drawInternalMiddle(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float radius);
+        float centerY, float size);
 
     protected abstract void drawInternalEnd(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float radius);
+        float centerY, float size);
 }
