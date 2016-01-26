@@ -7,11 +7,11 @@
         <attr name="timeline_middleSize" format="float"/>
         <attr name="timeline_middleColor" format="color"/>
 
-        <attr name="timeline_firstSize" format="float"/>
-        <attr name="timeline_firstColor" format="color"/>
+        <attr name="timeline_startSize" format="float"/>
+        <attr name="timeline_startColor" format="color"/>
 
-        <attr name="timeline_lastSize" format="float"/>
-        <attr name="timeline_lastColor" format="color"/>
+        <attr name="timeline_endSize" format="float"/>
+        <attr name="timeline_endColor" format="color"/>
 
         <attr name="timeline_type" format="enum">
             <enum name="start" value="-1"/>
