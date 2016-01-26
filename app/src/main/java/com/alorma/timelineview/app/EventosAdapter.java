@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.alorma.timeline.TimelineAlignment;
 import com.alorma.timeline.TimelineView;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class EventosAdapter extends ArrayAdapter<Evento> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v = mInflater.inflate(R.layout.row, null);
+        View v = mInflater.inflate(R.layout.item_main, null);
 
         TextView text = (TextView) v.findViewById(R.id.textView);
         TimelineView timeline = (TimelineView) v.findViewById(R.id.timeline);

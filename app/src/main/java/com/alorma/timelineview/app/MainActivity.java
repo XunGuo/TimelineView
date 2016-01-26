@@ -6,7 +6,6 @@ import android.widget.ListView;
 
 import com.alorma.timeline.LineStyle;
 import com.alorma.timeline.RoundTimelineView;
-import com.alorma.timeline.TimelineAlignment;
 import com.alorma.timeline.TimelineType;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = (ListView) findViewById(android.R.id.list);
+        listView = (ListView) findViewById(R.id.list);
 
         eventos = new ArrayList<>();
 

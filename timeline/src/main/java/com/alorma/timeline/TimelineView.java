@@ -37,7 +37,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 public abstract class TimelineView extends ImageView {
-
     private int mLineColor = Color.GRAY;
     private float mLineWidth = 3f;
     private LineStyle lineStyle = LineStyle.LINEAR;
