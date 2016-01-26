@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.v7.internal.widget.TintTypedArray;
 import android.util.TypedValue;
 
 public class AttributesUtils {
@@ -126,12 +125,6 @@ public class AttributesUtils {
 
 
     public static CharSequence getString(TypedArray array, int index, CharSequence defaultValue) {
-        String result = array.getString(index);
-        return result == null ? defaultValue : result;
-    }
-
-
-    public static CharSequence getString(TintTypedArray array, int index, CharSequence defaultValue) {
         String result = array.getString(index);
         return result == null ? defaultValue : result;
     }
