@@ -1,24 +1,22 @@
 package com.alorma.timelineview.app;
 
-import com.alorma.timeline.TimelineAlignment;
-import com.alorma.timeline.TimelineType;
+import android.support.annotation.NonNull;
+import com.alorma.timeline.TimelineView;
 
 public class Events {
     private String name;
-    private TimelineType type;
-    private TimelineAlignment alignment;
+    private int type;
+    private int alignment;
 
-    public Events(String name) {
-        this.name = name;
-        this.type = TimelineType.LINE;
+    public Events(@NonNull String name) {
+        this(name, TimelineView.TYPE_DEFAULT);
     }
 
-    public Events(String name, TimelineType type) {
-        this.name = name;
-        this.type = type;
+    public Events(@NonNull String name, int type) {
+        this(name, type, TimelineView.ALIGNMENT_DEFAULT);
     }
 
-    public Events(String name, TimelineType type, TimelineAlignment alignment) {
+    public Events(@NonNull String name, int type, int alignment) {
         this.name = name;
         this.type = type;
         this.alignment = alignment;
@@ -28,32 +26,31 @@ public class Events {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    public TimelineType getType() {
+    public @TimelineView.TimelineType int getType() {
         return type;
     }
 
-    public void setType(TimelineType type) {
+    public void setType(@TimelineView.TimelineType int type) {
         this.type = type;
     }
 
-    public TimelineAlignment getAlignment() {
+    public @TimelineView.TimelineAlignment int getAlignment() {
         return alignment;
     }
 
-    public void setAlignment(TimelineAlignment alignment) {
+    public void setAlignment(@TimelineView.TimelineAlignment int alignment) {
         this.alignment = alignment;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "Events{" +
-                "name='" + name + '\'' +
-                ", type=" + type +
-                ", alignment=" + alignment +
-                '}';
+            "name='" + name + '\'' +
+            ", type=" + type +
+            ", alignment=" + alignment +
+            '}';
     }
 }

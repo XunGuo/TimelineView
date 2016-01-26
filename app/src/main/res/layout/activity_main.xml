@@ -20,39 +20,39 @@
                 android:id="@+id/timeline1"
                 android:layout_width="?android:listPreferredItemHeight"
                 android:layout_height="?android:listPreferredItemHeight"
-                app:timeline_type="line" />
+                app:timeline_type="line"/>
 
             <com.alorma.timeline.RoundTimelineView
                 android:id="@+id/timeline2"
                 android:layout_width="?android:listPreferredItemHeight"
                 android:layout_height="?android:listPreferredItemHeight"
-                app:timeline_type="start" />
+                app:timeline_type="start"/>
 
             <com.alorma.timeline.RoundTimelineView
                 android:id="@+id/timeline3"
                 android:layout_width="?android:listPreferredItemHeight"
                 android:layout_height="?android:listPreferredItemHeight"
-                app:timeline_type="middle" />
+                app:timeline_type="middle"/>
 
             <com.alorma.timeline.RoundTimelineView
                 android:id="@+id/timeline3_align_top"
                 android:layout_width="?android:listPreferredItemHeight"
                 android:layout_height="?android:listPreferredItemHeight"
                 app:timeline_alignment="start"
-                app:timeline_type="middle" />
+                app:timeline_type="middle"/>
 
             <com.alorma.timeline.RoundTimelineView
                 android:id="@+id/timeline3_align_bottom"
                 android:layout_width="?android:listPreferredItemHeight"
                 android:layout_height="?android:listPreferredItemHeight"
                 app:timeline_alignment="end"
-                app:timeline_type="middle" />
+                app:timeline_type="middle"/>
 
             <com.alorma.timeline.RoundTimelineView
                 android:id="@+id/timeline4"
                 android:layout_width="?android:listPreferredItemHeight"
                 android:layout_height="?android:listPreferredItemHeight"
-                app:timeline_type="end" />
+                app:timeline_type="end"/>
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -62,5 +62,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/default_margin"
-        android:divider="@null" />
+        android:divider="@null"/>
 </LinearLayout>

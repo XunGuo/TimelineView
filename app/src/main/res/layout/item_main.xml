@@ -9,7 +9,7 @@
         android:id="@+id/timeline"
         android:layout_width="?android:listPreferredItemHeight"
         android:layout_height="?android:listPreferredItemHeight"
-        timeline:timeline_lineStyle="linear" />
+        timeline:timeline_lineStyle="linear"/>
 
     <TextView
         android:id="@+id/textView"
@@ -19,6 +19,6 @@
         android:gravity="center_vertical"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"/>
 
 </LinearLayout>

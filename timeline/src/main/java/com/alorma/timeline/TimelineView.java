@@ -1,29 +1,6 @@
-/**
- * The MIT License (MIT)
- * <p/>
- * Copyright (c) [year] [fullname]
- * <p/>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p/>
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * <p/>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.alorma.timeline;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -32,14 +9,47 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
+import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 public abstract class TimelineView extends ImageView {
+    public static final int TYPE_START = -1;
+    public static final int TYPE_MIDDLE = 0;
+    public static final int TYPE_LINE = 1;
+    public static final int TYPE_END = 2;
+    public static final int TYPE_DEFAULT = TYPE_MIDDLE;
+
+    @Retention(RetentionPolicy.SOURCE) @IntDef({ TYPE_START, TYPE_MIDDLE, TYPE_LINE, TYPE_END })
+    public @interface TimelineType {
+    }
+
+    public static final int ALIGNMENT_START = -1;
+    public static final int ALIGNMENT_MIDDLE = 0;
+    public static final int ALIGNMENT_END = 1;
+    public static final int ALIGNMENT_DEFAULT = ALIGNMENT_MIDDLE;
+
+    @Retention(RetentionPolicy.SOURCE) @IntDef({ ALIGNMENT_START, ALIGNMENT_MIDDLE, ALIGNMENT_END })
+    public @interface TimelineAlignment {
+    }
+
+    public static final int STYLE_DASHED = -1;
+    public static final int STYLE_LINEAR = 0;
+    public static final int STYLE_DEFAULT = STYLE_LINEAR;
+
+    @Retention(RetentionPolicy.SOURCE) @IntDef({ STYLE_DASHED, STYLE_LINEAR })
+    public @interface TimelineStyle {
+    }
+
+    // TODO: remove hungarian notation
     private int mLineColor = Color.GRAY;
     private float mLineWidth = 3f;
-    private LineStyle lineStyle = LineStyle.LINEAR;
+    private int lineStyle = STYLE_DEFAULT;
 
     private int mColorMiddle = -1;
     private float mMiddleSize = 2f;
@@ -53,8 +63,8 @@ public abstract class TimelineView extends ImageView {
     private int mInternalColor = -1;
     private float mInternalPadding = 2f;
 
-    private TimelineType timelineType = TimelineType.MIDDLE;
-    private TimelineAlignment timelineAlignment = TimelineAlignment.MIDDLE;
+    private int timelineType = TYPE_DEFAULT;
+    private int timelineAlignment = ALIGNMENT_DEFAULT;
 
     private Paint linePaint, middlePaint, firstPaint, lastPaint, internalPaint;
     private Rect viewRect;
@@ -62,13 +72,11 @@ public abstract class TimelineView extends ImageView {
     private boolean drawInternal = false;
 
     public TimelineView(Context context) {
-        super(context);
-        init(context, null, 0);
+        this(context, null);
     }
 
     public TimelineView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs, 0);
+        this(context, attrs, 0);
     }
 
     public TimelineView(Context context, AttributeSet attrs, int defStyle) {
@@ -76,32 +84,43 @@ public abstract class TimelineView extends ImageView {
         init(context, attrs, defStyle);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public TimelineView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs, defStyleAttr);
+    }
+
     private void init(Context context, AttributeSet attrs, int defStyle) {
         isInEditMode();
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         mLineColor = AttributesUtils.colorPrimary(context, Color.parseColor("#ff0000"));
-        mColorMiddle = mFirstColor = mLastColor = AttributesUtils.colorAccent(context, Color.parseColor("#00ff00"));
-        mLineWidth = getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_lineWidth);
-        mMiddleSize = mStartSize = mEndSize = getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_itemSize);
+        mColorMiddle = mFirstColor =
+            mLastColor = AttributesUtils.colorAccent(context, Color.parseColor("#00ff00"));
+        mLineWidth =
+            getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_lineWidth);
+        mMiddleSize = mStartSize = mEndSize =
+            getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_itemSize);
 
         mInternalColor = AttributesUtils.windowBackground(context, Color.WHITE);
-        mInternalPadding = getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_internalPadding);
+        mInternalPadding =
+            getContext().getResources().getDimensionPixelOffset(R.dimen.timeline_internalPadding);
 
         if (attrs != null) {
-            final TypedArray a = context.getTheme().obtainStyledAttributes(
-                    attrs, R.styleable.TimelineView, defStyle, 0);
+            final TypedArray a = context.getTheme()
+                .obtainStyledAttributes(attrs, R.styleable.TimelineView, defStyle, 0);
 
             if (a != null) {
                 mLineColor = a.getColor(R.styleable.TimelineView_timeline_lineColor, mLineColor);
 
                 int lineStyle = a.getInt(R.styleable.TimelineView_timeline_lineStyle, 0);
+                this.lineStyle = getTimelineStyle(lineStyle);
 
-                this.lineStyle = LineStyle.fromId(lineStyle);
+                mLineWidth =
+                    a.getDimension(R.styleable.TimelineView_timeline_lineWidth, mLineWidth);
 
-                mLineWidth = a.getDimension(R.styleable.TimelineView_timeline_lineWidth, mLineWidth);
-
-                mColorMiddle = a.getColor(R.styleable.TimelineView_timeline_middleColor, mColorMiddle);
+                mColorMiddle =
+                    a.getColor(R.styleable.TimelineView_timeline_middleColor, mColorMiddle);
 
                 mMiddleSize = a.getFloat(R.styleable.TimelineView_timeline_middleSize, mMiddleSize);
 
@@ -113,18 +132,19 @@ public abstract class TimelineView extends ImageView {
 
                 mEndSize = a.getFloat(R.styleable.TimelineView_timeline_lastSize, mEndSize);
 
-                mInternalColor = a.getColor(R.styleable.TimelineView_timeline_internalColor, mInternalColor);
-                mInternalPadding = a.getFloat(R.styleable.TimelineView_timeline_internalPadding, mInternalPadding);
+                mInternalColor =
+                    a.getColor(R.styleable.TimelineView_timeline_internalColor, mInternalColor);
+                mInternalPadding =
+                    a.getFloat(R.styleable.TimelineView_timeline_internalPadding, mInternalPadding);
 
                 int type = a.getInt(R.styleable.TimelineView_timeline_type, 0);
-
-                this.timelineType = TimelineType.fromId(type);
+                this.timelineType = getTimelineType(type);
 
                 int alignment = a.getInt(R.styleable.TimelineView_timeline_alignment, 0);
+                this.timelineAlignment = getTimelineAlignment(alignment);
 
-                this.timelineAlignment = TimelineAlignment.fromId(alignment);
-
-                drawInternal = a.getBoolean(R.styleable.TimelineView_timeline_drawInternal, drawInternal);
+                drawInternal =
+                    a.getBoolean(R.styleable.TimelineView_timeline_drawInternal, drawInternal);
 
                 a.recycle();
             }
@@ -151,7 +171,7 @@ public abstract class TimelineView extends ImageView {
         linePaint.setStrokeWidth(mLineWidth);
         linePaint.setStyle(Paint.Style.STROKE);
 
-        if (lineStyle != null && lineStyle == LineStyle.DASHED) {
+        if (lineStyle == STYLE_DASHED) {
             linePaint.setPathEffect(createDashEffect());
         }
 
@@ -179,51 +199,67 @@ public abstract class TimelineView extends ImageView {
     }
 
     private PathEffect createDashEffect() {
-        return new DashPathEffect(new float[]{25, 20}, 1);
+        // TODO: custom pattern
+        return new DashPathEffect(new float[] { 25, 20 }, 1);
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-
+    @Override protected void onDraw(Canvas canvas) {
         canvas.getClipBounds(viewRect);
 
-        if (timelineType == TimelineType.START) {
-            canvas.drawLine(viewRect.centerX(), viewRect.centerY(), viewRect.centerX(), viewRect.bottom, linePaint);
+        if (timelineType == TYPE_START) {
+            canvas.drawLine(viewRect.centerX(), viewRect.centerY(), viewRect.centerX(),
+                viewRect.bottom, linePaint);
             drawStart(canvas, firstPaint, viewRect.centerX(), viewRect.centerY(), mStartSize);
             if (drawInternal) {
-                drawInternalStart(canvas, internalPaint, viewRect.centerX(), viewRect.centerY(), mStartSize - mInternalPadding);
+                drawInternalStart(canvas, internalPaint, viewRect.centerX(), viewRect.centerY(),
+                    mStartSize - mInternalPadding);
             }
-        } else if (timelineType == TimelineType.MIDDLE) {
-            canvas.drawLine(viewRect.centerX(), viewRect.top, viewRect.centerX(), viewRect.bottom, linePaint);
+        } else if (timelineType == TYPE_MIDDLE) {
+            canvas.drawLine(viewRect.centerX(), viewRect.top, viewRect.centerX(), viewRect.bottom,
+                linePaint);
             int centerY = viewRect.centerY();
-            if (timelineAlignment != null) {
-                switch (timelineAlignment) {
-                    case START:
-                        centerY = (int) (viewRect.top + mMiddleSize);
-                        break;
-                    case END:
-                        centerY = (int) (viewRect.bottom - mMiddleSize);
-                        break;
-                }
+            switch (timelineAlignment) {
+                case ALIGNMENT_START:
+                    centerY = (int) (viewRect.top + mMiddleSize);
+                    break;
+                case ALIGNMENT_END:
+                    centerY = (int) (viewRect.bottom - mMiddleSize);
+                    break;
             }
             drawMiddle(canvas, middlePaint, viewRect.centerX(), centerY, mMiddleSize);
             if (drawInternal) {
-                drawInternalMiddle(canvas, internalPaint, viewRect.centerX(), centerY, mMiddleSize - mInternalPadding);
+                drawInternalMiddle(canvas, internalPaint, viewRect.centerX(), centerY,
+                    mMiddleSize - mInternalPadding);
             }
-        } else if (timelineType == TimelineType.END) {
-            canvas.drawLine(viewRect.centerX(), viewRect.top, viewRect.centerX(), viewRect.centerY(), linePaint);
+        } else if (timelineType == TYPE_END) {
+            canvas.drawLine(viewRect.centerX(), viewRect.top, viewRect.centerX(),
+                viewRect.centerY(), linePaint);
             drawEnd(canvas, lastPaint, viewRect.centerX(), viewRect.centerY(), mEndSize);
             if (drawInternal) {
-                drawInternalEnd(canvas, internalPaint, viewRect.centerX(), viewRect.centerY(), mMiddleSize - mInternalPadding);
+                drawInternalEnd(canvas, internalPaint, viewRect.centerX(), viewRect.centerY(),
+                    mMiddleSize - mInternalPadding);
             }
         } else {
-            canvas.drawLine(viewRect.centerX(), viewRect.top, viewRect.centerX(), viewRect.bottom, linePaint);
+            canvas.drawLine(viewRect.centerX(), viewRect.top, viewRect.centerX(), viewRect.bottom,
+                linePaint);
         }
 
         super.onDraw(canvas);
     }
 
-    public void setLineColor(int mLineColor) {
+    private @TimelineType int getTimelineType(int value) {
+        return value;
+    }
+
+    private @TimelineAlignment int getTimelineAlignment(int value) {
+        return value;
+    }
+
+    private @TimelineStyle int getTimelineStyle(int value) {
+        return value;
+    }
+
+    public void setLineColor(@ColorInt int mLineColor) {
         this.mLineColor = mLineColor;
         linePaint.setColor(mLineColor);
         invalidate();
@@ -249,7 +285,7 @@ public abstract class TimelineView extends ImageView {
         invalidate();
     }
 
-    public void setItemColor(int color) {
+    public void setItemColor(@ColorInt int color) {
         mColorMiddle = mFirstColor = mLastColor = color;
         firstPaint.setColor(mFirstColor);
         middlePaint.setColor(mColorMiddle);
@@ -257,7 +293,7 @@ public abstract class TimelineView extends ImageView {
         invalidate();
     }
 
-    public void setInternalColor(int color) {
+    public void setInternalColor(@ColorInt int color) {
         mInternalColor = color;
         internalPaint.setColor(mInternalColor);
         invalidate();
@@ -268,43 +304,41 @@ public abstract class TimelineView extends ImageView {
         invalidate();
     }
 
-    public void setLineStyle(LineStyle lineStyle) {
-        if (lineStyle != null) {
-            if (lineStyle == LineStyle.DASHED) {
-                linePaint.setPathEffect(createDashEffect());
-            } else {
-                linePaint.setPathEffect(null);
-            }
+    public void setTimelineStyle(@TimelineStyle int timelineStyle) {
+        if (timelineStyle == STYLE_DASHED) {
+            linePaint.setPathEffect(createDashEffect());
         } else {
             linePaint.setPathEffect(null);
         }
     }
 
-    public void setTimelineType(TimelineType timelineType) {
-        if (timelineType == null) {
-            timelineType = TimelineType.MIDDLE;
-        }
+    public void setTimelineType(@TimelineType int timelineType) {
         this.timelineType = timelineType;
         invalidate();
     }
 
-    public void setTimelineAlignment(TimelineAlignment timelineAlignment) {
-        if (timelineAlignment == null) {
-            this.timelineAlignment = TimelineAlignment.MIDDLE;
-        }
+    public void setTimelineAlignment(@TimelineAlignment int timelineAlignment) {
         this.timelineAlignment = timelineAlignment;
         invalidate();
     }
 
-    protected abstract void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY, float mStartSize);
+    // TODO: GETTERS
 
-    protected abstract void drawMiddle(Canvas canvas, Paint middlePaint, float centerX, float centerY, float mMiddleSize);
+    protected abstract void drawStart(Canvas canvas, Paint firstPaint, float centerX, float centerY,
+        float mStartSize);
 
-    protected abstract void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY, float mEndSize);
+    protected abstract void drawMiddle(Canvas canvas, Paint middlePaint, float centerX,
+        float centerY, float mMiddleSize);
 
-    protected abstract void drawInternalStart(Canvas canvas, Paint internalPaint, float centerX, float centerY, float radius);
+    protected abstract void drawEnd(Canvas canvas, Paint lastPaint, float centerX, float centerY,
+        float mEndSize);
 
-    protected abstract void drawInternalMiddle(Canvas canvas, Paint internalPaint, float centerX, float centerY, float radius);
+    protected abstract void drawInternalStart(Canvas canvas, Paint internalPaint, float centerX,
+        float centerY, float radius);
 
-    protected abstract void drawInternalEnd(Canvas canvas, Paint internalPaint, float centerX, float centerY, float radius);
+    protected abstract void drawInternalMiddle(Canvas canvas, Paint internalPaint, float centerX,
+        float centerY, float radius);
+
+    protected abstract void drawInternalEnd(Canvas canvas, Paint internalPaint, float centerX,
+        float centerY, float radius);
 }
