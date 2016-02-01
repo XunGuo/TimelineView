@@ -170,40 +170,45 @@ public abstract class TimelineView extends ImageView {
     @Override protected void onDraw(Canvas canvas) {
         canvas.getClipBounds(rect);
 
-        if (timelineType == TYPE_START) {
-            canvas.drawLine(rect.centerX(), rect.centerY(), rect.centerX(), rect.bottom, paintLine);
-            drawStart(canvas, paintStart, rect.centerX(), rect.centerY(), lineStartSize);
-            if (drawInternal) {
-                drawInternalStart(canvas, paintInternal, rect.centerX(), rect.centerY(),
-                    lineStartSize - internalPadding);
-            }
-        } else if (timelineType == TYPE_MIDDLE) {
-            canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.bottom, paintLine);
-            int centerY = rect.centerY();
-            switch (timelineAlignment) {
-                case ALIGNMENT_START:
-                    centerY = (int) (rect.top + lineMiddleSize);
-                    break;
-                case ALIGNMENT_END:
-                    centerY = (int) (rect.bottom - lineMiddleSize);
-                    break;
-            }
-            drawMiddle(canvas, paintMiddle, rect.centerX(), centerY, lineMiddleSize);
-            if (drawInternal) {
-                drawInternalMiddle(canvas, paintInternal, rect.centerX(), centerY,
-                    lineMiddleSize - internalPadding);
-            }
-        } else if (timelineType == TYPE_END) {
-            canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.centerY(), paintLine);
-            drawEnd(canvas, paintEnd, rect.centerX(), rect.centerY(), lineEndSize);
-            if (drawInternal) {
-                drawInternalEnd(canvas, paintInternal, rect.centerX(), rect.centerY(),
-                    lineMiddleSize - internalPadding);
-            }
-        } else {
-            canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.bottom, paintLine);
-        }
+        switch (timelineType) {
+            case TYPE_START:
+                canvas.drawLine(rect.centerX(), rect.centerY(), rect.centerX(), rect.bottom,
+                    paintLine);
+                drawStart(canvas, paintStart, rect.centerX(), rect.centerY(), lineStartSize);
+                if (drawInternal) {
+                    drawInternalStart(canvas, paintInternal, rect.centerX(), rect.centerY(),
+                        lineStartSize - internalPadding);
+                }
+                break;
 
+            case TYPE_MIDDLE:
+                canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.bottom, paintLine);
+                int centerY = rect.centerY();
+                if (timelineAlignment == ALIGNMENT_START) {
+                    centerY = (int) (rect.top + lineMiddleSize);
+                } else if (timelineAlignment == ALIGNMENT_END) {
+                    centerY = (int) (rect.bottom - lineMiddleSize);
+                }
+                drawMiddle(canvas, paintMiddle, rect.centerX(), centerY, lineMiddleSize);
+                if (drawInternal) {
+                    drawInternalMiddle(canvas, paintInternal, rect.centerX(), centerY,
+                        lineMiddleSize - internalPadding);
+                }
+                break;
+
+            case TYPE_END:
+                canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.centerY(),
+                    paintLine);
+                drawEnd(canvas, paintEnd, rect.centerX(), rect.centerY(), lineEndSize);
+                if (drawInternal) {
+                    drawInternalEnd(canvas, paintInternal, rect.centerX(), rect.centerY(),
+                        lineMiddleSize - internalPadding);
+                }
+                break;
+
+            default:
+                canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.bottom, paintLine);
+        }
         super.onDraw(canvas);
     }
 
@@ -377,16 +382,6 @@ public abstract class TimelineView extends ImageView {
         invalidate();
     }
 
-    public void setTimelineType(@TimelineType int timelineType) {
-        this.timelineType = timelineType;
-        invalidate();
-    }
-
-    public void setTimelineAlignment(@TimelineAlignment int timelineAlignment) {
-        this.timelineAlignment = timelineAlignment;
-        invalidate();
-    }
-
     public @TimelineStyle int getLineStyle() {
         return lineStyle;
     }
@@ -395,8 +390,18 @@ public abstract class TimelineView extends ImageView {
         return timelineType;
     }
 
+    public void setTimelineType(@TimelineType int timelineType) {
+        this.timelineType = timelineType;
+        invalidate();
+    }
+
     public @TimelineAlignment int getTimelineAlignment() {
         return timelineAlignment;
+    }
+
+    public void setTimelineAlignment(@TimelineAlignment int timelineAlignment) {
+        this.timelineAlignment = timelineAlignment;
+        invalidate();
     }
 
     protected abstract void drawStart(Canvas canvas, Paint paintStart, float centerX, float centerY,
