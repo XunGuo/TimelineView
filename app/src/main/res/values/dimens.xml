@@ -2,4 +2,6 @@
 <resources>
     <dimen name="large_timeline_1">10dp</dimen>
     <dimen name="large_timeline_2">16dp</dimen>
+    <dimen name="default_margin">24dp</dimen>
+    <dimen name="default_itemPadding">16dp</dimen>
 </resources>

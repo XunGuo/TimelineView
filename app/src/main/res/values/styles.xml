@@ -1,12 +1,10 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat">
-        <item name="colorPrimary">#ffd8153c</item>
-        <item name="colorPrimaryDark">#ffb31433</item>
-        <item name="colorAccent">#ff29d144</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--TimelineView style-->
         <item name="timeline_drawInternal">true</item>
         <item name="timeline_lineStyle">dashed</item>
     </style>
-
 </resources>
