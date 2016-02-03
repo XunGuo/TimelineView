@@ -27,7 +27,7 @@
 
         <attr format="boolean" name="timeline_drawInternal"/>
         <attr format="color" name="timeline_internalColor"/>
-        <attr format="reference" name="timeline_internalBitmap"/>
+        <attr format="reference" name="timeline_internalDrawable"/>
         <attr format="dimension" name="timeline_internalPadding"/>
 
     </declare-styleable>

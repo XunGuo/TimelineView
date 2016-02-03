@@ -18,11 +18,10 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Size;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public abstract class TimelineView extends ImageView {
+public abstract class TimelineView extends View {
     public static final int TYPE_START = -1;
     public static final int TYPE_MIDDLE = 0;
     public static final int TYPE_LINE = 1;
@@ -56,8 +55,8 @@ public abstract class TimelineView extends ImageView {
 
     private float internalPadding;
     private boolean drawInternal;
-    private Drawable internalDrawable;
-    private Bitmap internalBitmapCache;
+    Drawable internalDrawable;
+    Bitmap internalBitmapCache;
 
     private int timelineType;
     private int timelineAlignment;
@@ -115,8 +114,10 @@ public abstract class TimelineView extends ImageView {
             AttributesUtils.windowBackground(context, Color.WHITE));
         internalPadding = typedArray.getDimension(R.styleable.TimelineView_timeline_internalPadding,
             res.getDimensionPixelOffset(R.dimen.default_internalPadding));
-        internalDrawable =
-            typedArray.getDrawable(R.styleable.TimelineView_timeline_internalPadding);
+        if (!isInEditMode()) {
+            internalDrawable =
+                typedArray.getDrawable(R.styleable.TimelineView_timeline_internalDrawable);
+        }
 
         timelineType = getTimelineType(
             typedArray.getInt(R.styleable.TimelineView_timeline_type, TYPE_DEFAULT));
@@ -162,6 +163,11 @@ public abstract class TimelineView extends ImageView {
                     drawInternal(canvas, paintInternal, rect.centerX(), rect.centerY(),
                         indicatorSize - internalPadding);
                 }
+                if (internalDrawable != null) {
+                    drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
+                        (rect.centerY() - indicatorSize) + internalPadding,
+                        (int) ((indicatorSize - internalPadding) * 2));
+                }
                 break;
 
             case TYPE_MIDDLE:
@@ -177,6 +183,11 @@ public abstract class TimelineView extends ImageView {
                     drawInternal(canvas, paintInternal, rect.centerX(), centerY,
                         indicatorSize - internalPadding);
                 }
+                if (internalDrawable != null) {
+                    drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
+                        (centerY - indicatorSize) + internalPadding,
+                        (int) ((indicatorSize - internalPadding) * 2));
+                }
                 break;
 
             case TYPE_END:
@@ -187,6 +198,11 @@ public abstract class TimelineView extends ImageView {
                 if (drawInternal) {
                     drawInternal(canvas, paintInternal, rect.centerX(), rect.centerY(),
                         indicatorSize - internalPadding);
+                }
+                if (internalDrawable != null) {
+                    drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
+                        (rect.centerY() - indicatorSize) + internalPadding,
+                        (int) ((indicatorSize - internalPadding) * 2));
                 }
                 break;
 
@@ -344,4 +360,6 @@ public abstract class TimelineView extends ImageView {
 
     protected abstract void drawInternal(Canvas canvas, Paint paintInternal, float centerX,
         float centerY, float size);
+
+    protected abstract void drawBitmap(Canvas canvas, float left, float top, int size);
 }
