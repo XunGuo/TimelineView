@@ -105,22 +105,22 @@ public abstract class TimelineView extends ImageView {
 
         int lineStartColor = typedArray.getColor(R.styleable.TimelineView_timeline_startColor,
             AttributesUtils.colorAccent(context, res.getColor(R.color.colorAccent)));
-        lineStartSize = typedArray.getFloat(R.styleable.TimelineView_timeline_startSize,
+        lineStartSize = typedArray.getDimension(R.styleable.TimelineView_timeline_startSize,
             res.getDimensionPixelOffset(R.dimen.default_itemSize));
 
         int lineMiddleColor =
             typedArray.getColor(R.styleable.TimelineView_timeline_middleColor, lineStartColor);
-        lineMiddleSize = typedArray.getFloat(R.styleable.TimelineView_timeline_middleSize,
+        lineMiddleSize = typedArray.getDimension(R.styleable.TimelineView_timeline_middleSize,
             res.getDimensionPixelOffset(R.dimen.default_itemSize));
 
         int lineEndColor =
             typedArray.getColor(R.styleable.TimelineView_timeline_endColor, lineStartColor);
-        lineEndSize = typedArray.getFloat(R.styleable.TimelineView_timeline_endSize,
+        lineEndSize = typedArray.getDimension(R.styleable.TimelineView_timeline_endSize,
             res.getDimensionPixelOffset(R.dimen.default_itemSize));
 
         int internalColor = typedArray.getColor(R.styleable.TimelineView_timeline_internalColor,
             AttributesUtils.windowBackground(context, Color.WHITE));
-        internalPadding = typedArray.getFloat(R.styleable.TimelineView_timeline_internalPadding,
+        internalPadding = typedArray.getDimension(R.styleable.TimelineView_timeline_internalPadding,
             res.getDimensionPixelOffset(R.dimen.default_internalPadding));
 
         timelineType = getTimelineType(
