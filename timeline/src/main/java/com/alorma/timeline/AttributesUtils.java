@@ -29,6 +29,7 @@ class AttributesUtils {
         return getColor(context, R.attr.colorAccent, defaultValue);
     }
 
+    @SuppressWarnings("deprecation")
     private static int getColor(Context context, int id, int defaultValue) {
         if (value == null) {
             value = new TypedValue();

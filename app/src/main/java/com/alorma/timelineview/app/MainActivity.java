@@ -25,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
 
         RoundTimelineView timeline3_align_top =
             (RoundTimelineView) findViewById(R.id.timeline3_align_top);
-        timeline3_align_top.setLineMiddleSize(
+        timeline3_align_top.setIndicatorSize(
             getResources().getDimensionPixelOffset(R.dimen.large_timeline_1));
         timeline3_align_top.setTimelineStyle(TimelineView.STYLE_LINEAR);
 
         RoundTimelineView timeline3_align_bottom =
             (RoundTimelineView) findViewById(R.id.timeline3_align_bottom);
-        timeline3_align_bottom.setLineMiddleSize(
+        timeline3_align_bottom.setIndicatorSize(
             getResources().getDimensionPixelOffset(R.dimen.large_timeline_2));
         timeline3_align_bottom.setTimelineStyle(TimelineView.STYLE_LINEAR);
     }

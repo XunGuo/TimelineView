@@ -4,14 +4,8 @@
         <attr format="dimension" name="timeline_lineWidth"/>
         <attr format="color" name="timeline_lineColor"/>
 
-        <attr format="dimension" name="timeline_middleSize"/>
-        <attr format="color" name="timeline_middleColor"/>
-
-        <attr format="dimension" name="timeline_startSize"/>
-        <attr format="color" name="timeline_startColor"/>
-
-        <attr format="dimension" name="timeline_endSize"/>
-        <attr format="color" name="timeline_endColor"/>
+        <attr format="dimension" name="timeline_indicatorSize"/>
+        <attr format="color" name="timeline_indicatorColor"/>
 
         <attr format="enum" name="timeline_type">
             <enum name="start" value="-1"/>
@@ -31,9 +25,10 @@
             <enum name="linear" value="0"/>
         </attr>
 
+        <attr format="boolean" name="timeline_drawInternal"/>
         <attr format="color" name="timeline_internalColor"/>
+        <attr format="reference" name="timeline_internalBitmap"/>
         <attr format="dimension" name="timeline_internalPadding"/>
 
-        <attr format="boolean" name="timeline_drawInternal"/>
     </declare-styleable>
 </resources>

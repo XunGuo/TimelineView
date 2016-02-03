@@ -26,33 +26,14 @@ public class RoundTimelineView extends TimelineView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @Override public void drawStart(Canvas canvas, Paint paintStart, float centerX, float centerY,
-        float startSize) {
-        drawCircle(canvas, centerX, centerY, startSize, paintStart);
-    }
-
-    @Override public void drawMiddle(Canvas canvas, Paint paintMiddle, float centerX, float centerY,
-        float middleSize) {
-        drawCircle(canvas, centerX, centerY, middleSize, paintMiddle);
-    }
-
-    @Override public void drawEnd(Canvas canvas, Paint paintEnd, float centerX, float centerY,
-        float endSize) {
-        drawCircle(canvas, centerX, centerY, endSize, paintEnd);
-    }
-
-    @Override protected void drawInternalStart(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float size) {
-        drawCircle(canvas, centerX, centerY, size, paintInternal);
-    }
-
-    @Override protected void drawInternalMiddle(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float size) {
-        drawCircle(canvas, centerX, centerY, size, paintInternal);
+    @Override
+    public void drawIndicator(Canvas canvas, Paint paintStart, float centerX, float centerY,
+        float size) {
+        drawCircle(canvas, centerX, centerY, size, paintStart);
     }
 
     @Override
-    protected void drawInternalEnd(Canvas canvas, Paint paintInternal, float centerX, float centerY,
+    protected void drawInternal(Canvas canvas, Paint paintInternal, float centerX, float centerY,
         float size) {
         drawCircle(canvas, centerX, centerY, size, paintInternal);
     }

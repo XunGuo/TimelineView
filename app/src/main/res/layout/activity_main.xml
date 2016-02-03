@@ -23,9 +23,10 @@
                 android:id="@+id/timeline1"
                 android:layout_width="?android:listPreferredItemHeight"
                 android:layout_height="?android:listPreferredItemHeight"
+                app:timeline_internalBitmap="@drawable/ic_launcher"
                 app:timeline_lineStyle="linear"
+                app:timeline_indicatorSize="20dp"
                 app:timeline_type="middle"
-                app:timeline_middleSize="20dp"
                 />
 
             <com.alorma.timeline.RoundTimelineView

@@ -4,12 +4,14 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
@@ -50,20 +52,18 @@ public abstract class TimelineView extends ImageView {
 
     private int lineStyle;
 
-    private float lineStartSize;
-    private float lineMiddleSize;
-    private float lineEndSize;
+    private float indicatorSize;
 
     private float internalPadding;
     private boolean drawInternal;
+    private Drawable internalDrawable;
+    private Bitmap internalBitmapCache;
 
     private int timelineType;
     private int timelineAlignment;
 
     private Paint paintLine;
-    private Paint paintMiddle;
-    private Paint paintStart;
-    private Paint paintEnd;
+    private Paint paintIndicator;
     private Paint paintInternal;
 
     private Rect rect;
@@ -89,6 +89,7 @@ public abstract class TimelineView extends ImageView {
         init(context, attrs, defStyleAttr);
     }
 
+    @SuppressWarnings("deprecation")
     private void init(Context context, AttributeSet attrs, int defStyle) {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         Resources res = getResources();
@@ -103,34 +104,25 @@ public abstract class TimelineView extends ImageView {
         lineStyle = getTimelineStyle(
             typedArray.getInt(R.styleable.TimelineView_timeline_lineStyle, STYLE_DEFAULT));
 
-        int lineStartColor = typedArray.getColor(R.styleable.TimelineView_timeline_startColor,
+        int indicatorColor = typedArray.getColor(R.styleable.TimelineView_timeline_indicatorColor,
             AttributesUtils.colorAccent(context, res.getColor(R.color.colorAccent)));
-        lineStartSize = typedArray.getDimension(R.styleable.TimelineView_timeline_startSize,
+        indicatorSize = typedArray.getDimension(R.styleable.TimelineView_timeline_indicatorSize,
             res.getDimensionPixelOffset(R.dimen.default_itemSize));
 
-        int lineMiddleColor =
-            typedArray.getColor(R.styleable.TimelineView_timeline_middleColor, lineStartColor);
-        lineMiddleSize = typedArray.getDimension(R.styleable.TimelineView_timeline_middleSize,
-            res.getDimensionPixelOffset(R.dimen.default_itemSize));
-
-        int lineEndColor =
-            typedArray.getColor(R.styleable.TimelineView_timeline_endColor, lineStartColor);
-        lineEndSize = typedArray.getDimension(R.styleable.TimelineView_timeline_endSize,
-            res.getDimensionPixelOffset(R.dimen.default_itemSize));
-
+        drawInternal = typedArray.getBoolean(R.styleable.TimelineView_timeline_drawInternal,
+            res.getBoolean(R.bool.default_drawInternal));
         int internalColor = typedArray.getColor(R.styleable.TimelineView_timeline_internalColor,
             AttributesUtils.windowBackground(context, Color.WHITE));
         internalPadding = typedArray.getDimension(R.styleable.TimelineView_timeline_internalPadding,
             res.getDimensionPixelOffset(R.dimen.default_internalPadding));
+        internalDrawable =
+            typedArray.getDrawable(R.styleable.TimelineView_timeline_internalPadding);
 
         timelineType = getTimelineType(
             typedArray.getInt(R.styleable.TimelineView_timeline_type, TYPE_DEFAULT));
 
         timelineAlignment = getTimelineAlignment(
             typedArray.getInt(R.styleable.TimelineView_timeline_alignment, ALIGNMENT_DEFAULT));
-
-        drawInternal = typedArray.getBoolean(R.styleable.TimelineView_timeline_drawInternal,
-            res.getBoolean(R.bool.default_drawInternal));
 
         typedArray.recycle();
 
@@ -144,20 +136,10 @@ public abstract class TimelineView extends ImageView {
             paintLine.setPathEffect(createDashEffect());
         }
 
-        paintStart = new Paint();
-        paintStart.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paintStart.setColor(lineStartColor);
-        paintStart.setStyle(Paint.Style.FILL);
-
-        paintMiddle = new Paint();
-        paintMiddle.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paintMiddle.setColor(lineMiddleColor);
-        paintMiddle.setStyle(Paint.Style.FILL);
-
-        paintEnd = new Paint();
-        paintEnd.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paintEnd.setColor(lineEndColor);
-        paintEnd.setStyle(Paint.Style.FILL);
+        paintIndicator = new Paint();
+        paintIndicator.setFlags(Paint.ANTI_ALIAS_FLAG);
+        paintIndicator.setColor(indicatorColor);
+        paintIndicator.setStyle(Paint.Style.FILL);
 
         paintInternal = new Paint();
         paintInternal.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -174,10 +156,11 @@ public abstract class TimelineView extends ImageView {
             case TYPE_START:
                 canvas.drawLine(rect.centerX(), rect.centerY(), rect.centerX(), rect.bottom,
                     paintLine);
-                drawStart(canvas, paintStart, rect.centerX(), rect.centerY(), lineStartSize);
+                drawIndicator(canvas, paintIndicator, rect.centerX(), rect.centerY(),
+                    indicatorSize);
                 if (drawInternal) {
-                    drawInternalStart(canvas, paintInternal, rect.centerX(), rect.centerY(),
-                        lineStartSize - internalPadding);
+                    drawInternal(canvas, paintInternal, rect.centerX(), rect.centerY(),
+                        indicatorSize - internalPadding);
                 }
                 break;
 
@@ -185,24 +168,25 @@ public abstract class TimelineView extends ImageView {
                 canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.bottom, paintLine);
                 int centerY = rect.centerY();
                 if (timelineAlignment == ALIGNMENT_START) {
-                    centerY = (int) (rect.top + lineMiddleSize);
+                    centerY = (int) (rect.top + indicatorSize);
                 } else if (timelineAlignment == ALIGNMENT_END) {
-                    centerY = (int) (rect.bottom - lineMiddleSize);
+                    centerY = (int) (rect.bottom - indicatorSize);
                 }
-                drawMiddle(canvas, paintMiddle, rect.centerX(), centerY, lineMiddleSize);
+                drawIndicator(canvas, paintIndicator, rect.centerX(), centerY, indicatorSize);
                 if (drawInternal) {
-                    drawInternalMiddle(canvas, paintInternal, rect.centerX(), centerY,
-                        lineMiddleSize - internalPadding);
+                    drawInternal(canvas, paintInternal, rect.centerX(), centerY,
+                        indicatorSize - internalPadding);
                 }
                 break;
 
             case TYPE_END:
                 canvas.drawLine(rect.centerX(), rect.top, rect.centerX(), rect.centerY(),
                     paintLine);
-                drawEnd(canvas, paintEnd, rect.centerX(), rect.centerY(), lineEndSize);
+                drawIndicator(canvas, paintIndicator, rect.centerX(), rect.centerY(),
+                    indicatorSize);
                 if (drawInternal) {
-                    drawInternalEnd(canvas, paintInternal, rect.centerX(), rect.centerY(),
-                        lineMiddleSize - internalPadding);
+                    drawInternal(canvas, paintInternal, rect.centerX(), rect.centerY(),
+                        indicatorSize - internalPadding);
                 }
                 break;
 
@@ -242,57 +226,21 @@ public abstract class TimelineView extends ImageView {
         invalidate();
     }
 
-    public int getLineStartColor() {
-        return paintStart.getColor();
+    public int getIndicatorColor() {
+        return paintIndicator.getColor();
     }
 
-    public void setLineStartColor(@ColorInt int lineStartColor) {
-        paintStart.setColor(lineStartColor);
+    public void setIndicatorColor(@ColorInt int indicatorColor) {
+        paintIndicator.setColor(indicatorColor);
         invalidate();
     }
 
-    public float getLineStartSize() {
-        return lineStartSize;
+    public float getIndicatorSize() {
+        return indicatorSize;
     }
 
-    public void setLineStartSize(float lineStartSize) {
-        this.lineStartSize = lineStartSize;
-        invalidate();
-    }
-
-    public int getLineMiddleColor() {
-        return paintMiddle.getColor();
-    }
-
-    public void setLineMiddleColor(@ColorInt int lineMiddleColor) {
-        paintMiddle.setColor(lineMiddleColor);
-        invalidate();
-    }
-
-    public float getLineMiddleSize() {
-        return lineMiddleSize;
-    }
-
-    public void setLineMiddleSize(float lineMiddleSize) {
-        this.lineMiddleSize = lineMiddleSize;
-        invalidate();
-    }
-
-    public int getLineEndColor() {
-        return paintEnd.getColor();
-    }
-
-    public void setLineEndColor(@ColorInt int lineEndColor) {
-        paintEnd.setColor(lineEndColor);
-        invalidate();
-    }
-
-    public float getLineEndSize() {
-        return lineEndSize;
-    }
-
-    public void setLineEndSize(float lineEndSize) {
-        this.lineEndSize = lineEndSize;
+    public void setIndicatorSize(float indicatorSize) {
+        this.indicatorSize = indicatorSize;
         invalidate();
     }
 
@@ -339,34 +287,12 @@ public abstract class TimelineView extends ImageView {
         return new DashPathEffect(dashEffect, 1);
     }
 
-    public void setTimelineColor(@ColorInt int color) {
-        paintStart.setColor(color);
-        paintMiddle.setColor(color);
-        paintEnd.setColor(color);
-        invalidate();
-    }
-
-    public void setTimelineSize(int size) {
-        lineMiddleSize = size;
-        lineStartSize = size;
-        lineEndSize = size;
-        invalidate();
-    }
-
     public Paint getPaintLine() {
         return paintLine;
     }
 
-    public Paint getPaintMiddle() {
-        return paintMiddle;
-    }
-
-    public Paint getPaintStart() {
-        return paintStart;
-    }
-
-    public Paint getPaintEnd() {
-        return paintEnd;
+    public Paint getPaintIndicator() {
+        return paintIndicator;
     }
 
     public Paint getPaintInternal() {
@@ -404,21 +330,18 @@ public abstract class TimelineView extends ImageView {
         invalidate();
     }
 
-    protected abstract void drawStart(Canvas canvas, Paint paintStart, float centerX, float centerY,
-        float startSize);
+    public void setInternalDrawable(Drawable internalDrawable) {
+        this.internalDrawable = internalDrawable;
+        if (internalBitmapCache != null) {
+            internalBitmapCache.recycle();
+            internalBitmapCache = null;
+        }
+        invalidate();
+    }
 
-    protected abstract void drawMiddle(Canvas canvas, Paint paintMiddle, float centerX,
-        float centerY, float middleSize);
-
-    protected abstract void drawEnd(Canvas canvas, Paint paintEnd, float centerX, float centerY,
-        float endSize);
-
-    protected abstract void drawInternalStart(Canvas canvas, Paint paintInternal, float centerX,
+    protected abstract void drawIndicator(Canvas canvas, Paint paintStart, float centerX,
         float centerY, float size);
 
-    protected abstract void drawInternalMiddle(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float size);
-
-    protected abstract void drawInternalEnd(Canvas canvas, Paint paintInternal, float centerX,
+    protected abstract void drawInternal(Canvas canvas, Paint paintInternal, float centerX,
         float centerY, float size);
 }
