@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -44,7 +43,7 @@ public class RoundTimelineView extends TimelineView {
 
     @Override protected void drawBitmap(Canvas canvas, float left, float top, int size) {
         if (internalBitmapCache == null) {
-            internalBitmapCache = transform(((BitmapDrawable) internalDrawable).getBitmap(), size);
+            internalBitmapCache = transform(internalBitmap, size);
         }
         canvas.drawBitmap(internalBitmapCache, left, top, null);
     }

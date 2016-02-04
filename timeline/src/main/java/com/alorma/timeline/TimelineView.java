@@ -11,6 +11,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -18,10 +19,11 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Size;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-public abstract class TimelineView extends View {
+public abstract class TimelineView extends ImageView {
     public static final int TYPE_START = -1;
     public static final int TYPE_MIDDLE = 0;
     public static final int TYPE_LINE = 1;
@@ -55,7 +57,7 @@ public abstract class TimelineView extends View {
 
     private float internalPadding;
     private boolean drawInternal;
-    Drawable internalDrawable;
+    Bitmap internalBitmap;
     Bitmap internalBitmapCache;
 
     private int timelineType;
@@ -115,8 +117,8 @@ public abstract class TimelineView extends View {
         internalPadding = typedArray.getDimension(R.styleable.TimelineView_timeline_internalPadding,
             res.getDimensionPixelOffset(R.dimen.default_internalPadding));
         if (!isInEditMode()) {
-            internalDrawable =
-                typedArray.getDrawable(R.styleable.TimelineView_timeline_internalDrawable);
+            setImageDrawable(
+                typedArray.getDrawable(R.styleable.TimelineView_timeline_internalDrawable));
         }
 
         timelineType = getTimelineType(
@@ -163,7 +165,7 @@ public abstract class TimelineView extends View {
                     drawInternal(canvas, paintInternal, rect.centerX(), rect.centerY(),
                         indicatorSize - internalPadding);
                 }
-                if (internalDrawable != null) {
+                if (internalBitmap != null) {
                     drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
                         (rect.centerY() - indicatorSize) + internalPadding,
                         (int) ((indicatorSize - internalPadding) * 2));
@@ -183,7 +185,7 @@ public abstract class TimelineView extends View {
                     drawInternal(canvas, paintInternal, rect.centerX(), centerY,
                         indicatorSize - internalPadding);
                 }
-                if (internalDrawable != null) {
+                if (internalBitmap != null) {
                     drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
                         (centerY - indicatorSize) + internalPadding,
                         (int) ((indicatorSize - internalPadding) * 2));
@@ -199,7 +201,7 @@ public abstract class TimelineView extends View {
                     drawInternal(canvas, paintInternal, rect.centerX(), rect.centerY(),
                         indicatorSize - internalPadding);
                 }
-                if (internalDrawable != null) {
+                if (internalBitmap != null) {
                     drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
                         (rect.centerY() - indicatorSize) + internalPadding,
                         (int) ((indicatorSize - internalPadding) * 2));
@@ -346,13 +348,38 @@ public abstract class TimelineView extends View {
         invalidate();
     }
 
-    public void setInternalDrawable(Drawable internalDrawable) {
-        this.internalDrawable = internalDrawable;
+    @Override public void setImageDrawable(Drawable internalDrawable) {
+        this.internalBitmap = drawableToBitmap(internalDrawable);
         if (internalBitmapCache != null) {
             internalBitmapCache.recycle();
             internalBitmapCache = null;
         }
         invalidate();
+    }
+
+    @Override public void setImageBitmap(Bitmap internalBitmap) {
+        this.internalBitmap = internalBitmap;
+        if (internalBitmapCache != null) {
+            internalBitmapCache.recycle();
+            internalBitmapCache = null;
+        }
+        invalidate();
+    }
+
+    private Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+        Bitmap bitmap =
+            Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     protected abstract void drawIndicator(Canvas canvas, Paint paintStart, float centerX,
