@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="TimelineView">
-        <attr name="timeline_lineWidth" format="dimension"/>
-        <attr name="timeline_lineColor" format="color"/>
+        <attr format="dimension" name="timeline_lineWidth"/>
+        <attr format="color" name="timeline_lineColor"/>
 
-        <attr name="timeline_middleSize" format="float"/>
-        <attr name="timeline_middleColor" format="color"/>
+        <attr format="dimension" name="timeline_indicatorSize"/>
+        <attr format="color" name="timeline_indicatorColor"/>
 
-        <attr name="timeline_startSize" format="float"/>
-        <attr name="timeline_startColor" format="color"/>
-
-        <attr name="timeline_endSize" format="float"/>
-        <attr name="timeline_endColor" format="color"/>
-
-        <attr name="timeline_type" format="enum">
+        <attr format="enum" name="timeline_type">
             <enum name="start" value="-1"/>
             <enum name="middle" value="0"/>
             <enum name="line" value="1"/>
             <enum name="end" value="2"/>
         </attr>
 
-        <attr name="timeline_alignment" format="enum">
+        <attr format="enum" name="timeline_alignment">
             <enum name="start" value="-1"/>
             <enum name="middle" value="0"/>
             <enum name="end" value="1"/>
         </attr>
 
-        <attr name="timeline_lineStyle" format="enum">
+        <attr format="enum" name="timeline_lineStyle">
             <enum name="dashed" value="-1"/>
             <enum name="linear" value="0"/>
         </attr>
 
-        <attr name="timeline_internalColor" format="color"/>
-        <attr name="timeline_internalPadding" format="dimension"/>
+        <attr format="boolean" name="timeline_drawInternal"/>
+        <attr format="color" name="timeline_internalColor"/>
+        <attr format="reference" name="timeline_internalDrawable"/>
+        <attr format="dimension" name="timeline_internalPadding"/>
 
-        <attr name="timeline_drawInternal" format="boolean"/>
     </declare-styleable>
 </resources>

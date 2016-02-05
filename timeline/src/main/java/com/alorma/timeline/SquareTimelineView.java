@@ -2,6 +2,7 @@ package com.alorma.timeline;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -35,35 +36,23 @@ public class SquareTimelineView extends TimelineView {
         init();
     }
 
-    @Override public void drawStart(Canvas canvas, Paint paintStart, float centerX, float centerY,
-        float startSize) {
-        drawSquare(canvas, centerX, centerY, startSize, paintStart);
-    }
-
-    @Override public void drawMiddle(Canvas canvas, Paint paintMiddle, float centerX, float centerY,
-        float middleSize) {
-        drawSquare(canvas, centerX, centerY, middleSize, paintMiddle);
-    }
-
-    @Override public void drawEnd(Canvas canvas, Paint paintEnd, float centerX, float centerY,
-        float endSize) {
-        drawSquare(canvas, centerX, centerY, endSize, paintEnd);
-    }
-
-    @Override protected void drawInternalStart(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float size) {
-        drawSquare(canvas, centerX, centerY, size, paintInternal);
-    }
-
-    @Override protected void drawInternalMiddle(Canvas canvas, Paint paintInternal, float centerX,
-        float centerY, float size) {
-        drawSquare(canvas, centerX, centerY, size, paintInternal);
+    @Override
+    public void drawIndicator(Canvas canvas, Paint paintStart, float centerX, float centerY,
+        float size) {
+        drawSquare(canvas, centerX, centerY, size, paintStart);
     }
 
     @Override
-    protected void drawInternalEnd(Canvas canvas, Paint paintInternal, float centerX, float centerY,
+    protected void drawInternal(Canvas canvas, Paint paintInternal, float centerX, float centerY,
         float size) {
         drawSquare(canvas, centerX, centerY, size, paintInternal);
+    }
+
+    @Override protected void drawBitmap(Canvas canvas, float left, float top, int size) {
+        if (internalBitmapCache == null) {
+            internalBitmapCache = transform(internalBitmap, size);
+        }
+        canvas.drawBitmap(internalBitmapCache, left, top, null);
     }
 
     private void drawSquare(Canvas canvas, float centerX, float centerY, float size, Paint paint) {
@@ -74,5 +63,13 @@ public class SquareTimelineView extends TimelineView {
             rectF.bottom = centerY + size;
             canvas.drawRect(rectF.left, rectF.top, rectF.right, rectF.bottom, paint);
         }
+    }
+
+    private Bitmap transform(Bitmap source, int size) {
+        Bitmap output = Bitmap.createScaledBitmap(source, size, size, false);
+        if (source != output) {
+            source.recycle();
+        }
+        return output;
     }
 }
