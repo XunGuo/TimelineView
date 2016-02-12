@@ -31,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
             (RoundTimelineView) findViewById(R.id.timeline3_align_top);
         timeline3_align_top.setIndicatorSize(
             getResources().getDimensionPixelOffset(R.dimen.large_timeline_1));
-        timeline3_align_top.setTimelineStyle(TimelineView.STYLE_LINEAR);
+        timeline3_align_top.setTimelineType(TimelineView.TYPE_HIDDEN);
+
+        Glide.with(this).load(R.drawable.avatar).into(timeline3_align_top);
 
         RoundTimelineView timeline3_align_bottom =
             (RoundTimelineView) findViewById(R.id.timeline3_align_bottom);

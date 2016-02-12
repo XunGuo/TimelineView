@@ -24,13 +24,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public abstract class TimelineView extends ImageView {
-    public static final int TYPE_START = -1;
-    public static final int TYPE_MIDDLE = 0;
-    public static final int TYPE_LINE = 1;
-    public static final int TYPE_END = 2;
+    public static final int TYPE_HIDDEN = -1;
+    public static final int TYPE_START = 0;
+    public static final int TYPE_MIDDLE = 1;
+    public static final int TYPE_LINE = 2;
+    public static final int TYPE_END = 3;
     public static final int TYPE_DEFAULT = TYPE_MIDDLE;
 
-    @Retention(RetentionPolicy.SOURCE) @IntDef({ TYPE_START, TYPE_MIDDLE, TYPE_LINE, TYPE_END })
+    @Retention(RetentionPolicy.SOURCE) @IntDef({TYPE_HIDDEN,  TYPE_START, TYPE_MIDDLE, TYPE_LINE, TYPE_END })
     public @interface TimelineType {
     }
 
@@ -201,6 +202,14 @@ public abstract class TimelineView extends ImageView {
                     drawInternal(canvas, paintInternal, rect.centerX(), rect.centerY(),
                         indicatorSize - internalPadding);
                 }
+                if (internalBitmap != null) {
+                    drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
+                        (rect.centerY() - indicatorSize) + internalPadding,
+                        (int) ((indicatorSize - internalPadding) * 2));
+                }
+                break;
+
+            case TYPE_HIDDEN:
                 if (internalBitmap != null) {
                     drawBitmap(canvas, (rect.centerX() - indicatorSize) + internalPadding,
                         (rect.centerY() - indicatorSize) + internalPadding,
