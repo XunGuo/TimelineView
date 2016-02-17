@@ -20,11 +20,25 @@ dependencies {
 Add View to your layout
 
 ```xml
-
 <Layout 
     xmlns:app="http://schemas.android.com/apk/res-auto">
 ...
 <com.alorma.timeline.RoundTimelineView
+	android:id="@+id/timeline1"
+   	android:layout_width="?android:listPreferredItemHeight"
+   	android:layout_height="?android:listPreferredItemHeight"
+   	app:timeline_indicatorSize="20dp"
+   	app:timeline_lineStyle="linear"
+   	app:timeline_type="middle"/>
+...
+</Layout>
+```
+Or 
+```xml
+<Layout 
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+...
+<com.alorma.timeline.SquareTimelineView
 	android:id="@+id/timeline1"
    	android:layout_width="?android:listPreferredItemHeight"
    	android:layout_height="?android:listPreferredItemHeight"
