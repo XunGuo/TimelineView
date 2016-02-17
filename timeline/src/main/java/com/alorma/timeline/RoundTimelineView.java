@@ -42,10 +42,14 @@ public class RoundTimelineView extends TimelineView {
     }
 
     @Override protected void drawBitmap(Canvas canvas, float left, float top, int size) {
-        if (internalBitmapCache == null) {
-            internalBitmapCache = transform(internalBitmap, size);
+        if (internalBitmap != null) {
+            if (internalBitmapCache == null) {
+                internalBitmapCache = transform(internalBitmap, size);
+            }
+            if (internalBitmapCache != null) {
+                canvas.drawBitmap(internalBitmapCache, left, top, null);
+            }
         }
-        canvas.drawBitmap(internalBitmapCache, left, top, null);
     }
 
     private void drawCircle(Canvas canvas, float centerX, float centerY, float radius,
@@ -56,18 +60,20 @@ public class RoundTimelineView extends TimelineView {
     }
 
     private Bitmap transform(Bitmap source, int size) {
-        // TODO: optimize
-        RoundedBitmapDrawable drawable =
-            RoundedBitmapDrawableFactory.create(getResources(), source);
-        drawable.setCornerRadius(100);
-        Bitmap output = Bitmap.createBitmap(size, size, source.getConfig());
-        Canvas canvas = new Canvas(output);
-        drawable.setAntiAlias(true);
-        drawable.setBounds(0, 0, size, size);
-        drawable.draw(canvas);
-        if (source != output) {
-            source.recycle();
+        if (source != null) {
+            RoundedBitmapDrawable drawable =
+                RoundedBitmapDrawableFactory.create(getResources(), source);
+            drawable.setCornerRadius(100);
+            Bitmap output = Bitmap.createBitmap(size, size, source.getConfig());
+            Canvas canvas = new Canvas(output);
+            drawable.setAntiAlias(true);
+            drawable.setBounds(0, 0, size, size);
+            drawable.draw(canvas);
+            if (source != output) {
+                source.recycle();
+            }
+            return output;
         }
-        return output;
+        return null;
     }
 }

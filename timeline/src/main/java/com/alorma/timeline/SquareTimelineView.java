@@ -49,10 +49,15 @@ public class SquareTimelineView extends TimelineView {
     }
 
     @Override protected void drawBitmap(Canvas canvas, float left, float top, int size) {
-        if (internalBitmapCache == null) {
-            internalBitmapCache = transform(internalBitmap, size);
+        if (internalBitmap != null) {
+            if (internalBitmapCache == null) {
+                internalBitmapCache = transform(internalBitmap, size);
+            }
+
+            if (internalBitmapCache != null) {
+                canvas.drawBitmap(internalBitmapCache, left, top, null);
+            }
         }
-        canvas.drawBitmap(internalBitmapCache, left, top, null);
     }
 
     private void drawSquare(Canvas canvas, float centerX, float centerY, float size, Paint paint) {
@@ -66,10 +71,13 @@ public class SquareTimelineView extends TimelineView {
     }
 
     private Bitmap transform(Bitmap source, int size) {
-        Bitmap output = Bitmap.createScaledBitmap(source, size, size, false);
-        if (source != output) {
-            source.recycle();
+        if (source != null) {
+            Bitmap output = Bitmap.createScaledBitmap(source, size, size, false);
+            if (source != output) {
+                source.recycle();
+            }
+            return output;
         }
-        return output;
+        return null;
     }
 }
