@@ -64,7 +64,8 @@ public class RoundTimelineView extends TimelineView {
             RoundedBitmapDrawable drawable =
                 RoundedBitmapDrawableFactory.create(getResources(), source);
             drawable.setCornerRadius(100);
-            Bitmap output = Bitmap.createBitmap(size, size, source.getConfig());
+            Bitmap.Config config = source.getConfig() != null ? source.getConfig() : Bitmap.Config.ARGB_8888;
+            Bitmap output = Bitmap.createBitmap(size, size, config);
             Canvas canvas = new Canvas(output);
             drawable.setAntiAlias(true);
             drawable.setBounds(0, 0, size, size);
