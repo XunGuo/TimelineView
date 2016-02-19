@@ -11,7 +11,7 @@ Via gradle:
 
 ```groovy
 dependencies {
-	compile 'com.github.alorma:timelineview:2.2.0'
+	compile 'com.github.alorma:timelineview:2.2.1'
 }
 ```
 
