@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 220
-        versionName "2.2.0"
+        versionCode 221
+        versionName "2.2.1"
     }
     
     lintOptions {
@@ -26,7 +26,7 @@ publish {
     userOrg = 'alorma'
     groupId = 'com.github.alorma'
     artifactId = 'timelineview'
-    version = '2.2.0'
+    version = '2.2.1'
     description = 'Cute timeline view for android'
     website = 'https://github.com/alorma/TimelineView'
     issueTracker = "${website}/issues"
