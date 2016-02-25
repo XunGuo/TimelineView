@@ -485,6 +485,17 @@ public abstract class TimelineView extends ImageView {
         invalidate();
     }
 
+    public void determineTimelineType(int position, int totalCount) {
+        if(position == 0){
+            this.timelineType = TYPE_START;
+        } else if(position == totalCount-1){
+            this.timelineType = TYPE_END;
+        } else {
+            this.timelineType = TYPE_MIDDLE;
+        }
+        invalidate();
+    }
+
     public @TimelineAlignment int getTimelineAlignment() {
         return timelineAlignment;
     }
