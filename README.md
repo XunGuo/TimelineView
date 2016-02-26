@@ -73,12 +73,6 @@ Or
 | timeline_internalDrawable | reference | @drawable / @color |
 | timeline_internalPadding | dimension | 20dp |
 
-### Contributors
-
-<a href="https:/github.com/alorma"><img src="https://avatars3.githubusercontent.com/u/887462?v=3&s=460" alt="Bernat Borras" height="80" width="80" target="_blank"/></a> | <a href="https://github.com/hrules6872"><img src="https://avatars2.githubusercontent.com/u/5445152?v=3&s=400" alt="Héctor de Isidro" height="80" width="80" target="_blank"/></a> |
----|---|
-[Bernat Borras](https://github.com/alorma) | [Héctor de Isidro](https://github.com/hrules6872) |
-
 ### Advanced - Custom shape
 
 If you want to create a new shape for indicator (like a diamond), you can! Just extends `TimelineView` and implement the following  methods:
@@ -90,6 +84,13 @@ protected abstract void drawInternal(Canvas canvas, Paint paintInternal, float c
 	float centerY, float size);
 protected abstract void drawBitmap(Canvas canvas, float left, float top, int size);
 ```
+
+### Contributors
+
+<a href="https://github.com/alorma"><img src="https://avatars3.githubusercontent.com/u/887462?v=3&s=460" alt="Bernat Borras" height="80" width="80" target="_blank"/></a> | <a href="https://github.com/hrules6872"><img src="https://avatars2.githubusercontent.com/u/5445152?v=3&s=400" alt="Héctor de Isidro" height="80" width="80" target="_blank"/></a> |
+---|---|
+[Bernat Borras](https://github.com/alorma) | [Héctor de Isidro](https://github.com/hrules6872) |
+
 
 ### License
 TimelineView by *Bernat Borras* is licensed under a [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
