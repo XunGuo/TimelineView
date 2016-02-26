@@ -87,9 +87,10 @@ protected abstract void drawBitmap(Canvas canvas, float left, float top, int siz
 
 ### Contributors
 
-<a href="https://github.com/alorma"><img src="https://avatars3.githubusercontent.com/u/887462?v=3&s=460" alt="Bernat Borras" height="80" width="80" target="_blank"/></a> | <a href="https://github.com/hrules6872"><img src="https://avatars2.githubusercontent.com/u/5445152?v=3&s=400" alt="Héctor de Isidro" height="80" width="80" target="_blank"/></a> |
----|---|
-[Bernat Borras](https://github.com/alorma) | [Héctor de Isidro](https://github.com/hrules6872) |
+* [Bernat Borras](https://github.com/alorma)
+* [Héctor de Isidro](https://github.com/hrules6872)
+* [Cedulio Cezar](https://github.com/ceduliocezar)
+* [Adam Nilsson](https://github.com/AdamNilssonSofthouse)
 
 
 ### License
