@@ -110,12 +110,19 @@ public abstract class TimelineView extends ImageView {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         Resources res = getResources();
 
-        TypedArray typedArray = getTypedArray(context, attrs, defStyle);
+        TypedArray typedArray = null;
 
-        initProperties(context, res, typedArray);
-        initDrawable(typedArray);
+        try {
+            typedArray = getTypedArray(context, attrs, defStyle);
 
-        typedArray.recycle();
+            initProperties(context, res, typedArray);
+            initDrawable(typedArray);
+
+        } finally {
+            if (typedArray != null) {
+                typedArray.recycle();
+            }
+        }
 
         initPaints();
 
