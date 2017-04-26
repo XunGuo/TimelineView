@@ -7,9 +7,8 @@ import android.os.Build;
 import android.util.TypedValue;
 
 class AttributesUtils {
-  private static TypedValue value;
 
-  public static int windowBackground(Context context, int defaultValue) {
+  static int windowBackground(Context context, int defaultValue) {
     return getColor(context, android.R.attr.windowBackground, defaultValue);
   }
 
@@ -31,21 +30,16 @@ class AttributesUtils {
 
   @SuppressWarnings("deprecation")
   private static int getColor(Context context, int id, int defaultValue) {
-    if (value == null) {
-      value = new TypedValue();
-    }
+    TypedValue value = new TypedValue();
 
-    try {
-      Resources.Theme theme = context.getTheme();
-      if (theme != null && theme.resolveAttribute(id, value, true)) {
-        if (value.type >= TypedValue.TYPE_FIRST_INT
-            && value.type <= TypedValue.TYPE_LAST_INT) {
-          return value.data;
-        } else if (value.type == TypedValue.TYPE_STRING) {
-          return context.getResources().getColor(value.resourceId);
-        }
+    Resources.Theme theme = context.getTheme();
+    if (theme != null && theme.resolveAttribute(id, value, true)) {
+      if (value.type >= TypedValue.TYPE_FIRST_INT
+          && value.type <= TypedValue.TYPE_LAST_INT) {
+        return value.data;
+      } else if (value.type == TypedValue.TYPE_STRING) {
+        return context.getResources().getColor(value.resourceId);
       }
-    } catch (Exception ignored) {
     }
     return defaultValue;
   }

@@ -8,15 +8,15 @@ class Events {
   private int type;
   private int alignment;
 
-  public Events(@NonNull String name) {
+  Events(@NonNull String name) {
     this(name, TimelineView.TYPE_DEFAULT);
   }
 
-  public Events(@NonNull String name, int type) {
+  Events(@NonNull String name, int type) {
     this(name, type, TimelineView.ALIGNMENT_DEFAULT);
   }
 
-  public Events(@NonNull String name, int type, int alignment) {
+  Events(@NonNull String name, int type, int alignment) {
     this.name = name;
     this.type = type;
     this.alignment = alignment;
@@ -30,7 +30,7 @@ class Events {
     this.name = name;
   }
 
-  public @TimelineView.TimelineType
+  @TimelineView.TimelineType
   int getType() {
     return type;
   }
@@ -39,7 +39,7 @@ class Events {
     this.type = type;
   }
 
-  public @TimelineView.TimelineAlignment
+  @TimelineView.TimelineAlignment
   int getAlignment() {
     return alignment;
   }
@@ -50,10 +50,11 @@ class Events {
 
   @Override
   public String toString() {
-    return "Events{" +
-        "name='" + name + '\'' +
-        ", type=" + type +
-        ", alignment=" + alignment +
-        '}';
+    final StringBuilder sb = new StringBuilder("Events{");
+    sb.append("name='").append(name).append('\'');
+    sb.append(", type=").append(type);
+    sb.append(", alignment=").append(alignment);
+    sb.append('}');
+    return sb.toString();
   }
 }

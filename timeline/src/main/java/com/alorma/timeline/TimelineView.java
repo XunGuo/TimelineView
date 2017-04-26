@@ -1,6 +1,5 @@
 package com.alorma.timeline;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -13,17 +12,17 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.support.annotation.Size;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Arrays;
 
-public abstract class TimelineView extends ImageView {
+public abstract class TimelineView extends AppCompatImageView {
 
   public static final int TYPE_HIDDEN = -1;
 
@@ -51,7 +50,7 @@ public abstract class TimelineView extends ImageView {
 
   public static final int STYLE_DEFAULT = STYLE_LINEAR;
 
-  Bitmap internalBitmap;
+  Bitmap bitmap;
 
   Bitmap internalBitmapCache;
 
@@ -96,12 +95,6 @@ public abstract class TimelineView extends ImageView {
   public TimelineView(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
     init(context, attrs, defStyle);
-  }
-
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public TimelineView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-    init(context, attrs, defStyleAttr);
   }
 
   @SuppressWarnings("deprecation")
@@ -163,9 +156,17 @@ public abstract class TimelineView extends ImageView {
     lineColor = getLineColor(context, res, typedArray);
   }
 
+  public float getLineWidth() {
+    return paintLine.getStrokeWidth();
+  }
+
   private float getLineWidth(Resources res, TypedArray typedArray) {
     return typedArray.getDimension(R.styleable.TimelineView_timeline_lineWidth,
         res.getDimensionPixelOffset(R.dimen.default_lineWidth));
+  }
+
+  public int getLineColor() {
+    return paintLine.getColor();
   }
 
   private int getLineColor(Context context, Resources res, TypedArray typedArray) {
@@ -224,9 +225,17 @@ public abstract class TimelineView extends ImageView {
     dashEffect = new float[] { 25, 20 };
   }
 
+  public int getInternalColor() {
+    return paintInternal.getColor();
+  }
+
   private int getInternalColor(Context context, TypedArray typedArray) {
     return typedArray.getColor(R.styleable.TimelineView_timeline_internalColor,
         AttributesUtils.windowBackground(context, Color.WHITE));
+  }
+
+  public int getIndicatorColor() {
+    return paintIndicator.getColor();
   }
 
   private int getIndicatorColor(Context context, Resources res, TypedArray typedArray) {
@@ -341,7 +350,7 @@ public abstract class TimelineView extends ImageView {
   }
 
   private boolean hasInternalBitmap() {
-    return internalBitmap != null;
+    return bitmap != null;
   }
 
   private void drawTypeStart(Canvas canvas) {
@@ -364,23 +373,32 @@ public abstract class TimelineView extends ImageView {
         indicatorSize - internalPadding);
   }
 
-  private @TimelineType
-  int getTimelineType(int value) {
+  protected abstract void drawInternal(Canvas canvas, Paint paint, float centerX,
+      float centerY, float size);
+
+  @TimelineType
+  public int getTimelineType() {
+    return timelineType;
+  }
+
+  @TimelineType
+  private int getTimelineType(int value) {
     return value;
   }
 
-  private @TimelineAlignment
-  int getTimelineAlignment(int value) {
+  @TimelineAlignment
+  public int getTimelineAlignment() {
+    return timelineAlignment;
+  }
+
+  @TimelineAlignment
+  private int getTimelineAlignment(int value) {
     return value;
   }
 
-  private @TimelineStyle
-  int getTimelineStyle(int value) {
+  @TimelineStyle
+  private int getTimelineStyle(int value) {
     return value;
-  }
-
-  public int getLineColor() {
-    return paintLine.getColor();
   }
 
   public void setLineColor(@ColorInt int lineColor) {
@@ -388,17 +406,9 @@ public abstract class TimelineView extends ImageView {
     invalidate();
   }
 
-  public float getLineWidth() {
-    return paintLine.getStrokeWidth();
-  }
-
   public void setLineWidth(float lineWidth) {
     paintLine.setStrokeWidth(lineWidth);
     invalidate();
-  }
-
-  public int getIndicatorColor() {
-    return paintIndicator.getColor();
   }
 
   public void setIndicatorColor(@ColorInt int indicatorColor) {
@@ -414,10 +424,6 @@ public abstract class TimelineView extends ImageView {
     this.indicatorSize = indicatorSize;
     invalidate();
     requestLayout();
-  }
-
-  public int getInternalColor() {
-    return paintInternal.getColor();
   }
 
   public void setInternalColor(@ColorInt int internalColor) {
@@ -444,15 +450,20 @@ public abstract class TimelineView extends ImageView {
   }
 
   public float[] getDashEffect() {
-    return dashEffect;
+    if (dashEffect != null) {
+      return Arrays.copyOf(dashEffect, dashEffect.length);
+    }
+    return new float[] {};
   }
 
   public void setDashEffect(@Size(2) float[] dashEffect) {
-    this.dashEffect = dashEffect;
-    if (isLineDashed()) {
-      paintLine.setPathEffect(createDashEffect());
+    if (dashEffect != null) {
+      this.dashEffect = Arrays.copyOf(dashEffect, dashEffect.length);
+      if (isLineDashed()) {
+        paintLine.setPathEffect(createDashEffect());
+      }
+      invalidate();
     }
-    invalidate();
   }
 
   private PathEffect createDashEffect() {
@@ -480,14 +491,9 @@ public abstract class TimelineView extends ImageView {
     invalidate();
   }
 
-  public @TimelineStyle
-  int getLineStyle() {
+  @TimelineStyle
+  public int getLineStyle() {
     return lineStyle;
-  }
-
-  public @TimelineType
-  int getTimelineType() {
-    return timelineType;
   }
 
   public void setTimelineType(@TimelineType int timelineType) {
@@ -506,11 +512,6 @@ public abstract class TimelineView extends ImageView {
     invalidate();
   }
 
-  public @TimelineAlignment
-  int getTimelineAlignment() {
-    return timelineAlignment;
-  }
-
   public void setTimelineAlignment(@TimelineAlignment int timelineAlignment) {
     this.timelineAlignment = timelineAlignment;
     invalidate();
@@ -518,7 +519,7 @@ public abstract class TimelineView extends ImageView {
 
   @Override
   public void setImageDrawable(Drawable internalDrawable) {
-    this.internalBitmap = drawableToBitmap(internalDrawable);
+    this.bitmap = drawableToBitmap(internalDrawable);
     if (internalBitmapCache != null) {
       internalBitmapCache.recycle();
       internalBitmapCache = null;
@@ -528,7 +529,7 @@ public abstract class TimelineView extends ImageView {
 
   @Override
   public void setImageBitmap(Bitmap internalBitmap) {
-    this.internalBitmap = internalBitmap;
+    this.bitmap = internalBitmap;
     if (internalBitmapCache != null) {
       internalBitmapCache.recycle();
       internalBitmapCache = null;
@@ -544,13 +545,12 @@ public abstract class TimelineView extends ImageView {
     if (drawable instanceof BitmapDrawable) {
       return ((BitmapDrawable) drawable).getBitmap();
     }
-    Bitmap bitmap = Bitmap
-        .createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
-            Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(bitmap);
+    Bitmap newBitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+        Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(newBitmap);
     drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
     drawable.draw(canvas);
-    return bitmap;
+    return newBitmap;
   }
 
   private Rect getRect() {
@@ -558,9 +558,6 @@ public abstract class TimelineView extends ImageView {
   }
 
   protected abstract void drawIndicator(Canvas canvas, Paint paintStart, float centerX,
-      float centerY, float size);
-
-  protected abstract void drawInternal(Canvas canvas, Paint paintInternal, float centerX,
       float centerY, float size);
 
   protected abstract void drawBitmap(Canvas canvas, float left, float top, int size);

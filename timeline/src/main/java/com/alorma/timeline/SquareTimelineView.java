@@ -1,12 +1,10 @@
 package com.alorma.timeline;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.os.Build;
 import android.util.AttributeSet;
 
 public class SquareTimelineView extends TimelineView {
@@ -25,13 +23,6 @@ public class SquareTimelineView extends TimelineView {
     init();
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public SquareTimelineView(Context context, AttributeSet attrs, int defStyleAttr,
-      int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-    init();
-  }
-
   private void init() {
     rectF = new RectF();
   }
@@ -43,16 +34,16 @@ public class SquareTimelineView extends TimelineView {
   }
 
   @Override
-  protected void drawInternal(Canvas canvas, Paint paintInternal, float centerX, float centerY,
+  protected void drawInternal(Canvas canvas, Paint paint, float centerX, float centerY,
       float size) {
-    drawSquare(canvas, centerX, centerY, size, paintInternal);
+    drawSquare(canvas, centerX, centerY, size, paint);
   }
 
   @Override
   protected void drawBitmap(Canvas canvas, float left, float top, int size) {
-    if (internalBitmap != null) {
+    if (bitmap != null) {
       if (internalBitmapCache == null) {
-        internalBitmapCache = transform(internalBitmap, size);
+        internalBitmapCache = transform(bitmap, size);
       }
 
       if (internalBitmapCache != null) {
@@ -74,7 +65,7 @@ public class SquareTimelineView extends TimelineView {
   private Bitmap transform(Bitmap source, int size) {
     if (source != null) {
       Bitmap output = Bitmap.createScaledBitmap(source, size, size, false);
-      if (source != output) {
+      if (!source.equals(output)) {
         source.recycle();
       }
       return output;

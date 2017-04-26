@@ -19,7 +19,7 @@
       android:layout_height="?android:listPreferredItemHeight"
       android:layout_marginLeft="@dimen/default_itemPadding"
       android:gravity="center_vertical"
-      android:singleLine="true"
+      android:maxLines="1"
       android:textAppearance="?android:attr/textAppearanceMedium"
       tools:ignore="RtlHardcoded"
       />

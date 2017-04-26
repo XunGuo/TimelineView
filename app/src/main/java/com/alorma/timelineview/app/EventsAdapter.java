@@ -12,7 +12,7 @@ import java.util.List;
 class EventsAdapter extends ArrayAdapter<Events> {
   private final LayoutInflater layoutInflater;
 
-  public EventsAdapter(Context context, List<Events> objects) {
+  EventsAdapter(Context context, List<Events> objects) {
     super(context, 0, objects);
     layoutInflater = LayoutInflater.from(context);
   }
@@ -20,14 +20,15 @@ class EventsAdapter extends ArrayAdapter<Events> {
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
     ViewHolderItem viewHolder;
-    if (convertView == null) {
-      convertView = layoutInflater.inflate(R.layout.item_main, parent, false);
+    View v = convertView;
+    if (v == null) {
+      v = layoutInflater.inflate(R.layout.item_main, parent, false);
       viewHolder = new ViewHolderItem();
-      viewHolder.text = (TextView) convertView.findViewById(R.id.textView);
-      viewHolder.timeline = (TimelineView) convertView.findViewById(R.id.timeline);
-      convertView.setTag(viewHolder);
+      viewHolder.text = (TextView) v.findViewById(R.id.textView);
+      viewHolder.timeline = (TimelineView) v.findViewById(R.id.timeline);
+      v.setTag(viewHolder);
     } else {
-      viewHolder = (ViewHolderItem) convertView.getTag();
+      viewHolder = (ViewHolderItem) v.getTag();
     }
 
     Events events = getItem(position);

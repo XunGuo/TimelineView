@@ -1,11 +1,9 @@
 package com.alorma.timeline;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Build;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.AttributeSet;
@@ -23,12 +21,6 @@ public class RoundTimelineView extends TimelineView {
     super(context, attrs, defStyle);
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  public RoundTimelineView(Context context, AttributeSet attrs, int defStyleAttr,
-      int defStyleRes) {
-    super(context, attrs, defStyleAttr, defStyleRes);
-  }
-
   @Override
   public void drawIndicator(Canvas canvas, Paint paintStart, float centerX, float centerY,
       float size) {
@@ -36,16 +28,16 @@ public class RoundTimelineView extends TimelineView {
   }
 
   @Override
-  protected void drawInternal(Canvas canvas, Paint paintInternal, float centerX, float centerY,
+  protected void drawInternal(Canvas canvas, Paint paint, float centerX, float centerY,
       float size) {
-    drawCircle(canvas, centerX, centerY, size, paintInternal);
+    drawCircle(canvas, centerX, centerY, size, paint);
   }
 
   @Override
   protected void drawBitmap(Canvas canvas, float left, float top, int size) {
-    if (internalBitmap != null) {
+    if (bitmap != null) {
       if (internalBitmapCache == null) {
-        internalBitmapCache = transform(internalBitmap, size);
+        internalBitmapCache = transform(bitmap, size);
       }
       if (internalBitmapCache != null) {
         canvas.drawBitmap(internalBitmapCache, left, top, null);
@@ -71,7 +63,7 @@ public class RoundTimelineView extends TimelineView {
       drawable.setAntiAlias(true);
       drawable.setBounds(0, 0, size, size);
       drawable.draw(canvas);
-      if (source != output) {
+      if (!source.equals(output)) {
         source.recycle();
       }
       return output;
