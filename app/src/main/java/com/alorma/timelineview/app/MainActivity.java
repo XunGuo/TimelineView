@@ -2,7 +2,9 @@ package com.alorma.timelineview.app;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import com.alorma.timeline.RoundTimelineView;
 import com.alorma.timeline.TimelineView;
 import com.bumptech.glide.Glide;
@@ -14,17 +16,11 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    ListView list = (ListView) findViewById(R.id.list);
+    buildSamples();
+    buildList();
+  }
 
-    ArrayList<Events> items = new ArrayList<>();
-    items.add(new Events(getString(R.string.item_first), TimelineView.TYPE_START));
-    for (int i = 0; i < 20; i++) {
-      items.add(new Events(String.format(getString(R.string.item_default), i + 1),
-          TimelineView.TYPE_MIDDLE));
-    }
-    items.add(new Events(getString(R.string.item_last), TimelineView.TYPE_END));
-    list.setAdapter(new EventsAdapter(this, items));
-
+  private void buildSamples() {
     RoundTimelineView timelineView = (RoundTimelineView) findViewById(R.id.timeline1);
     Glide.with(this).load(R.drawable.avatar).into(timelineView);
 
@@ -41,5 +37,21 @@ public class MainActivity extends AppCompatActivity {
     timeline3_align_bottom.setIndicatorSize(
         getResources().getDimensionPixelOffset(R.dimen.large_timeline_2));
     timeline3_align_bottom.setTimelineStyle(TimelineView.STYLE_LINEAR);
+  }
+
+  private void buildList() {
+    RecyclerView list = (RecyclerView) findViewById(R.id.list);
+
+    ArrayList<Event> items = new ArrayList<>();
+    items.add(new Event(getString(R.string.item_first), TimelineView.TYPE_START));
+    for (int i = 0; i < 20; i++) {
+      items.add(new Event(String.format(getString(R.string.item_default), i + 1),
+          TimelineView.TYPE_MIDDLE));
+    }
+    items.add(new Event(getString(R.string.item_last), TimelineView.TYPE_END));
+
+    list.setLayoutManager(new LinearLayoutManager(this));
+
+    list.setAdapter(new EventsAdapter(LayoutInflater.from(this), items));
   }
 }

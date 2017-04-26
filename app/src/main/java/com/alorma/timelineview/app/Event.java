@@ -3,20 +3,20 @@ package com.alorma.timelineview.app;
 import android.support.annotation.NonNull;
 import com.alorma.timeline.TimelineView;
 
-class Events {
+class Event {
   private String name;
   private int type;
   private int alignment;
 
-  Events(@NonNull String name) {
+  Event(@NonNull String name) {
     this(name, TimelineView.TYPE_DEFAULT);
   }
 
-  Events(@NonNull String name, int type) {
+  Event(@NonNull String name, int type) {
     this(name, type, TimelineView.ALIGNMENT_DEFAULT);
   }
 
-  Events(@NonNull String name, int type, int alignment) {
+  Event(@NonNull String name, int type, int alignment) {
     this.name = name;
     this.type = type;
     this.alignment = alignment;
@@ -50,7 +50,7 @@ class Events {
 
   @Override
   public String toString() {
-    final StringBuilder sb = new StringBuilder("Events{");
+    final StringBuilder sb = new StringBuilder("Event{");
     sb.append("name='").append(name).append('\'');
     sb.append(", type=").append(type);
     sb.append(", alignment=").append(alignment);

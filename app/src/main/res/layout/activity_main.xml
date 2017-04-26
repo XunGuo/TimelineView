@@ -76,11 +76,10 @@
     </LinearLayout>
   </HorizontalScrollView>
 
-  <ListView
+  <android.support.v7.widget.RecyclerView
       android:id="@+id/list"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_margin="@dimen/default_margin"
-      android:divider="@null"
       />
 </LinearLayout>

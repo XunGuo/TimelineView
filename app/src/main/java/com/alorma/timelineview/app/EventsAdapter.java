@@ -1,47 +1,51 @@
 package com.alorma.timelineview.app;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.alorma.timeline.TimelineView;
 import java.util.List;
 
-class EventsAdapter extends ArrayAdapter<Events> {
-  private final LayoutInflater layoutInflater;
+class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolderItem> {
 
-  EventsAdapter(Context context, List<Events> objects) {
-    super(context, 0, objects);
-    layoutInflater = LayoutInflater.from(context);
+  private final LayoutInflater inflater;
+  private final List<Event> events;
+
+  EventsAdapter(LayoutInflater inflater, List<Event> events) {
+    this.inflater = inflater;
+    this.events = events;
   }
 
   @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-    ViewHolderItem viewHolder;
-    View v = convertView;
-    if (v == null) {
-      v = layoutInflater.inflate(R.layout.item_main, parent, false);
-      viewHolder = new ViewHolderItem();
-      viewHolder.text = (TextView) v.findViewById(R.id.textView);
-      viewHolder.timeline = (TimelineView) v.findViewById(R.id.timeline);
-      v.setTag(viewHolder);
-    } else {
-      viewHolder = (ViewHolderItem) v.getTag();
-    }
-
-    Events events = getItem(position);
-
-    viewHolder.text.setText(events.getName());
-    viewHolder.timeline.setTimelineType(events.getType());
-    viewHolder.timeline.setTimelineAlignment(events.getAlignment());
-
-    return convertView;
+  public ViewHolderItem onCreateViewHolder(ViewGroup parent, int viewType) {
+    return new ViewHolderItem(inflater.inflate(R.layout.item_main, parent, false));
   }
 
-  static class ViewHolderItem {
+  @Override
+  public void onBindViewHolder(ViewHolderItem holder, int position) {
+    Event event = events.get(position);
+
+    holder.text.setText(event.getName());
+    holder.timeline.setTimelineType(event.getType());
+    holder.timeline.setTimelineAlignment(event.getAlignment());
+  }
+
+  @Override
+  public int getItemCount() {
+    return events.size();
+  }
+
+  static class ViewHolderItem extends RecyclerView.ViewHolder {
     TextView text;
     TimelineView timeline;
+
+    ViewHolderItem(View itemView) {
+      super(itemView);
+
+      text = (TextView) itemView.findViewById(R.id.textView);
+      timeline = (TimelineView) itemView.findViewById(R.id.timeline);
+    }
   }
 }
