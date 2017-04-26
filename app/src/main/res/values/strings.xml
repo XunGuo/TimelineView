@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TimelineView-demo</string>
-    <string name="item_first">First event</string>
-    <string name="item_default">Event %1d</string>
-    <string name="item_last">Last event</string>
+  <string name="app_name">TimelineView-demo</string>
+  <string name="item_first">First event</string>
+  <string name="item_default">Event %1d</string>
+  <string name="item_last">Last event</string>
 </resources>
