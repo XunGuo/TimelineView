@@ -1,34 +1,36 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+  compileSdkVersion 25
+  buildToolsVersion "25.0.2"
 
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 230
-        versionName "2.3.0"
-    }
-    
-    lintOptions {
-      abortOnError false
-    }
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 25
+    versionCode 230
+    versionName "2.3.0"
+  }
+
+  lintOptions {
+    abortOnError false
+  }
 }
 
 dependencies {
-    compile 'com.android.support:support-annotations:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+  compile 'com.android.support:support-annotations:25.3.1'
+  compile 'com.android.support:appcompat-v7:25.3.1'
 }
 
+/*
 publish {
-    userOrg = 'alorma'
-    groupId = 'com.github.alorma'
-    artifactId = 'timelineview'
-    version = '2.3.0'
-    description = 'Cute timeline view for android'
-    website = 'https://github.com/alorma/TimelineView'
-    issueTracker = "${website}/issues"
-    repository = "${website}.git"
+  userOrg = 'alorma'
+  groupId = 'com.github.alorma'
+  artifactId = 'timelineview'
+  version = '2.3.0'
+  description = 'Cute timeline view for android'
+  website = 'https://github.com/alorma/TimelineView'
+  issueTracker = "${website}/issues"
+  repository = "${website}.git"
 }
+*/
