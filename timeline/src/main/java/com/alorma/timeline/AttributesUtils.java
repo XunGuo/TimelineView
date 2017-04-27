@@ -1,6 +1,5 @@
 package com.alorma.timeline;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
@@ -12,7 +11,6 @@ class AttributesUtils {
     return getColor(context, android.R.attr.windowBackground, defaultValue);
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public static int colorPrimary(Context context, int defaultValue) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       return getColor(context, android.R.attr.colorPrimary, defaultValue);
@@ -20,7 +18,6 @@ class AttributesUtils {
     return getColor(context, R.attr.colorPrimary, defaultValue);
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public static int colorAccent(Context context, int defaultValue) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       return getColor(context, android.R.attr.colorAccent, defaultValue);
