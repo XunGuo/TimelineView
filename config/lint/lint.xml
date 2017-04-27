@@ -4,8 +4,6 @@
     <ignore regexp=".*okio.*"/>
     <ignore regexp=".*retrofit.*" />
   </issue>
-  <issue id="NewApi">
-    <ignore regexp="Try-with-resources requires API level 19"/>
-  </issue>
+  <issue id="NewApi" severity="ignore" />
   <issue id="GradleDependency" severity="ignore"/>
 </lint>
