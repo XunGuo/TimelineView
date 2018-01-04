@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.novoda.bintray-release'
 apply from: '../config/android-quality.gradle'
 
 android {
@@ -9,8 +9,8 @@ android {
   defaultConfig {
     minSdkVersion 15
     targetSdkVersion 27
-    versionCode 230
-    versionName "2.3.0"
+    versionCode 2301
+    versionName "2.3.1"
   }
 
   compileOptions {
@@ -24,15 +24,13 @@ dependencies {
   compile 'com.android.support:appcompat-v7:27.0.2'
 }
 
-/*
 publish {
   userOrg = 'alorma'
   groupId = 'com.github.alorma'
   artifactId = 'timelineview'
-  version = '2.3.0'
+  version = '2.3.1'
   description = 'Cute timeline view for android'
   website = 'https://github.com/alorma/TimelineView'
   issueTracker = "${website}/issues"
   repository = "${website}.git"
 }
-*/
