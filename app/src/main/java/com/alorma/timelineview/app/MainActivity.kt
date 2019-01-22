@@ -18,19 +18,15 @@ class MainActivity : AppCompatActivity() {
     private fun buildList() {
         val list = findViewById<RecyclerView>(R.id.list)
 
-        val items = mutableListOf<Event>()
-
-        items.add(Event(getString(R.string.item_first), TimelineView.TYPE_START))
-
-        (0..19).map {
+        val firstEvent = Event(getString(R.string.item_first), TimelineView.TYPE_START)
+        val middleEvents = (0..19).map {
             val text = getString(R.string.item_default, it)
             val type = TimelineView.TYPE_MIDDLE
             Event(text, type)
-        }.forEach {
-            items.add(it)
         }
+        val lastElement = Event(getString(R.string.item_last), TimelineView.TYPE_END)
 
-        items.add(Event(getString(R.string.item_last), TimelineView.TYPE_END))
+        val items = listOf(firstEvent).plus(middleEvents).plus(lastElement)
 
         list.layoutManager = LinearLayoutManager(this)
 
