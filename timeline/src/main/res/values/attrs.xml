@@ -8,8 +8,8 @@
         <attr name="timeline_lineColor" format="color" />
 
         <attr name="timeline_lineStyle" format="enum">
-            <enum name="dashed" value="-1" />
-            <enum name="linear" value="0" />
+            <enum name="linear" value="-1" />
+            <enum name="dashed" value="0" />
         </attr>
 
         <attr name="timeline_lineVerticalPosition" format="enum">

@@ -16,7 +16,7 @@ abstract class LineStylePainter {
              lineHPosition: LineHorizontalPosition,
              paint: Paint) {
 
-        var vRect = when (lineVPosition) {
+        val vRect = when (lineVPosition) {
             LineVerticalPosition.START -> rect.verticalStartRect()
             LineVerticalPosition.END -> rect.verticalEndRect()
             LineVerticalPosition.FULL -> rect

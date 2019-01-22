@@ -71,7 +71,7 @@ class LinePainter(context: Context) : Painter {
     }
 
     private fun readLineHorizontalPosition(typedArray: TypedArray) {
-        val lineHPosition = typedArray.getColor(R.styleable.TimelineView_timeline_lineVerticalPosition,
+        val lineHPosition = typedArray.getColor(R.styleable.TimelineView_timeline_lineHorizontalPosition,
                 LINE_HORIZONTAL_POSITION_CENTER)
 
         lineHorizontalPosition = when (lineHPosition) {
@@ -110,8 +110,8 @@ class LinePainter(context: Context) : Painter {
     }
 
     companion object {
-        const val STYLE_DASHED = -1
-        const val STYLE_LINEAR = 0
+        const val STYLE_LINEAR = -1
+        const val STYLE_DASHED = 0
 
         const val LINE_VERTICAL_POSITION_FULL = -1
         const val LINE_VERTICAL_POSITION_START = 0

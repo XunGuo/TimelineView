@@ -1,26 +1,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:timeline="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?actionBarSize"
     android:orientation="horizontal">
 
     <com.alorma.timeline.TimelineView
         android:id="@+id/timeline"
-        android:layout_width="?android:listPreferredItemHeight"
-        android:layout_height="?android:listPreferredItemHeight"
-        timeline:timeline_indicatorColor="@color/colorAccent"
-        timeline:timeline_lineColor="@color/colorPrimary"
-        timeline:timeline_lineStyle="linear" />
+        android:layout_width="?actionBarSize"
+        android:layout_height="?actionBarSize" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="?android:listPreferredItemHeight"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         android:layout_marginLeft="@dimen/default_itemPadding"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"
+        tools:text="@tools:sample/cities" />
 
 </LinearLayout>
