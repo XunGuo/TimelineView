@@ -1,64 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <declare-styleable name="TimelineView">
-    <attr format="dimension"
-          name="timeline_lineWidth"/>
-    <attr format="color"
-          name="timeline_lineColor"/>
+    <declare-styleable name="TimelineView">
 
-    <attr format="dimension"
-          name="timeline_indicatorSize"/>
-    <attr format="color"
-          name="timeline_indicatorColor"/>
+        <!-- LINE ATTRS -->
 
-    <attr format="enum"
-          name="timeline_type">
-      <enum name="hidden"
-            value="-1"/>
-      <enum name="start"
-            value="0"/>
-      <enum name="middle"
-            value="1"/>
-      <enum name="line"
-            value="2"/>
-      <enum name="end"
-            value="3"/>
-    </attr>
+        <attr name="timeline_lineWidth" format="dimension" />
+        <attr name="timeline_lineColor" format="color" />
 
-    <attr format="enum"
-          name="timeline_alignment">
-      <enum name="start"
-            value="-1"/>
-      <enum name="middle"
-            value="0"/>
-      <enum name="end"
-            value="1"/>
-    </attr>
+        <attr name="timeline_lineStyle" format="enum">
+            <enum name="dashed" value="-1" />
+            <enum name="linear" value="0" />
+        </attr>
 
-    <attr format="enum"
-          name="timeline_lineStyle">
-      <enum name="dashed"
-            value="-1"/>
-      <enum name="linear"
-            value="0"/>
-    </attr>
+        <attr name="timeline_lineVerticalPosition" format="enum">
+            <enum name="full" value="-1" />
+            <enum name="start" value="0" />
+            <enum name="end" value="1" />
+        </attr>
 
-    <attr format="enum"
-          name="timeline_pointStyle">
-      <enum name="circle"
-            value="-1"/>
-      <enum name="square"
-            value="0"/>
-    </attr>
+        <attr name="timeline_alignment" format="enum">
+            <enum name="start" value="-1" />
+            <enum name="middle" value="0" />
+            <enum name="end" value="1" />
+        </attr>
 
-    <attr format="boolean"
-          name="timeline_drawInternal"/>
-    <attr format="color"
-          name="timeline_internalColor"/>
-    <attr format="reference"
-          name="timeline_internalDrawable"/>
-    <attr format="dimension"
-          name="timeline_internalPadding"/>
+        <!-- OTHER ATTRS -->
 
-  </declare-styleable>
+        <attr name="timeline_indicatorSize" format="dimension" />
+        <attr name="timeline_indicatorColor" format="color" />
+
+        <attr name="timeline_pointStyle" format="enum">
+            <enum name="circle" value="-1" />
+            <enum name="square" value="0" />
+        </attr>
+
+        <attr name="timeline_drawInternal" format="boolean" />
+        <attr name="timeline_internalColor" format="color" />
+        <attr name="timeline_internalDrawable" format="reference" />
+        <attr name="timeline_internalPadding" format="dimension" />
+
+    </declare-styleable>
 </resources>

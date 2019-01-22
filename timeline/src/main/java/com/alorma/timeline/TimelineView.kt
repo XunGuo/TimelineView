@@ -11,10 +11,7 @@ import android.view.View
 import com.alorma.timeline.painter.Painter
 import com.alorma.timeline.painter.line.LinePainter
 import com.alorma.timeline.painter.point.PointPainter
-import com.alorma.timeline.property.LineColor
-import com.alorma.timeline.property.LineStyle
-import com.alorma.timeline.property.PointStyle
-import com.alorma.timeline.property.Property
+import com.alorma.timeline.property.*
 
 class TimelineView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -81,6 +78,11 @@ class TimelineView @JvmOverloads constructor(
 
     fun setLineColor(lineColor: LineColor) {
         linePainter.updateProperty(lineColor)
+        invalidate()
+    }
+
+    fun setLineVerticalPosition(property: LineVerticalPosition) {
+        linePainter.updateProperty(property)
         invalidate()
     }
 }

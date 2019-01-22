@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alorma.timeline.property.LineStyle
+import com.alorma.timeline.property.LineVerticalPosition
 import com.alorma.timeline.property.PointStyle
 import kotlinx.android.synthetic.main.item_main.view.*
 
@@ -84,6 +85,14 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
             }
 
             itemView.timeline.setPointStyle(pointSty)
+
+            val lineVPosition = when (event.linePosition) {
+                SampleLinePosition.START -> LineVerticalPosition.START
+                SampleLinePosition.END -> LineVerticalPosition.END
+                SampleLinePosition.FULL -> LineVerticalPosition.FULL
+            }
+
+            itemView.timeline.setLineVerticalPosition(lineVPosition)
         }
     }
 
@@ -94,7 +103,7 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
 
             override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean =
                     oldItem.name == newItem.name
-                            && oldItem.type == newItem.type
+                            && oldItem.linePosition == newItem.linePosition
         }
     }
 }

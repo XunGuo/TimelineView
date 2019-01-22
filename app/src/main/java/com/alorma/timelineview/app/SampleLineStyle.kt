@@ -12,6 +12,13 @@ sealed class SampleLineColor {
     object MIXED : SampleLineColor()
 }
 
+
+sealed class SampleLinePosition {
+    object START : SampleLinePosition()
+    object END : SampleLinePosition()
+    object FULL : SampleLinePosition()
+}
+
 sealed class SamplePointStyle {
     object CIRCLE : SamplePointStyle()
     object SQUARE : SamplePointStyle()
