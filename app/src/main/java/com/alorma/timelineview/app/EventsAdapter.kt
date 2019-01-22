@@ -52,10 +52,13 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
                  pointStyle: SamplePointStyle) {
             itemView.textView.text = event.name
 
-            //configureTimeline(lineStyle, lineColor, event, pointStyle)
+            configureTimeline(lineStyle, lineColor, event, pointStyle)
         }
 
-        private fun configureTimeline(lineStyle: SampleLineStyle, lineColor: SampleLineColor, event: Event, pointStyle: SamplePointStyle) {
+        private fun configureTimeline(lineStyle: SampleLineStyle,
+                                      lineColor: SampleLineColor,
+                                      event: Event,
+                                      pointStyle: SamplePointStyle) {
             itemView.timeline.configureLine {
                 val lineSty = when (lineStyle) {
                     is SampleLineStyle.LINE -> LineStyle.LINEAR
