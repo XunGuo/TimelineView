@@ -20,7 +20,6 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
         holder.bind(getItem(position))
     }
 
-
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(event: Event) {
             itemView.textView.text = event.name
