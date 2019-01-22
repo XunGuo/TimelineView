@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.alorma.timeline.property.LineHorizontalPosition
 import com.alorma.timeline.property.LineStyle
 import com.alorma.timeline.property.LineVerticalPosition
 import com.alorma.timeline.property.PointStyle
@@ -86,13 +87,25 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
 
             itemView.timeline.setPointStyle(pointSty)
 
-            val lineVPosition = when (event.linePosition) {
-                SampleLinePosition.START -> LineVerticalPosition.START
-                SampleLinePosition.END -> LineVerticalPosition.END
-                SampleLinePosition.FULL -> LineVerticalPosition.FULL
+            val lineVPosition = when (event.lineVPosition) {
+                SampleLineVPosition.START -> LineVerticalPosition.START
+                SampleLineVPosition.END -> LineVerticalPosition.END
+                SampleLineVPosition.FULL -> LineVerticalPosition.FULL
             }
 
             itemView.timeline.setLineVerticalPosition(lineVPosition)
+
+            val lineHPosition = when (event.lineHPosition) {
+                SampleLineHPosition.START -> LineHorizontalPosition.START
+                SampleLineHPosition.END -> LineHorizontalPosition.END
+                SampleLineHPosition.CENTER -> LineHorizontalPosition.CENTER
+            }
+
+            itemView.timeline.setLineHorizontalPosition(lineHPosition)
+
+            event.lineWidth?.let { width ->
+                itemView.timeline.setLineWidth(width)
+            }
         }
     }
 
@@ -103,7 +116,7 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
 
             override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean =
                     oldItem.name == newItem.name
-                            && oldItem.linePosition == newItem.linePosition
+                            && oldItem.lineVPosition == newItem.lineVPosition
         }
     }
 }

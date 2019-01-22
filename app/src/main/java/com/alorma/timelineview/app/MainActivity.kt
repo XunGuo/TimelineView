@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         lineColorMix.setOnClickListener {
             adapter.lineColor = SampleLineColor.MIXED
         }
+
         pointCircle.setOnClickListener {
             adapter.pointStyle = SamplePointStyle.CIRCLE
         }
@@ -49,13 +50,16 @@ class MainActivity : AppCompatActivity() {
     private fun buildList() {
         val list = findViewById<RecyclerView>(R.id.list)
 
-        val firstEvent = Event(getString(R.string.item_first), SampleLinePosition.START)
+        val firstEvent = Event(getString(R.string.item_first),
+                SampleLineVPosition.START,
+                SampleLineHPosition.START)
         val middleEvents = (1..19).map {
             val text = getString(R.string.item_default, it)
-            val type = 1
-            Event(text)
+            Event(text, lineWidth = 24f)
         }
-        val lastElement = Event(getString(R.string.item_last), SampleLinePosition.END)
+        val lastElement = Event(getString(R.string.item_last),
+                SampleLineVPosition.END,
+                SampleLineHPosition.END)
 
         val items = listOf(firstEvent).plus(middleEvents).plus(lastElement)
 

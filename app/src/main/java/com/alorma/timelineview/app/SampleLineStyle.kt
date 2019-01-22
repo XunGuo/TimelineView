@@ -12,11 +12,16 @@ sealed class SampleLineColor {
     object MIXED : SampleLineColor()
 }
 
+sealed class SampleLineVPosition {
+    object START : SampleLineVPosition()
+    object END : SampleLineVPosition()
+    object FULL : SampleLineVPosition()
+}
 
-sealed class SampleLinePosition {
-    object START : SampleLinePosition()
-    object END : SampleLinePosition()
-    object FULL : SampleLinePosition()
+sealed class SampleLineHPosition {
+    object START : SampleLineHPosition()
+    object END : SampleLineHPosition()
+    object CENTER : SampleLineHPosition()
 }
 
 sealed class SamplePointStyle {

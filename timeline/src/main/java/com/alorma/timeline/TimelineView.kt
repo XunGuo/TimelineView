@@ -71,9 +71,17 @@ class TimelineView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setLineColor(lineColor: Int) {
-        linePainter.updateProperty(LineColor(lineColor))
+    fun setLineWidth(lineWidth: Float) {
+        setLineWidth(LineWidth(lineWidth))
+    }
+
+    fun setLineWidth(lineWidth: LineWidth) {
+        linePainter.updateProperty(lineWidth)
         invalidate()
+    }
+
+    fun setLineColor(lineColor: Int) {
+        setLineColor(LineColor(lineColor))
     }
 
     fun setLineColor(lineColor: LineColor) {
@@ -82,6 +90,11 @@ class TimelineView @JvmOverloads constructor(
     }
 
     fun setLineVerticalPosition(property: LineVerticalPosition) {
+        linePainter.updateProperty(property)
+        invalidate()
+    }
+
+    fun setLineHorizontalPosition(property: LineHorizontalPosition) {
         linePainter.updateProperty(property)
         invalidate()
     }

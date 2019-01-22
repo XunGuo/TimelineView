@@ -2,5 +2,7 @@ package com.alorma.timelineview.app
 
 data class Event @JvmOverloads constructor(
         val name: String,
-        val linePosition: SampleLinePosition = SampleLinePosition.FULL
+        val lineVPosition: SampleLineVPosition = SampleLineVPosition.FULL,
+        val lineHPosition: SampleLineHPosition = SampleLineHPosition.CENTER,
+        val lineWidth: Float? = null
 )
