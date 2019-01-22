@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val list = findViewById<RecyclerView>(R.id.list)
 
         val firstEvent = Event(getString(R.string.item_first), 0)
-        val middleEvents = (0..19).map {
+        val middleEvents = (1..19).map {
             val text = getString(R.string.item_default, it)
             val type = 1
             Event(text, type)

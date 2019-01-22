@@ -5,23 +5,25 @@ import android.content.res.TypedArray
 import android.graphics.*
 import com.alorma.timeline.AttributesUtils
 import com.alorma.timeline.R
+import com.alorma.timeline.property.LineStyle
+import com.alorma.timeline.property.Property
 
 class LinePainter(context: Context) : Painter {
 
     private var linerStyle: Int = STYLE_LINEAR
     private var lineWidth: Float = context.resources.getDimensionPixelOffset(R.dimen.default_lineWidth).toFloat()
     private var lineColor: Int = AttributesUtils.colorPrimary(context, Color.GRAY)
-    private val paint: Paint by lazy {
-        Paint().apply {
-            flags = Paint.ANTI_ALIAS_FLAG
-            color = lineColor
-            strokeWidth = lineWidth
-            style = Paint.Style.STROKE
-            if (linerStyle == STYLE_DASHED) {
-                val dashIntervals = floatArrayOf(25f, 20f)
-                val dashPathEffect = DashPathEffect(dashIntervals, 1f)
-                pathEffect = dashPathEffect
-            }
+    lateinit var paint: Paint
+
+    private fun createPaint(): Paint = Paint().apply {
+        flags = Paint.ANTI_ALIAS_FLAG
+        color = lineColor
+        strokeWidth = lineWidth
+        style = Paint.Style.STROKE
+        if (linerStyle == STYLE_DASHED) {
+            val dashIntervals = floatArrayOf(25f, 20f)
+            val dashPathEffect = DashPathEffect(dashIntervals, 1f)
+            pathEffect = dashPathEffect
         }
     }
 
@@ -32,6 +34,18 @@ class LinePainter(context: Context) : Painter {
                 lineWidth)
         lineColor = typedArray.getColor(R.styleable.TimelineView_timeline_lineColor,
                 lineColor)
+
+        paint = createPaint()
+    }
+
+    override fun <T> updateProperty(property: Property<T>) {
+        if (property is LineStyle) {
+            linerStyle = when (property) {
+                is LineStyle.LINEAR -> STYLE_LINEAR
+                is LineStyle.DASHED -> STYLE_DASHED
+            }
+            paint = createPaint()
+        }
     }
 
     override fun draw(canvas: Canvas, rect: Rect) {
@@ -45,7 +59,7 @@ class LinePainter(context: Context) : Painter {
     }
 
     companion object {
-        val STYLE_DASHED = -1
-        val STYLE_LINEAR = 0
+        const val STYLE_DASHED = -1
+        const val STYLE_LINEAR = 0
     }
 }

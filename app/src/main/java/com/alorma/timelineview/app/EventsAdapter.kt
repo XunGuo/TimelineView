@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.alorma.timeline.property.LineStyle
 import kotlinx.android.synthetic.main.item_main.view.*
 
 class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALLBACK) {
@@ -23,10 +24,13 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(event: Event) {
             itemView.textView.text = event.name
-            /*
-            itemView.timeline.timelineType = event.type
-            itemView.timeline.timelineAlignment = event.alignment
-            */
+
+            val lineStyle = if ((adapterPosition % 2) == 0) {
+                LineStyle.LINEAR
+            } else {
+                LineStyle.DASHED
+            }
+            itemView.timeline.setLineStyle(lineStyle)
         }
     }
 
