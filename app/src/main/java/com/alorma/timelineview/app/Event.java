@@ -1,6 +1,6 @@
 package com.alorma.timelineview.app;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.alorma.timeline.TimelineView;
 
 class Event {
