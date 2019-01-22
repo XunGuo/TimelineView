@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.alorma.timeline.TimelineView
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,13 +17,13 @@ class MainActivity : AppCompatActivity() {
     private fun buildList() {
         val list = findViewById<RecyclerView>(R.id.list)
 
-        val firstEvent = Event(getString(R.string.item_first), TimelineView.TYPE_START)
+        val firstEvent = Event(getString(R.string.item_first), 0)
         val middleEvents = (0..19).map {
             val text = getString(R.string.item_default, it)
-            val type = TimelineView.TYPE_MIDDLE
+            val type = 1
             Event(text, type)
         }
-        val lastElement = Event(getString(R.string.item_last), TimelineView.TYPE_END)
+        val lastElement = Event(getString(R.string.item_last), 2)
 
         val items = listOf(firstEvent).plus(middleEvents).plus(lastElement)
 

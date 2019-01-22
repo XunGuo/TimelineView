@@ -1,3 +1,4 @@
+/*
 package com.alorma.timeline;
 
 import android.content.Context;
@@ -71,3 +72,4 @@ public class RoundTimelineView extends TimelineView {
     return null;
   }
 }
+*/

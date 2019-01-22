@@ -1,3 +1,4 @@
+/*
 package com.alorma.timeline;
 
 import android.content.Context;
@@ -43,12 +44,6 @@ public abstract class TimelineView extends AppCompatImageView {
   public static final int ALIGNMENT_END = 1;
 
   public static final int ALIGNMENT_DEFAULT = ALIGNMENT_MIDDLE;
-
-  public static final int STYLE_DASHED = -1;
-
-  public static final int STYLE_LINEAR = 0;
-
-  public static final int STYLE_DEFAULT = STYLE_LINEAR;
 
   Bitmap bitmap;
 
@@ -580,3 +575,4 @@ public abstract class TimelineView extends AppCompatImageView {
 
   }
 }
+*/
