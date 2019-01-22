@@ -1,11 +1,10 @@
 package com.alorma.timeline.painter.line
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 
-abstract class LineStylePainter(val context: Context) {
+abstract class LineStylePainter {
 
     abstract fun paintLineStyle(paint: Paint)
 

@@ -13,10 +13,10 @@ import com.alorma.timeline.property.LineColor
 import com.alorma.timeline.property.LineStyle
 import com.alorma.timeline.property.Property
 
-class LinePainter(val context: Context) : Painter {
+class LinePainter(context: Context) : Painter {
 
-    private val linearPainter: LineStylePainter = LinearLinePainter(context)
-    private val dashedPainter: LineStylePainter = DashedLinePainter(context)
+    private val linearPainter: LineStylePainter = LinearLinePainter()
+    private val dashedPainter: LineStylePainter = DashedLinePainter()
 
     private var currentPainter: LineStylePainter = linearPainter
 

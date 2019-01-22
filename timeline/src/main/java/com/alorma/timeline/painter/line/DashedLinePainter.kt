@@ -1,10 +1,9 @@
 package com.alorma.timeline.painter.line
 
-import android.content.Context
 import android.graphics.DashPathEffect
 import android.graphics.Paint
 
-class DashedLinePainter(context: Context) : LineStylePainter(context) {
+class DashedLinePainter : LineStylePainter() {
 
     override fun paintLineStyle(paint: Paint) {
         paint.apply {

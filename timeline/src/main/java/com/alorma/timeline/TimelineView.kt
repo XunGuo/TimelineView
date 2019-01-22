@@ -63,7 +63,6 @@ class TimelineView @JvmOverloads constructor(
         pointPainter.draw(canvas, drawRect)
     }
 
-
     fun setLineStyle(lineStyle: LineStyle) {
         linePainter.updateProperty(lineStyle)
         invalidate()
