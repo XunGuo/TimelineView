@@ -35,9 +35,15 @@ class MainActivity : AppCompatActivity() {
         lineColorMix.setOnClickListener {
             adapter.lineColor = SampleLineColor.MIXED
         }
-
-        adapter.lineStyle = SampleLineStyle.MIXED
-        adapter.lineColor = SampleLineColor.MIXED
+        pointCircle.setOnClickListener {
+            adapter.pointStyle = SamplePointStyle.CIRCLE
+        }
+        pointSquare.setOnClickListener {
+            adapter.pointStyle = SamplePointStyle.SQUARE
+        }
+        pointMixed.setOnClickListener {
+            adapter.pointStyle = SamplePointStyle.MIXED
+        }
     }
 
     private fun buildList() {

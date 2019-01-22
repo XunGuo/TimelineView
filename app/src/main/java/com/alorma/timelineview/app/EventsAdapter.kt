@@ -8,17 +8,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alorma.timeline.property.LineStyle
+import com.alorma.timeline.property.PointStyle
 import kotlinx.android.synthetic.main.item_main.view.*
 
 class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALLBACK) {
 
-    var lineStyle: SampleLineStyle = SampleLineStyle.LINE
+    var lineStyle: SampleLineStyle = SampleLineStyle.MIXED
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    var lineColor: SampleLineColor = SampleLineColor.RED
+    var lineColor: SampleLineColor = SampleLineColor.MIXED
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    var pointStyle: SamplePointStyle = SamplePointStyle.MIXED
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -31,14 +38,19 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
     }
 
     override fun onBindViewHolder(holder: ViewHolderItem, position: Int) {
-        holder.bind(getItem(position), lineStyle, lineColor)
+        holder.bind(getItem(position),
+                lineStyle, lineColor,
+                pointStyle)
     }
 
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(event: Event, lineStyle: SampleLineStyle, lineColor: SampleLineColor) {
+        fun bind(event: Event,
+                 lineStyle: SampleLineStyle,
+                 lineColor: SampleLineColor,
+                 pointStyle: SamplePointStyle) {
             itemView.textView.text = event.name
 
-            val style = when (lineStyle) {
+            val lineSty = when (lineStyle) {
                 is SampleLineStyle.LINE -> LineStyle.LINEAR
                 is SampleLineStyle.DASHED -> LineStyle.DASHED
                 is SampleLineStyle.MIXED -> if ((adapterPosition % 2) == 0) {
@@ -47,7 +59,7 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
                     LineStyle.DASHED
                 }
             }
-            itemView.timeline.setLineStyle(style)
+            itemView.timeline.setLineStyle(lineSty)
 
             val color = when (lineColor) {
                 SampleLineColor.RED -> Color.RED
@@ -60,6 +72,18 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
             }
 
             itemView.timeline.setLineColor(color)
+
+            val pointSty = when (pointStyle) {
+                is SamplePointStyle.CIRCLE -> PointStyle.CIRCLE
+                is SamplePointStyle.SQUARE -> PointStyle.SQUARE
+                is SamplePointStyle.MIXED -> if ((adapterPosition % 2) == 0) {
+                    PointStyle.CIRCLE
+                } else {
+                    PointStyle.SQUARE
+                }
+            }
+
+            itemView.timeline.setPointStyle(pointSty)
         }
     }
 
@@ -73,5 +97,4 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
                             && oldItem.type == newItem.type
         }
     }
-
 }

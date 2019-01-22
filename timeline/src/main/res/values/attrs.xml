@@ -43,6 +43,14 @@
             value="0"/>
     </attr>
 
+    <attr format="enum"
+          name="timeline_pointStyle">
+      <enum name="circle"
+            value="-1"/>
+      <enum name="square"
+            value="0"/>
+    </attr>
+
     <attr format="boolean"
           name="timeline_drawInternal"/>
     <attr format="color"

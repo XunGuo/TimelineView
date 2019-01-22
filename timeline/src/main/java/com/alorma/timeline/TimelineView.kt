@@ -13,6 +13,7 @@ import com.alorma.timeline.painter.line.LinePainter
 import com.alorma.timeline.painter.point.PointPainter
 import com.alorma.timeline.property.LineColor
 import com.alorma.timeline.property.LineStyle
+import com.alorma.timeline.property.PointStyle
 import com.alorma.timeline.property.Property
 
 class TimelineView @JvmOverloads constructor(
@@ -65,6 +66,11 @@ class TimelineView @JvmOverloads constructor(
 
     fun setLineStyle(lineStyle: LineStyle) {
         linePainter.updateProperty(lineStyle)
+        invalidate()
+    }
+
+    fun setPointStyle(pointStyle: PointStyle) {
+        pointPainter.updateProperty(pointStyle)
         invalidate()
     }
 
