@@ -17,7 +17,10 @@ import com.alorma.timeline.property.Property
 
 class LinePainter(val context: Context) : Painter {
 
-    private var currentPainter: LineStylePainter = LinearLinePainter(context)
+    private val linearPainter: LineStylePainter = LinearLinePainter(context)
+    private val dashedPainter: LineStylePainter = DashedLinePainter(context)
+
+    private var currentPainter: LineStylePainter = linearPainter
 
     private var lineWidth: Float = context.resources.getDimensionPixelOffset(R.dimen.default_lineWidth).toFloat()
     private var lineColor: Int = AttributesUtils.colorPrimary(context, Color.GRAY)
@@ -32,11 +35,9 @@ class LinePainter(val context: Context) : Painter {
     }
 
     override fun initProperties(typedArray: TypedArray) {
-        currentPainter = when (typedArray.getInt(R.styleable.TimelineView_timeline_lineStyle,
-                STYLE_LINEAR)) {
-            STYLE_DASHED -> DashedLinePainter(context)
-            else -> LinearLinePainter(context)
-        }
+        val style = typedArray.getInt(R.styleable.TimelineView_timeline_lineStyle, STYLE_LINEAR)
+        currentPainter = getLineStylePainter(style)
+
         lineWidth = typedArray.getDimension(R.styleable.TimelineView_timeline_lineWidth,
                 lineWidth)
         lineColor = typedArray.getColor(R.styleable.TimelineView_timeline_lineColor,
@@ -48,14 +49,26 @@ class LinePainter(val context: Context) : Painter {
     override fun <T> updateProperty(property: Property<T>) {
         when (property) {
             is LineStyle -> {
-                currentPainter = when (property) {
-                    is LineStyle.LINEAR -> LinearLinePainter(context)
-                    is LineStyle.DASHED -> DashedLinePainter(context)
-                }
+                currentPainter = getLineStylePainter(property)
             }
             is LineColor -> lineColor = property.lineColor
         }
         paint = createPaint()
+    }
+
+    private fun getLineStylePainter(style: Int): LineStylePainter {
+        val lineStyle = when (style) {
+            STYLE_DASHED -> LineStyle.DASHED
+            else -> LineStyle.LINEAR
+        }
+        return getLineStylePainter(lineStyle)
+    }
+
+    private fun getLineStylePainter(property: LineStyle): LineStylePainter {
+        return when (property) {
+            is LineStyle.LINEAR -> linearPainter
+            is LineStyle.DASHED -> dashedPainter
+        }
     }
 
     override fun draw(canvas: Canvas, rect: Rect) {

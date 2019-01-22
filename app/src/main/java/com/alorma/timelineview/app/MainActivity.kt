@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         lineColorMix.setOnClickListener {
             adapter.lineColor = SampleLineColor.MIXED
         }
+
+        adapter.lineStyle = SampleLineStyle.MIXED
+        adapter.lineColor = SampleLineColor.MIXED
     }
 
     private fun buildList() {
