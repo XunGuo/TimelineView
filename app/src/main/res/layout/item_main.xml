@@ -11,7 +11,7 @@
         android:layout_height="?android:listPreferredItemHeight"
         timeline:timeline_indicatorColor="@color/colorAccent"
         timeline:timeline_lineColor="@color/colorPrimary"
-        timeline:timeline_lineStyle="linear" />
+        timeline:timeline_lineStyle="dashed" />
 
     <TextView
         android:id="@+id/textView"
