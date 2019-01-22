@@ -3,6 +3,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Line style"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,6 +37,13 @@
             android:text="MIX" />
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Line color"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,6 +73,13 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Point style"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,6 +108,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="DEMO"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
