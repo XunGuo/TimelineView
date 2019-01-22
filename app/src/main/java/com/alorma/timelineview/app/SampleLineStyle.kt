@@ -5,3 +5,8 @@ sealed class SampleLineStyle {
     object DASHED : SampleLineStyle()
     object MIXED : SampleLineStyle()
 }
+sealed class SampleLineColor {
+    object RED : SampleLineColor()
+    object GREEN : SampleLineColor()
+    object MIXED : SampleLineColor()
+}

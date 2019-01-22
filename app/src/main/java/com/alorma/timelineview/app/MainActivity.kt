@@ -15,15 +15,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         buildList()
-        
-        linerLinear.setOnClickListener {
+
+        lineLinear.setOnClickListener {
             adapter.lineStyle = SampleLineStyle.LINE
         }
-        linerDashed.setOnClickListener {
+        lineDashed.setOnClickListener {
             adapter.lineStyle = SampleLineStyle.DASHED
         }
         lineMixed.setOnClickListener {
             adapter.lineStyle = SampleLineStyle.MIXED
+        }
+
+        lineRed.setOnClickListener {
+            adapter.lineColor = SampleLineColor.RED
+        }
+        lineGreen.setOnClickListener {
+            adapter.lineColor = SampleLineColor.GREEN
+        }
+        lineColorMix.setOnClickListener {
+            adapter.lineColor = SampleLineColor.MIXED
         }
     }
 

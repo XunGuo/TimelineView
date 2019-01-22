@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.alorma.timeline.painter.LinePainter
 import com.alorma.timeline.painter.Painter
+import com.alorma.timeline.property.LineColor
 import com.alorma.timeline.property.LineStyle
 
 class TimelineView @JvmOverloads constructor(
@@ -44,6 +45,16 @@ class TimelineView @JvmOverloads constructor(
 
     fun setLineStyle(lineStyle: LineStyle) {
         linePainter.updateProperty(lineStyle)
+        invalidate()
+    }
+
+    fun setLineColor(lineColor: Int) {
+        linePainter.updateProperty(LineColor(lineColor))
+        invalidate()
+    }
+
+    fun setLineColor(lineColor: LineColor) {
+        linePainter.updateProperty(lineColor)
         invalidate()
     }
 }

@@ -1,5 +1,6 @@
 package com.alorma.timelineview.app
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,12 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
             notifyDataSetChanged()
         }
 
+    var lineColor: SampleLineColor = SampleLineColor.RED
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderItem {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_main, parent, false)
@@ -24,11 +31,11 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
     }
 
     override fun onBindViewHolder(holder: ViewHolderItem, position: Int) {
-        holder.bind(getItem(position), lineStyle)
+        holder.bind(getItem(position), lineStyle, lineColor)
     }
 
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(event: Event, lineStyle: SampleLineStyle) {
+        fun bind(event: Event, lineStyle: SampleLineStyle, lineColor: SampleLineColor) {
             itemView.textView.text = event.name
 
             val style = when (lineStyle) {
@@ -40,8 +47,19 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
                     LineStyle.DASHED
                 }
             }
-
             itemView.timeline.setLineStyle(style)
+
+            val color = when (lineColor) {
+                SampleLineColor.RED -> Color.RED
+                SampleLineColor.GREEN -> Color.GREEN
+                SampleLineColor.MIXED -> if ((adapterPosition % 2) == 0) {
+                    Color.RED
+                } else {
+                    Color.GREEN
+                }
+            }
+
+            itemView.timeline.setLineColor(color)
         }
     }
 

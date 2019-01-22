@@ -3,20 +3,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/linerLinear"
+            android:id="@+id/lineLinear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="LINE" />
 
         <Button
-            android:id="@+id/linerDashed"
+            android:id="@+id/lineDashed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,6 +28,34 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="MIX" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/lineRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LINE RED" />
+
+        <Button
+            android:id="@+id/lineGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LINE GREEN" />
+
+        <Button
+            android:id="@+id/lineColorMix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MIX COLOR" />
 
     </LinearLayout>
 

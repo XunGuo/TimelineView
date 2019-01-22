@@ -11,6 +11,7 @@ import com.alorma.timeline.R
 import com.alorma.timeline.painter.line.DashedLinePainter
 import com.alorma.timeline.painter.line.LineStylePainter
 import com.alorma.timeline.painter.line.LinearLinePainter
+import com.alorma.timeline.property.LineColor
 import com.alorma.timeline.property.LineStyle
 import com.alorma.timeline.property.Property
 
@@ -45,13 +46,16 @@ class LinePainter(val context: Context) : Painter {
     }
 
     override fun <T> updateProperty(property: Property<T>) {
-        if (property is LineStyle) {
-            currentPainter = when (property) {
-                is LineStyle.LINEAR -> LinearLinePainter(context)
-                is LineStyle.DASHED -> DashedLinePainter(context)
+        when (property) {
+            is LineStyle -> {
+                currentPainter = when (property) {
+                    is LineStyle.LINEAR -> LinearLinePainter(context)
+                    is LineStyle.DASHED -> DashedLinePainter(context)
+                }
             }
-            paint = createPaint()
+            is LineColor -> lineColor = property.lineColor
         }
+        paint = createPaint()
     }
 
     override fun draw(canvas: Canvas, rect: Rect) {
