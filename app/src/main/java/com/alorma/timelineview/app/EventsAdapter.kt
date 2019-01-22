@@ -11,6 +11,12 @@ import kotlinx.android.synthetic.main.item_main.view.*
 
 class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALLBACK) {
 
+    var lineStyle: SampleLineStyle = SampleLineStyle.LINE
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderItem {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_main, parent, false)
@@ -18,19 +24,24 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
     }
 
     override fun onBindViewHolder(holder: ViewHolderItem, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), lineStyle)
     }
 
     class ViewHolderItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(event: Event) {
+        fun bind(event: Event, lineStyle: SampleLineStyle) {
             itemView.textView.text = event.name
 
-            val lineStyle = if ((adapterPosition % 2) == 0) {
-                LineStyle.LINEAR
-            } else {
-                LineStyle.DASHED
+            val style = when (lineStyle) {
+                is SampleLineStyle.LINE -> LineStyle.LINEAR
+                is SampleLineStyle.DASHED -> LineStyle.DASHED
+                is SampleLineStyle.MIXED -> if ((adapterPosition % 2) == 0) {
+                    LineStyle.LINEAR
+                } else {
+                    LineStyle.DASHED
+                }
             }
-            itemView.timeline.setLineStyle(lineStyle)
+
+            itemView.timeline.setLineStyle(style)
         }
     }
 

@@ -4,14 +4,27 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val adapter = EventsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         buildList()
+        
+        linerLinear.setOnClickListener {
+            adapter.lineStyle = SampleLineStyle.LINE
+        }
+        linerDashed.setOnClickListener {
+            adapter.lineStyle = SampleLineStyle.DASHED
+        }
+        lineMixed.setOnClickListener {
+            adapter.lineStyle = SampleLineStyle.MIXED
+        }
     }
 
     private fun buildList() {
@@ -29,7 +42,6 @@ class MainActivity : AppCompatActivity() {
 
         list.layoutManager = LinearLayoutManager(this)
 
-        val adapter = EventsAdapter()
         list.adapter = adapter
         adapter.submitList(items)
     }
