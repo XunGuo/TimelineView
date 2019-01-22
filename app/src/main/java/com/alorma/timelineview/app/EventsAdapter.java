@@ -1,3 +1,4 @@
+/*
 package com.alorma.timelineview.app;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,3 +50,4 @@ class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolderItem> {
     }
   }
 }
+*/
