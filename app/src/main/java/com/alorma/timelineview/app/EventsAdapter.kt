@@ -52,59 +52,61 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
                  pointStyle: SamplePointStyle) {
             itemView.textView.text = event.name
 
-            val lineSty = when (lineStyle) {
-                is SampleLineStyle.LINE -> LineStyle.LINEAR
-                is SampleLineStyle.DASHED -> LineStyle.DASHED
-                is SampleLineStyle.MIXED -> if ((adapterPosition % 2) == 0) {
-                    LineStyle.LINEAR
-                } else {
-                    LineStyle.DASHED
+            itemView.timeline.configureLine {
+                val lineSty = when (lineStyle) {
+                    is SampleLineStyle.LINE -> LineStyle.LINEAR
+                    is SampleLineStyle.DASHED -> LineStyle.DASHED
+                    is SampleLineStyle.MIXED -> if ((adapterPosition % 2) == 0) {
+                        LineStyle.LINEAR
+                    } else {
+                        LineStyle.DASHED
+                    }
                 }
-            }
-            itemView.timeline.setLineStyle(lineSty)
+                setLineStyle(lineSty)
 
-            val color = when (lineColor) {
-                SampleLineColor.RED -> Color.RED
-                SampleLineColor.GREEN -> Color.GREEN
-                SampleLineColor.MIXED -> if ((adapterPosition % 2) == 0) {
-                    Color.RED
-                } else {
-                    Color.GREEN
+                val color = when (lineColor) {
+                    SampleLineColor.RED -> Color.RED
+                    SampleLineColor.GREEN -> Color.GREEN
+                    SampleLineColor.MIXED -> if ((adapterPosition % 2) == 0) {
+                        Color.RED
+                    } else {
+                        Color.GREEN
+                    }
                 }
-            }
 
-            itemView.timeline.setLineColor(color)
+                setLineColor(color)
 
-            val pointSty = when (pointStyle) {
-                is SamplePointStyle.CIRCLE -> PointStyle.CIRCLE
-                is SamplePointStyle.SQUARE -> PointStyle.SQUARE
-                is SamplePointStyle.MIXED -> if ((adapterPosition % 2) == 0) {
-                    PointStyle.CIRCLE
-                } else {
-                    PointStyle.SQUARE
+                val lineVPosition = when (event.lineVPosition) {
+                    SampleLineVPosition.START -> LineVerticalPosition.START
+                    SampleLineVPosition.END -> LineVerticalPosition.END
+                    SampleLineVPosition.FULL -> LineVerticalPosition.FULL
                 }
+
+                setLineVerticalPosition(lineVPosition)
+
+                val lineHPosition = when (event.lineHPosition) {
+                    SampleLineHPosition.START -> LineHorizontalPosition.START
+                    SampleLineHPosition.END -> LineHorizontalPosition.END
+                    SampleLineHPosition.CENTER -> LineHorizontalPosition.CENTER
+                }
+
+                setLineHorizontalPosition(lineHPosition)
+
+                event.lineWidth?.let { width -> setLineWidth(width) }
             }
 
-            itemView.timeline.setPointStyle(pointSty)
+            itemView.timeline.configurePoint {
+                val pointSty = when (pointStyle) {
+                    is SamplePointStyle.CIRCLE -> PointStyle.CIRCLE
+                    is SamplePointStyle.SQUARE -> PointStyle.SQUARE
+                    is SamplePointStyle.MIXED -> if ((adapterPosition % 2) == 0) {
+                        PointStyle.CIRCLE
+                    } else {
+                        PointStyle.SQUARE
+                    }
+                }
 
-            val lineVPosition = when (event.lineVPosition) {
-                SampleLineVPosition.START -> LineVerticalPosition.START
-                SampleLineVPosition.END -> LineVerticalPosition.END
-                SampleLineVPosition.FULL -> LineVerticalPosition.FULL
-            }
-
-            itemView.timeline.setLineVerticalPosition(lineVPosition)
-
-            val lineHPosition = when (event.lineHPosition) {
-                SampleLineHPosition.START -> LineHorizontalPosition.START
-                SampleLineHPosition.END -> LineHorizontalPosition.END
-                SampleLineHPosition.CENTER -> LineHorizontalPosition.CENTER
-            }
-
-            itemView.timeline.setLineHorizontalPosition(lineHPosition)
-
-            event.lineWidth?.let { width ->
-                itemView.timeline.setLineWidth(width)
+                setPointStyle(pointSty)
             }
         }
     }

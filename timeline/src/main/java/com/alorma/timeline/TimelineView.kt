@@ -98,4 +98,52 @@ class TimelineView @JvmOverloads constructor(
         linePainter.updateProperty(property)
         invalidate()
     }
+
+    fun configureLine(block: TimelineLineBuilder.() -> Unit) {
+        TimelineLineBuilder(linePainter).apply(block)
+        invalidate()
+    }
+
+    fun configurePoint(block: TimelinePointBuilder.() -> Unit) {
+        TimelinePointBuilder(pointPainter).apply(block)
+        invalidate()
+    }
+
+    class TimelineLineBuilder(private val linePainter: Painter) {
+
+        fun setLineStyle(lineStyle: LineStyle) {
+            linePainter.updateProperty(lineStyle)
+        }
+
+        fun setLineWidth(lineWidth: Float) {
+            setLineWidth(LineWidth(lineWidth))
+        }
+
+        fun setLineWidth(lineWidth: LineWidth) {
+            linePainter.updateProperty(lineWidth)
+        }
+
+        fun setLineColor(lineColor: Int) {
+            setLineColor(LineColor(lineColor))
+        }
+
+        fun setLineColor(lineColor: LineColor) {
+            linePainter.updateProperty(lineColor)
+        }
+
+        fun setLineVerticalPosition(property: LineVerticalPosition) {
+            linePainter.updateProperty(property)
+        }
+
+        fun setLineHorizontalPosition(property: LineHorizontalPosition) {
+            linePainter.updateProperty(property)
+        }
+    }
+
+    class TimelinePointBuilder(private val pointPainter: Painter) {
+
+        fun setPointStyle(pointStyle: PointStyle) {
+            pointPainter.updateProperty(pointStyle)
+        }
+    }
 }
