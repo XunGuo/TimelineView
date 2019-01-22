@@ -9,6 +9,4 @@ interface Painter {
     fun initProperties(typedArray: TypedArray)
     fun <T> updateProperty(property: Property<T>)
     fun draw(canvas: Canvas, rect: Rect)
-
-
 }
