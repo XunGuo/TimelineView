@@ -1,4 +1,4 @@
-package com.alorma.timeline.painter
+package com.alorma.timeline.painter.line
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -8,9 +8,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import com.alorma.timeline.AttributesUtils
 import com.alorma.timeline.R
-import com.alorma.timeline.painter.line.DashedLinePainter
-import com.alorma.timeline.painter.line.LineStylePainter
-import com.alorma.timeline.painter.line.LinearLinePainter
+import com.alorma.timeline.painter.Painter
 import com.alorma.timeline.property.LineColor
 import com.alorma.timeline.property.LineStyle
 import com.alorma.timeline.property.Property

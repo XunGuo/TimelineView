@@ -7,7 +7,7 @@ import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
-import com.alorma.timeline.painter.LinePainter
+import com.alorma.timeline.painter.line.LinePainter
 import com.alorma.timeline.painter.Painter
 import com.alorma.timeline.property.LineColor
 import com.alorma.timeline.property.LineStyle
@@ -37,7 +37,7 @@ class TimelineView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         canvas?.let {
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.ADD)
+            it.drawColor(Color.TRANSPARENT, PorterDuff.Mode.ADD)
             it.getClipBounds(drawRect)
             linePainter.draw(it, drawRect)
         }
