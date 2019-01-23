@@ -12,18 +12,6 @@
             <enum name="dashed" value="0" />
         </attr>
 
-        <attr name="timeline_lineVerticalPosition" format="enum">
-            <enum name="full" value="-1" />
-            <enum name="start" value="0" />
-            <enum name="end" value="1" />
-        </attr>
-
-        <attr name="timeline_lineHorizontalPosition" format="enum">
-            <enum name="center" value="-1" />
-            <enum name="start" value="0" />
-            <enum name="end" value="1" />
-        </attr>
-
         <!-- POINT ATTRS -->
 
         <attr name="timeline_pointStyle" format="enum">

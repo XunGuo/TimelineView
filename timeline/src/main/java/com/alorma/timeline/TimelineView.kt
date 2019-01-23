@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import com.alorma.timeline.painter.Painter
 import com.alorma.timeline.painter.line.LinePainter
@@ -117,16 +116,6 @@ class TimelineView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setLineVerticalPosition(property: LineVerticalPosition) {
-        linePainter.updateProperty(property)
-        invalidate()
-    }
-
-    fun setLineHorizontalPosition(property: LineHorizontalPosition) {
-        linePainter.updateProperty(property)
-        invalidate()
-    }
-
     fun configureLine(block: TimelineLineBuilder.() -> Unit) {
         TimelineLineBuilder(linePainter).apply(block)
         invalidate()
@@ -157,14 +146,6 @@ class TimelineView @JvmOverloads constructor(
 
         fun setLineColor(lineColor: LineColor) {
             linePainter.updateProperty(lineColor)
-        }
-
-        fun setLineVerticalPosition(property: LineVerticalPosition) {
-            linePainter.updateProperty(property)
-        }
-
-        fun setLineHorizontalPosition(property: LineHorizontalPosition) {
-            linePainter.updateProperty(property)
         }
     }
 

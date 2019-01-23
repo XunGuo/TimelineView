@@ -60,13 +60,13 @@ class ListExampleActivity : AppCompatActivity() {
     private fun buildList() {
         val list = findViewById<RecyclerView>(R.id.list)
 
-        val firstEvent = Event(getString(R.string.item_first), SampleLineVPosition.START)
+        val firstEvent = Event(getString(R.string.item_first))
 
         val middleEvents = (1..19).map {
             getString(R.string.item_default, it)
         }.map { Event(it) }
 
-        val lastElement = Event(getString(R.string.item_last), SampleLineVPosition.END)
+        val lastElement = Event(getString(R.string.item_last))
 
         val items = listOf(firstEvent).plus(middleEvents).plus(lastElement)
 

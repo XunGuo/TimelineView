@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
-import android.util.Log
 import com.alorma.timeline.AttributesUtils
 import com.alorma.timeline.R
 import com.alorma.timeline.painter.Painter
@@ -33,15 +32,26 @@ class LinePainter(context: Context) : Painter {
         currentPainter.paintLineStyle(this)
     }
 
-    private var lineVerticalPosition: LineVerticalPosition = LineVerticalPosition.FULL
-    private var lineHorizontalPosition: LineHorizontalPosition = LineHorizontalPosition.CENTER
+    private var validVerticalPositions: List<TimelinePositionOption> = listOf(
+            TimelinePositionOption.POSITION_TOP,
+            TimelinePositionOption.POSITION_CENTER,
+            TimelinePositionOption.POSITION_CENTER_VERTICAL,
+            TimelinePositionOption.POSITION_BOTTOM
+    )
+
+    private var validHorizontalPositions: List<TimelinePositionOption> = listOf(
+            TimelinePositionOption.POSITION_START,
+            TimelinePositionOption.POSITION_CENTER,
+            TimelinePositionOption.POSITION_CENTER_HORIZONTAL,
+            TimelinePositionOption.POSITION_END
+    )
+    private var verticalPosition: TimelinePositionOption = TimelinePositionOption.POSITION_CENTER_VERTICAL
+    private var horizontalPosition: TimelinePositionOption = TimelinePositionOption.POSITION_CENTER_HORIZONTAL
 
     override fun initProperties(typedArray: TypedArray) {
         readLineStyle(typedArray)
         readLineWidth(typedArray)
         readLineColor(typedArray)
-        readLineVerticalPosition(typedArray)
-        readLineHorizontalPosition(typedArray)
 
         paint = createPaint()
     }
@@ -61,35 +71,11 @@ class LinePainter(context: Context) : Painter {
                 lineColor)
     }
 
-    private fun readLineVerticalPosition(typedArray: TypedArray) {
-        val lineVPosition = typedArray.getColor(R.styleable.TimelineView_timeline_lineVerticalPosition,
-                LINE_VERTICAL_POSITION_FULL)
-
-        lineVerticalPosition = when (lineVPosition) {
-            LINE_VERTICAL_POSITION_START -> LineVerticalPosition.START
-            LINE_VERTICAL_POSITION_END -> LineVerticalPosition.END
-            else -> LineVerticalPosition.FULL
-        }
-    }
-
-    private fun readLineHorizontalPosition(typedArray: TypedArray) {
-        val lineHPosition = typedArray.getColor(R.styleable.TimelineView_timeline_lineHorizontalPosition,
-                LINE_HORIZONTAL_POSITION_CENTER)
-
-        lineHorizontalPosition = when (lineHPosition) {
-            LINE_HORIZONTAL_POSITION_START -> LineHorizontalPosition.START
-            LINE_HORIZONTAL_POSITION_END -> LineHorizontalPosition.END
-            else -> LineHorizontalPosition.CENTER
-        }
-    }
-
     override fun <T> updateProperty(property: Property<T>) {
         when (property) {
             is LineStyle -> currentPainter = getLineStylePainter(property)
             is LineColor -> lineColor = property.lineColor
             is LineWidth -> lineWidth = property.lineWidth
-            is LineVerticalPosition -> lineVerticalPosition = property
-            is LineHorizontalPosition -> lineHorizontalPosition = property
             is TimelinePosition -> {
 
             }
@@ -111,19 +97,11 @@ class LinePainter(context: Context) : Painter {
     }
 
     override fun draw(canvas: Canvas, rect: Rect) {
-        currentPainter.draw(canvas, rect, lineVerticalPosition, lineHorizontalPosition, paint)
+        currentPainter.draw(canvas, rect, paint)
     }
 
     companion object {
         const val STYLE_LINEAR = -1
         const val STYLE_DASHED = 0
-
-        const val LINE_VERTICAL_POSITION_FULL = -1
-        const val LINE_VERTICAL_POSITION_START = 0
-        const val LINE_VERTICAL_POSITION_END = 1
-
-        const val LINE_HORIZONTAL_POSITION_CENTER = -1
-        const val LINE_HORIZONTAL_POSITION_START = 0
-        const val LINE_HORIZONTAL_POSITION_END = 1
     }
 }
