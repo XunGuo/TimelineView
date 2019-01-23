@@ -40,11 +40,10 @@ class CirclePointStylePainter : PointStylePainter() {
                 fillSize / 2,
                 circleFillPaint
         )
-        val strokeRadius = circleStrokesPaint.strokeWidth
         canvas.drawCircle(
                 rect.centerX().toFloat(),
                 rect.centerY().toFloat(),
-                strokeRadius + (fillSize / 2),
+                fillSize / 2,
                 circleStrokesPaint
         )
     }
