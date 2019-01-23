@@ -35,14 +35,12 @@ class LinePainter(context: Context) : Painter {
     private var validVerticalPositions: List<TimelinePositionOption> = listOf(
             TimelinePositionOption.POSITION_TOP,
             TimelinePositionOption.POSITION_CENTER,
-            TimelinePositionOption.POSITION_CENTER_VERTICAL,
             TimelinePositionOption.POSITION_BOTTOM
     )
 
     private var validHorizontalPositions: List<TimelinePositionOption> = listOf(
             TimelinePositionOption.POSITION_START,
             TimelinePositionOption.POSITION_CENTER,
-            TimelinePositionOption.POSITION_CENTER_HORIZONTAL,
             TimelinePositionOption.POSITION_END
     )
     private var verticalPosition: TimelinePositionOption = TimelinePositionOption.POSITION_CENTER_VERTICAL
@@ -77,7 +75,21 @@ class LinePainter(context: Context) : Painter {
             is LineColor -> lineColor = property.lineColor
             is LineWidth -> lineWidth = property.lineWidth
             is TimelinePosition -> {
+                verticalPosition = property.value.firstOrNull {
+                    it in validVerticalPositions
+                } ?: verticalPosition
 
+                if (verticalPosition is TimelinePositionOption.POSITION_CENTER) {
+                    verticalPosition = TimelinePositionOption.POSITION_CENTER_VERTICAL
+                }
+
+                horizontalPosition = property.value.firstOrNull {
+                    it in validHorizontalPositions
+                } ?: horizontalPosition
+
+                if (horizontalPosition is TimelinePositionOption.POSITION_CENTER) {
+                    horizontalPosition = TimelinePositionOption.POSITION_CENTER_HORIZONTAL
+                }
             }
         }
         paint = createPaint()
@@ -97,7 +109,27 @@ class LinePainter(context: Context) : Painter {
     }
 
     override fun draw(canvas: Canvas, rect: Rect) {
-        currentPainter.draw(canvas, rect, paint)
+        val vRect = when (verticalPosition) {
+            TimelinePositionOption.POSITION_TOP ->
+                Rect(rect.left, rect.top, rect.right, rect.centerY())
+            TimelinePositionOption.POSITION_BOTTOM ->
+                Rect(rect.left, rect.centerY(), rect.right, rect.bottom)
+            else ->
+                rect
+        }
+
+        val hRect = when (horizontalPosition) {
+            TimelinePositionOption.POSITION_START ->
+                Rect(rect.left, vRect.top, rect.left, vRect.bottom)
+            TimelinePositionOption.POSITION_END ->
+                Rect(rect.right, vRect.top, rect.right, vRect.bottom)
+            else ->
+                rect
+        }
+
+        val useRect = Rect(hRect.left, vRect.top, hRect.right, vRect.bottom)
+
+        currentPainter.draw(canvas, useRect, paint)
     }
 
     companion object {

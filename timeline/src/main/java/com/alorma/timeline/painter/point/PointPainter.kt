@@ -109,9 +109,9 @@ class PointPainter(context: Context) : Painter {
     override fun draw(canvas: Canvas, rect: Rect) {
         val vRect = when (verticalPosition) {
             TimelinePositionOption.POSITION_TOP ->
-                Rect(rect.left, rect.top, rect.right, rect.centerY())
+                Rect(rect.left, rect.top, rect.right, rect.top)
             TimelinePositionOption.POSITION_BOTTOM ->
-                Rect(rect.left, rect.centerY(), rect.right, rect.bottom)
+                Rect(rect.left, rect.bottom, rect.right, rect.bottom)
             else ->
                 rect
         }
