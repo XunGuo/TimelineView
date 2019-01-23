@@ -18,7 +18,7 @@ class TimelineView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr), Painter {
 
     private val linePainter: Painter = LinePainter(context)
-    private val pointPainter: Painter = PointPainter()
+    private val pointPainter: Painter = PointPainter(context)
 
     private val drawRect: Rect = Rect()
 

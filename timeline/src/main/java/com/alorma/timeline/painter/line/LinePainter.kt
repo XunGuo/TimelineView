@@ -21,6 +21,7 @@ class LinePainter(context: Context) : Painter {
     private var lineWidth: Float = context.resources.getDimensionPixelOffset(R.dimen.default_lineWidth).toFloat()
 
     private var lineColor: Int = AttributesUtils.colorPrimary(context, Color.GRAY)
+
     lateinit var paint: Paint
 
     private fun createPaint(): Paint = Paint().apply {

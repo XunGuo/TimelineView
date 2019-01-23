@@ -24,25 +24,24 @@
             <enum name="end" value="1" />
         </attr>
 
-        <attr name="timeline_alignment" format="enum">
-            <enum name="start" value="-1" />
-            <enum name="middle" value="0" />
-            <enum name="end" value="1" />
-        </attr>
-
-        <!-- OTHER ATTRS -->
-
-        <attr name="timeline_indicatorSize" format="dimension" />
-        <attr name="timeline_indicatorColor" format="color" />
+        <!-- POINT ATTRS -->
 
         <attr name="timeline_pointStyle" format="enum">
             <enum name="circle" value="-1" />
             <enum name="square" value="0" />
         </attr>
 
+        <attr name="timeline_pointBorderColor" format="color" />
+        <attr name="timeline_pointFillColor" format="color" />
+
+        <attr name="timeline_pointFillSize" format="dimension" />
+        <attr name="timeline_pointStrokeSize" format="dimension" />
+
+        <!-- OTHER ATTRS -->
+
+
         <attr name="timeline_drawInternal" format="boolean" />
-        <attr name="timeline_internalColor" format="color" />
-        <attr name="timeline_internalDrawable" format="reference" />
+
         <attr name="timeline_internalPadding" format="dimension" />
 
     </declare-styleable>

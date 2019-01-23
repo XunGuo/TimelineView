@@ -11,6 +11,14 @@ abstract class PointStylePainter {
 
     }
 
+    open fun initColors(strokeColor: Int, fillColor: Int) {
+
+    }
+
+    open fun initSizes(strokeSize: Float, fillSize: Float) {
+
+    }
+
     open fun <T> updateProperty(property: Property<T>) {
 
     }
