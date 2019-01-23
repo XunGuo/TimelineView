@@ -35,8 +35,8 @@ class TimelineView @JvmOverloads constructor(
                     defStyleAttr,
                     0)
             try {
-                readPosition(typedArray)
                 initProperties(typedArray)
+                readPosition(typedArray)
             } finally {
                 typedArray.recycle()
             }
@@ -45,24 +45,24 @@ class TimelineView @JvmOverloads constructor(
 
     private fun readPosition(typedArray: TypedArray) {
         val positionFlag = typedArray.getInteger(R.styleable.TimelineView_timeline_pointPosition,
-                TimelinePosition.POSITION_CENTER.value)
+                TimelinePositionOption.POSITION_CENTER.value)
 
         val position = listOf(
-                TimelinePosition.POSITION_CENTER,
-                TimelinePosition.POSITION_CENTER_VERTICAL,
-                TimelinePosition.POSITION_CENTER_HORIZONTAL,
-                TimelinePosition.POSITION_TOP,
-                TimelinePosition.POSITION_BOTTOM,
-                TimelinePosition.POSITION_START,
-                TimelinePosition.POSITION_END
+                TimelinePositionOption.POSITION_CENTER,
+                TimelinePositionOption.POSITION_CENTER_VERTICAL,
+                TimelinePositionOption.POSITION_CENTER_HORIZONTAL,
+                TimelinePositionOption.POSITION_TOP,
+                TimelinePositionOption.POSITION_BOTTOM,
+                TimelinePositionOption.POSITION_START,
+                TimelinePositionOption.POSITION_END
         )
 
         val flags = position.filter {
             containsPosition(positionFlag, it)
-        }.joinToString(" | ") { it.javaClass.simpleName }
+        }
 
-        Log.i("Alorma", flags)
-        Log.i("Alorma", "------")
+        val timelinePosition = TimelinePosition(flags)
+        updateProperty(timelinePosition)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -175,5 +175,6 @@ class TimelineView @JvmOverloads constructor(
         }
     }
 
-    private fun containsPosition(flagSet: Int, flag: TimelinePosition): Boolean = (flagSet or flag.value) == flagSet
+    private fun containsPosition(flagSet: Int, flag: TimelinePositionOption): Boolean =
+            (flagSet or flag.value) == flagSet
 }

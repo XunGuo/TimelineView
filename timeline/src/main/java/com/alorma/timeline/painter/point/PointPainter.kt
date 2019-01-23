@@ -9,6 +9,8 @@ import com.alorma.timeline.R
 import com.alorma.timeline.painter.Painter
 import com.alorma.timeline.property.PointStyle
 import com.alorma.timeline.property.Property
+import com.alorma.timeline.property.TimelinePosition
+import com.alorma.timeline.property.TimelinePositionOption
 
 class PointPainter(context: Context) : Painter {
 
@@ -21,6 +23,22 @@ class PointPainter(context: Context) : Painter {
 
     private var fillSize: Float = context.resources.getDimension(R.dimen.default_pointFillSize)
     private var strokeSize: Float = context.resources.getDimension(R.dimen.default_pointStrokeSize)
+
+    private var validVerticalPositions: List<TimelinePositionOption> = listOf(
+            TimelinePositionOption.POSITION_TOP,
+            TimelinePositionOption.POSITION_CENTER,
+            TimelinePositionOption.POSITION_CENTER_VERTICAL,
+            TimelinePositionOption.POSITION_BOTTOM
+    )
+
+    private var validHorizontalPositions: List<TimelinePositionOption> = listOf(
+            TimelinePositionOption.POSITION_START,
+            TimelinePositionOption.POSITION_CENTER,
+            TimelinePositionOption.POSITION_CENTER_HORIZONTAL,
+            TimelinePositionOption.POSITION_END
+    )
+    private var verticalPosition: TimelinePositionOption = TimelinePositionOption.POSITION_CENTER_VERTICAL
+    private var horizontalPosition: TimelinePositionOption = TimelinePositionOption.POSITION_CENTER_HORIZONTAL
 
     override fun initProperties(typedArray: TypedArray) {
         circlePainter.initProperties(typedArray)
@@ -59,9 +77,30 @@ class PointPainter(context: Context) : Painter {
     }
 
     override fun <T> updateProperty(property: Property<T>) {
-        currentPainter = when (property) {
-            is PointStyle.SQUARE -> squarePainter
-            else -> circlePainter
+        when (property) {
+            is TimelinePosition -> {
+                verticalPosition = property.value.firstOrNull {
+                    it in validVerticalPositions
+                } ?: verticalPosition
+
+                if (verticalPosition is TimelinePositionOption.POSITION_CENTER) {
+                    verticalPosition = TimelinePositionOption.POSITION_CENTER_VERTICAL
+                }
+
+                horizontalPosition = property.value.firstOrNull {
+                    it in validHorizontalPositions
+                } ?: horizontalPosition
+
+                if (horizontalPosition is TimelinePositionOption.POSITION_CENTER) {
+                    horizontalPosition = TimelinePositionOption.POSITION_CENTER_HORIZONTAL
+                }
+            }
+            is PointStyle -> {
+                currentPainter = when (property) {
+                    is PointStyle.SQUARE -> squarePainter
+                    else -> circlePainter
+                }
+            }
         }
         circlePainter.updateProperty(property)
         squarePainter.updateProperty(property)

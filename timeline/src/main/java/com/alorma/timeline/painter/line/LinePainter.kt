@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.util.Log
 import com.alorma.timeline.AttributesUtils
 import com.alorma.timeline.R
 import com.alorma.timeline.painter.Painter
@@ -89,6 +90,9 @@ class LinePainter(context: Context) : Painter {
             is LineWidth -> lineWidth = property.lineWidth
             is LineVerticalPosition -> lineVerticalPosition = property
             is LineHorizontalPosition -> lineHorizontalPosition = property
+            is TimelinePosition -> {
+
+            }
         }
         paint = createPaint()
     }
