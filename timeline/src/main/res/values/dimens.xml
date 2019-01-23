@@ -4,6 +4,6 @@
   <dimen name="default_lineWidth">2dp</dimen>
   <dimen name="default_itemSize">6dp</dimen>
 
-  <dimen name="default_pointFillSize">30dp</dimen>
-  <dimen name="default_pointStrokeSize">6dp</dimen>
+  <dimen name="default_pointFillSize">16dp</dimen>
+  <dimen name="default_pointStrokeSize">2dp</dimen>
 </resources>

@@ -43,14 +43,12 @@ class SquarePointStylePainter : PointStylePainter() {
         )
         canvas.drawRect(boxRect, fillPaint)
 
-        val strokeExtra = (strokesPaint.strokeWidth / 2) + boxExtra
         val strokeRect = RectF(
-                rect.centerX() - strokeExtra,
-                rect.centerY() - strokeExtra,
-                rect.centerX() + strokeExtra,
-                rect.centerY() + strokeExtra
+                rect.centerX() - boxExtra,
+                rect.centerY() - boxExtra,
+                rect.centerX() + boxExtra,
+                rect.centerY() + boxExtra
         )
         canvas.drawRect(strokeRect, strokesPaint)
-
     }
 }
