@@ -8,16 +8,35 @@
     <com.alorma.timeline.TimelineView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
         android:layout_weight="1"
-        android:background="#666666"
-        app:timeline_pointStyle="square" />
+        app:timeline_lineVerticalPosition="start"
+        app:timeline_pointBorderColor="?colorPrimary"
+        app:timeline_pointFillColor="?android:windowBackground"
+        app:timeline_pointFillSize="32dp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <com.alorma.timeline.TimelineView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:background="#666666" />
+        app:timeline_pointBorderColor="?colorPrimary"
+        app:timeline_pointFillColor="?colorPrimary"
+        app:timeline_pointFillSize="20dp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <com.alorma.timeline.TimelineView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:timeline_lineVerticalPosition="end"
+        app:timeline_pointBorderColor="?colorPrimary"
+        app:timeline_pointFillColor="?android:windowBackground"
+        app:timeline_pointFillSize="24dp" />
 
 </LinearLayout>
