@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.alorma.timeline.painter.Painter
 import com.alorma.timeline.painter.line.LinePainter
@@ -33,8 +34,35 @@ class TimelineView @JvmOverloads constructor(
                     R.styleable.TimelineView,
                     defStyleAttr,
                     0)
-            initProperties(typedArray)
+            try {
+                readPosition(typedArray)
+                initProperties(typedArray)
+            } finally {
+                typedArray.recycle()
+            }
         }
+    }
+
+    private fun readPosition(typedArray: TypedArray) {
+        val positionFlag = typedArray.getInteger(R.styleable.TimelineView_timeline_pointPosition,
+                TimelinePosition.POSITION_CENTER.value)
+
+        val position = listOf(
+                TimelinePosition.POSITION_CENTER,
+                TimelinePosition.POSITION_CENTER_VERTICAL,
+                TimelinePosition.POSITION_CENTER_HORIZONTAL,
+                TimelinePosition.POSITION_TOP,
+                TimelinePosition.POSITION_BOTTOM,
+                TimelinePosition.POSITION_START,
+                TimelinePosition.POSITION_END
+        )
+
+        val flags = position.filter {
+            containsPosition(positionFlag, it)
+        }.joinToString(" | ") { it.javaClass.simpleName }
+
+        Log.i("Alorma", flags)
+        Log.i("Alorma", "------")
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -146,4 +174,6 @@ class TimelineView @JvmOverloads constructor(
             pointPainter.updateProperty(pointStyle)
         }
     }
+
+    private fun containsPosition(flagSet: Int, flag: TimelinePosition): Boolean = (flagSet or flag.value) == flagSet
 }

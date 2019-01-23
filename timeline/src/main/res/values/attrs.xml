@@ -37,6 +37,18 @@
         <attr name="timeline_pointFillSize" format="dimension" />
         <attr name="timeline_pointStrokeSize" format="dimension" />
 
+        <!-- POSITION ATTRS -->
+
+        <attr name="timeline_pointPosition">
+            <flag name="center" value="1" />
+            <flag name="center_vertical" value="2" />
+            <flag name="center_horizontal" value="4" />
+            <flag name="top" value="8" />
+            <flag name="bottom" value="16" />
+            <flag name="start" value="32" />
+            <flag name="end" value="64" />
+        </attr>
+
         <!-- OTHER ATTRS -->
 
 

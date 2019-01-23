@@ -1,3 +1,3 @@
 package com.alorma.timeline.property
 
-open class Property<T>(val newValue: T)
+open class Property<T>(val value: T)

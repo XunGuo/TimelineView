@@ -1,42 +1,115 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="64dp">
+    android:padding="16dp">
 
     <com.alorma.timeline.TimelineView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:timeline_lineVerticalPosition="start"
-        app:timeline_pointBorderColor="?colorPrimary"
-        app:timeline_pointFillColor="?android:windowBackground"
-        app:timeline_pointFillSize="32dp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:id="@+id/timeline1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeline2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:timeline_pointPosition="top|start" />
 
     <com.alorma.timeline.TimelineView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:timeline_pointBorderColor="?colorPrimary"
-        app:timeline_pointFillColor="?colorPrimary"
-        app:timeline_pointFillSize="20dp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:id="@+id/timeline2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeline3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/timeline1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:timeline_pointPosition="top|center_horizontal" />
 
     <com.alorma.timeline.TimelineView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:timeline_lineVerticalPosition="end"
-        app:timeline_pointBorderColor="?colorPrimary"
-        app:timeline_pointFillColor="?android:windowBackground"
-        app:timeline_pointFillSize="24dp" />
+        android:id="@+id/timeline3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/timeline2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:timeline_pointPosition="top|end" />
 
-</LinearLayout>
+    <com.alorma.timeline.TimelineView
+        android:id="@+id/timeline4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeline5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeline1"
+        app:timeline_pointPosition="center_vertical|start" />
+
+    <com.alorma.timeline.TimelineView
+        android:id="@+id/timeline5"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeline6"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/timeline4"
+        app:layout_constraintTop_toBottomOf="@+id/timeline2"
+        app:timeline_pointPosition="center_vertical|center_horizontal" />
+
+    <com.alorma.timeline.TimelineView
+        android:id="@+id/timeline6"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/timeline5"
+        app:layout_constraintTop_toBottomOf="@+id/timeline3"
+        app:timeline_pointPosition="center_vertical|end" />
+
+    <com.alorma.timeline.TimelineView
+        android:id="@+id/timeline7"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeline8"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeline4"
+        app:timeline_pointPosition="bottom|start" />
+
+    <com.alorma.timeline.TimelineView
+        android:id="@+id/timeline8"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeline9"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/timeline7"
+        app:layout_constraintTop_toBottomOf="@+id/timeline5"
+        app:timeline_pointPosition="bottom|center_horizontal" />
+
+    <com.alorma.timeline.TimelineView
+        android:id="@+id/timeline9"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/timeline8"
+        app:layout_constraintTop_toBottomOf="@+id/timeline6"
+        app:timeline_pointPosition="bottom|end" />
+
+    <com.alorma.timeline.TimelineView
+        android:id="@+id/timeline10"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeline8"
+        app:timeline_pointPosition="center" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
