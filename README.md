@@ -1,6 +1,8 @@
 TimelineView
 ============
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0c9ccce5a59547848de073a8fbd05b68)](https://www.codacy.com/app/alorma/TimelineView?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=alorma/TimelineView&amp;utm_campaign=Badge_Grade)
+
 This library provide android `View` to add Timeline to your application.
 
 ![image](screenshot.png)
