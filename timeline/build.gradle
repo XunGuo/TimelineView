@@ -29,12 +29,12 @@ publish {
     userOrg = 'alorma'
     groupId = 'com.github.alorma'
     artifactId = 'timelineview'
-    version = '2.3.1'
-    description = 'Cute timeline view for android'
+    publishVersion = '3.0.0-RC1'
+    desc = 'Cute timeline view for android'
     website = 'https://github.com/alorma/TimelineView'
-    issueTracker = "${website}/issues"
-    repository = "${website}.git"
 }
-repositories {
-    mavenCentral()
+// Exclude Kotlin files from Javadoc due to an error generating docs from Kotlin files.
+// More info: https://github.com/novoda/bintray-release/issues/71
+tasks.withType(Javadoc) {
+    excludes = ['**/*.kt']
 }
