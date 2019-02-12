@@ -55,6 +55,9 @@ class ListExampleActivity : AppCompatActivity() {
         pointMixed.setOnClickListener {
             adapter.pointStyle = SamplePointStyle.MIXED
         }
+        pointNone.setOnClickListener {
+            adapter.pointStyle = SamplePointStyle.NONE
+        }
     }
 
     private fun buildList() {

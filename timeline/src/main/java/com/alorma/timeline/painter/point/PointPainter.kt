@@ -14,6 +14,7 @@ import com.alorma.timeline.property.TimelinePositionOption
 
 class PointPainter(context: Context) : Painter {
 
+    private val nonePainter: PointStylePainter = NonePointStylePainter()
     private val circlePainter: PointStylePainter = CirclePointStylePainter()
     private val squarePainter: PointStylePainter = SquarePointStylePainter()
     private var currentPainter: PointStylePainter = squarePainter
@@ -73,7 +74,8 @@ class PointPainter(context: Context) : Painter {
 
     private fun getPointStylePainter(style: Int): PointStylePainter = when (style) {
         SQUARE -> squarePainter
-        else -> circlePainter
+        CIRCLE -> circlePainter
+        else -> nonePainter
     }
 
     override fun <T> updateProperty(property: Property<T>) {
@@ -98,7 +100,8 @@ class PointPainter(context: Context) : Painter {
             is PointStyle -> {
                 currentPainter = when (property) {
                     is PointStyle.SQUARE -> squarePainter
-                    else -> circlePainter
+                    is PointStyle.CIRCLE -> circlePainter
+                    else -> nonePainter
                 }
             }
         }

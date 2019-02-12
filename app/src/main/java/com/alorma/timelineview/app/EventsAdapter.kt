@@ -88,6 +88,7 @@ class EventsAdapter : ListAdapter<Event, EventsAdapter.ViewHolderItem>(DIFF_CALL
                 val pointSty = when (pointStyle) {
                     is SamplePointStyle.CIRCLE -> PointStyle.CIRCLE
                     is SamplePointStyle.SQUARE -> PointStyle.SQUARE
+                    is SamplePointStyle.NONE -> PointStyle.NONE
                     is SamplePointStyle.MIXED -> if ((adapterPosition % 2) == 0) {
                         PointStyle.CIRCLE
                     } else {

@@ -106,6 +106,13 @@
             android:layout_weight="1"
             android:text="MIXED" />
 
+        <Button
+            android:id="@+id/pointNone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="NONE" />
+
     </LinearLayout>
 
     <TextView

@@ -16,4 +16,5 @@ sealed class SamplePointStyle {
     object CIRCLE : SamplePointStyle()
     object SQUARE : SamplePointStyle()
     object MIXED : SamplePointStyle()
+    object NONE : SamplePointStyle()
 }
