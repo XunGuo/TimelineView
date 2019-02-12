@@ -29,7 +29,7 @@ publish {
     userOrg = 'alorma'
     groupId = 'com.github.alorma'
     artifactId = 'timelineview'
-    publishVersion = '3.0.0-RC1'
+    publishVersion = '3.0.0-RC2'
     desc = 'Cute timeline view for android'
     website = 'https://github.com/alorma/TimelineView'
 }
